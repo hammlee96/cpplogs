@@ -7,7 +7,8 @@ namespace CppLogs {
 	public:
 		enum EnErrorCode {
 			ErrorCode_None,
-			ErrorCode_OpenFileFailed
+			ErrorCode_OpenFileFailed,
+			ErrorCode_CreateItemFailed
 		};
 	};
 }
