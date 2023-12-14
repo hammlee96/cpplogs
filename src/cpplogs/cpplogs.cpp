@@ -30,27 +30,33 @@ namespace CppLogs {
 		return ToolBox::writefile(_filename.data, "") ? Error::ErrorCode_None : Error::ErrorCode_OpenFileFailed;
 	}
 
-	Error::EnErrorCode CppLogs::information(const std::string& data)
+	Error::EnErrorCode CppLogs::information(const std::string& secondaryKey, const std::string& data)
 	{
-		return ToolBox::writefile(_filename.data, _format_item(_st_CppLogsItem.keyInfo, data)) ? Error::ErrorCode_None : Error::ErrorCode_OpenFileFailed;
+		return ToolBox::writefile(_filename.data, _format_item(_st_CppLogsItem.keyInfo, secondaryKey, data)) ? Error::ErrorCode_None : Error::ErrorCode_OpenFileFailed;
 	}
 
-	Error::EnErrorCode CppLogs::warning(const std::string& data)
+	Error::EnErrorCode CppLogs::warning(const std::string& secondaryKey, const std::string& data)
 	{
-		return ToolBox::writefile(_filename.data, _format_item(_st_CppLogsItem.keyWarn, data)) ? Error::ErrorCode_None : Error::ErrorCode_OpenFileFailed;
+		return ToolBox::writefile(_filename.data, _format_item(_st_CppLogsItem.keyWarn, secondaryKey, data)) ? Error::ErrorCode_None : Error::ErrorCode_OpenFileFailed;
 	}
 
-	Error::EnErrorCode CppLogs::error(const std::string& data)
+	Error::EnErrorCode CppLogs::error(const std::string& secondaryKey, const std::string& data)
 	{
-		return ToolBox::writefile(_filename.data, _format_item(_st_CppLogsItem.keyError, data)) ? Error::ErrorCode_None : Error::ErrorCode_OpenFileFailed;
+		return ToolBox::writefile(_filename.data, _format_item(_st_CppLogsItem.keyError, secondaryKey, data)) ? Error::ErrorCode_None : Error::ErrorCode_OpenFileFailed;
 	}
-	std::string CppLogs::_format_item(const std::string& itemKey, const std::string& data)
+
+	std::string CppLogs::_format_item(const std::string& itemKey, const std::string& secondaryKey, const std::string& data)
 	{
-		return itemKey + data;
+		return itemKey + DEF_CPPLOGS_SPLIT + secondaryKey + DEF_CPPLOGS_SPLIT + data;
 	}
 
 	CppLogs::StCppLogsItem CppLogs::_analy_item()
 	{
+		std::string data;
+		if (!ToolBox::readfile(_filename.data, data)) {
+			return { "", "", "", true };
+		}
+		return { "", "", "", true };
 		return StCppLogsItem();
 	}
 }
