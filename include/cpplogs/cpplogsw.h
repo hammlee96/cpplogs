@@ -20,12 +20,13 @@
 
 /*
 <#header>
+create_time:2022-02-03 23:22:25
 level:1
 info:info
 warn:warn
 error:error
-T:Y
-F:Y
+time_stamp:y
+file_line:y
 <#headerEnd>
 <#info#secondkeyinfo><#T2022-02-03 23:22:25><#F/home/root/clim/cpplogs/test.cpp:235>xxxxxxxxx<#infoEnd>
 <#warn#secondkeywarn><#T2022-02-03 23:22:25><#F/home/root/clim/cpplogs/test.cpp:240>xxxxxxxxx<#errorEnd>
@@ -38,7 +39,7 @@ namespace CppLogs {
 		std::string data;
 	};
 
-	class CPPLOGS_API CppLogs
+	class CPPLOGS_API CppLogsW
 	{
 	public:
 		enum EnCppLogsLevel {
@@ -56,11 +57,11 @@ namespace CppLogs {
 		};
 
 	public:
-		CppLogs(const std::string& filename) :
+		CppLogsW(const std::string& filename) :
 			_filename(PrivateString{ filename }) {
 			_st_CppLogsItem = DEF_CPPLOGS_ITEMS;
 		}
-		~CppLogs();
+		~CppLogsW();
 
 		/*
 		* @brief set keyword and timestamp

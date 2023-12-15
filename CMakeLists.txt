@@ -12,11 +12,11 @@ set(CMAKE_INCLUDE_CURRENT_DIR ON)
 include_directories(include/cpplogs
 					include/basetools)
 set(PROJECT_SOURCES
-	src/cpplogs/cpplogs.cpp
+	src/cpplogs/cpplogsw.cpp
 	src/basetools/toolbox.cpp)
 
 set(PROJECT_HEADERS
-	include/cpplogs/cpplogs.h
+	include/cpplogs/cpplogsw.h
 	include/cpplogs/error.h
 	include/cpplogs/base.h
 	include/basetools/toolbox.h)
