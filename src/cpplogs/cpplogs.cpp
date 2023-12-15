@@ -54,9 +54,9 @@ namespace CppLogs {
 	{
 		std::string data;
 		if (!ToolBox::readfile(_filename.data, data)) {
-			return { "", "", "", true };
+			return { "", "", "", CppLogsLevel_High, true, true };
 		}
-		return { "", "", "", true };
+		return { "", "", "", CppLogsLevel_High, true, true };
 		return StCppLogsItem();
 	}
 }

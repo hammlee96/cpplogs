@@ -10,7 +10,6 @@ project (${PJNAME})
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
 include_directories(include/cpplogs
-
 					include/basetools)
 set(PROJECT_SOURCES
 	src/cpplogs/cpplogs.cpp

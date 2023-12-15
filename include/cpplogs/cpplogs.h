@@ -16,7 +16,21 @@
 #include "error.h"
 
 #define DEF_CPPLOGS_SPLIT	"#"
-#define DEF_CPPLOGS_ITEMS	{ "[info]", "[warn]", "[error]", true }
+#define DEF_CPPLOGS_ITEMS	{ "info", "warn", "error", CppLogsLevel_High, true, true }
+
+/*
+<#header>
+level:1
+info:info
+warn:warn
+error:error
+T:Y
+F:Y
+<#headerEnd>
+<#info#secondkeyinfo><#T2022-02-03 23:22:25><#F/home/root/clim/cpplogs/test.cpp:235>xxxxxxxxx<#infoEnd>
+<#warn#secondkeywarn><#T2022-02-03 23:22:25><#F/home/root/clim/cpplogs/test.cpp:240>xxxxxxxxx<#errorEnd>
+<#error#secondkeyerror><#T2022-02-03 23:22:25><#F/home/root/clim/cpplogs/test.cpp:256>xxxxxxxxx<#errorEnd>
+*/
 
 namespace CppLogs {
 
@@ -27,11 +41,18 @@ namespace CppLogs {
 	class CPPLOGS_API CppLogs
 	{
 	public:
+		enum EnCppLogsLevel {
+			CppLogsLevel_High = 1,
+			CppLogsLevel_Middle,
+			CppLogsLevel_Low
+		};
 		struct StCppLogsItem{
 			std::string keyInfo;
 			std::string keyWarn;
 			std::string keyError;
+			EnCppLogsLevel en_CppLogsLevel;
 			bool		stampRecord;
+			bool		fileLineRecord;
 		};
 
 	public:
