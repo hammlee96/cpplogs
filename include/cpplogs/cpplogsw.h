@@ -18,10 +18,6 @@
 
 namespace CppLogs {
 
-	using PrivateString = struct {
-		std::string data;
-	};
-
 	class CPPLOGS_API CppLogsW
 	{
 	public:
@@ -48,9 +44,9 @@ namespace CppLogs {
 		* @brief create log file at the under the specified path
 		* @return error code
 		*/
-		Error::EnErrorCode create_log_file()
+		Error::EnErrorCode create_log_file(const std::string& create_time)
 		{
-			return _fileFormat->create_log_file();
+			return _fileFormat->create_log_file(create_time);
 		}
 
 		/*
@@ -61,7 +57,7 @@ namespace CppLogs {
 		*/
 		Error::EnErrorCode information(const std::string& secondaryKey = "", const std::string& data = "")
 		{
-			return _fileFormat->writefile(_fileFormat->analysis_header().keyInfo, secondaryKey, data);
+			return _fileFormat->writefile(_fileFormat->get_header().keyInfo, secondaryKey, data);
 		}
 
 		/*
@@ -72,7 +68,7 @@ namespace CppLogs {
 		*/
 		Error::EnErrorCode warning(const std::string& secondaryKey = "", const std::string& data = "")
 		{
-			return _fileFormat->writefile(_fileFormat->analysis_header().keyWarn, secondaryKey, data);
+			return _fileFormat->writefile(_fileFormat->get_header().keyWarn, secondaryKey, data);
 		}
 
 		/*
@@ -83,7 +79,7 @@ namespace CppLogs {
 		*/
 		Error::EnErrorCode error(const std::string& secondaryKey = "", const std::string& data = "")
 		{
-			return _fileFormat->writefile(_fileFormat->analysis_header().keyError, secondaryKey, data);
+			return _fileFormat->writefile(_fileFormat->get_header().keyError, secondaryKey, data);
 		}
 
 	private:

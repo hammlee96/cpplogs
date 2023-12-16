@@ -1,3 +1,15 @@
+/*
+* function		: file and data format
+* author		: hammlee
+* e-mail		: hammlee@163.com
+* create date	: 2023.12.16
+*
+* change author	: hammlee
+* change date	: 2023.12.16
+* change log	: init
+*/
+
+#pragma once
 #include <iostream>
 #include <fstream>
 #include "error.h"
@@ -51,17 +63,62 @@ namespace CppLogs {
 		}
 		~FileFormat();
 
+		/*
+		* @brief check if the file exists
+		* @return the file status
+		*/
 		bool existfile();
+
+		/*
+		* @brief get current file log header define, if have no, return keyword is null, other param return default value.
+		* @return current header param
+		*/
 		FileFormat::StCppLogsHeader analysis_header();
 
+		/*
+		* @brief get using header
+		* @return current header param
+		*/
+		FileFormat::StCppLogsHeader get_header();
+
+		/*
+		* @brief set logs header, if not set use this function, the header value will use default param
+		* @param st_CppLogsHeader : the header value you want
+		* @return error code
+		*/
 		Error::EnErrorCode set_log_header(const StCppLogsHeader& st_CppLogsHeader = DEF_CPPLOGS_ITEMS);
-		Error::EnErrorCode create_log_file();
+
+		/*
+		* @brief create log file, and write header
+		* @param create_time : date of log creation
+		* @return error code
+		*/
+		Error::EnErrorCode create_log_file(const std::string& create_time);
+
+		/*
+		* @brief write log data
+		* @param key		: this data type
+		* @param secondKey	: this data ID
+		* @param data		: the data you want record
+		* @return error code
+		*/
 		Error::EnErrorCode writefile(const std::string& key, const std::string secondKey, const std::string& data);
 
-		std::string format_header();
-		StCppLogsItem unformat_header();
+		/*
+		* @brief format header data
+		* @param create_time : date of log creation
+		* @return formatted data
+		*/
+		std::string format_header(const std::string& create_time);
+
+		/*
+		* @brief analysis header data
+		* @return the header structure
+		*/
+		StCppLogsHeader unformat_header();
+
 		std::string format_data(const std::string& data);
-		FileFormat::StCppLogsItem unformat_data(const std::string& data);
+		FileFormat::StCppLogsItem unformat_data();
 
 	private:
 		std::string _filename;

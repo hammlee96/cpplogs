@@ -1,5 +1,6 @@
 #include "fileformat.h"
 #include "toolbox.h"
+#include <format>
 
 namespace CppLogs {
 	FileFormat::~FileFormat()
@@ -13,6 +14,11 @@ namespace CppLogs {
 	}
 
 	FileFormat::StCppLogsHeader FileFormat::analysis_header()
+	{
+		return {"", "", "", (FileFormat::EnCppLogsLevel)1, true, true};
+	}
+
+	FileFormat::StCppLogsHeader FileFormat::get_header()
 	{
 		return _st_CppLogsIHeader;
 	}
@@ -35,12 +41,12 @@ namespace CppLogs {
 		return Error::ErrorCode_None;
 	}
 
-	Error::EnErrorCode FileFormat::create_log_file()
+	Error::EnErrorCode FileFormat::create_log_file(const std::string& create_time)
 	{
 		if (!existfile()) {
-			return ToolBox::writefile(_filename, format_header()) ? Error::ErrorCode_OpenFileFailed : Error::ErrorCode_None;
+			return ToolBox::writefile(_filename, format_header(create_time)) ? Error::ErrorCode_OpenFileFailed : Error::ErrorCode_None;
 		}
-		return Error::ErrorCode_None;
+		return Error::ErrorCode_LogFileExist;
 	}
 
 	Error::EnErrorCode FileFormat::writefile(const std::string& key, const std::string secondKey, const std::string& data)
@@ -48,14 +54,16 @@ namespace CppLogs {
 		return Error::EnErrorCode();
 	}
 
-	std::string FileFormat::format_header()
+	std::string FileFormat::format_header(const std::string& create_time)
 	{
-		return std::string();
+		return std::format("<#header>\ncreate_time:{}\nlevel:{}\ninfo:{}\nwarn:{}\nerror:{}\ntime_stamp:{}\nfile_line:{}\n<#headerEnd>", \
+			create_time.c_str(), (int)_st_CppLogsIHeader.en_CppLogsLevel, _st_CppLogsIHeader.keyInfo.c_str(), _st_CppLogsIHeader.keyWarn.c_str(), \
+			_st_CppLogsIHeader.keyError.c_str(), _st_CppLogsIHeader.stampRecord ? "y" : "n", _st_CppLogsIHeader.fileLineRecord ? "y" : "n");
 	}
 
-	FileFormat::StCppLogsItem FileFormat::unformat_header()
+	FileFormat::StCppLogsHeader FileFormat::unformat_header()
 	{
-		return FileFormat::StCppLogsItem();
+		return FileFormat::StCppLogsHeader();
 	}
 
 	std::string FileFormat::format_data(const std::string& data)
@@ -63,7 +71,7 @@ namespace CppLogs {
 		return std::string();
 	}
 
-	FileFormat::StCppLogsItem FileFormat::unformat_data(const std::string& data)
+	FileFormat::StCppLogsItem FileFormat::unformat_data()
 	{
 		return FileFormat::StCppLogsItem();
 	}

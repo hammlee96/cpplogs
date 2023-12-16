@@ -1,6 +1,9 @@
 ﻿
 cmake_minimum_required (VERSION 3.8)
 
+set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
 set(PJNAME
 	CppLogs)
 
@@ -27,4 +30,5 @@ add_library(${PJNAME}
 			STATIC
 			${PROJECT_HEADERS}
 			${PROJECT_SOURCES})
-#add_subdirectory(examples/ExampleWriteLog)
+	
+add_subdirectory(examples/ExampleWriteLog)

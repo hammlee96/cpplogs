@@ -17,4 +17,7 @@ class ExampleWriteLog
 public:
 	ExampleWriteLog();
 	~ExampleWriteLog();
+
+private:
+	CppLogs::CppLogsW* m_pCppLogs;
 };
