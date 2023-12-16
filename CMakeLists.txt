@@ -13,16 +13,20 @@ include_directories(include/cpplogs
 					include/basetools)
 set(PROJECT_SOURCES
 	src/cpplogs/cpplogsw.cpp
-	src/basetools/toolbox.cpp)
+	src/cpplogs/fileformat.cpp
+	src/basetools/toolbox.cpp
+	src/basetools/dataformat.cpp)
 
 set(PROJECT_HEADERS
 	include/cpplogs/cpplogsw.h
 	include/cpplogs/error.h
-	include/cpplogs/base.h
-	include/basetools/toolbox.h)
+	include/cpplogs/fileformat.h
+	include/basetools/base.h
+	include/basetools/toolbox.h
+	include/basetools/dataformat.h)
 
 add_library(${PJNAME} 
 			STATIC
 			${PROJECT_HEADERS}
 			${PROJECT_SOURCES})
-add_subdirectory(examples/ExampleWriteLog)
+#add_subdirectory(examples/ExampleWriteLog)
