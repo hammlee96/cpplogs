@@ -13,14 +13,12 @@ include_directories(include/cpplogs
 					include/basetools)
 set(PROJECT_SOURCES
 	src/cpplogs/cpplogsw.cpp
-	src/cpplogs/dataformat.cpp
 	src/cpplogs/fileformat.cpp
 	src/basetools/toolbox.cpp)
 
 set(PROJECT_HEADERS
 	include/cpplogs/cpplogsw.h
 	include/cpplogs/error.h
-	include/cpplogs/dataformat.h
 	include/cpplogs/fileformat.h
 	include/basetools/base.h
 	include/basetools/toolbox.h)

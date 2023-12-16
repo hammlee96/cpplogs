@@ -1,7 +1,6 @@
 #include <iostream>
 #include <fstream>
 #include "error.h"
-#include "dataformat.h"
 
 /*
 <#header>
@@ -21,7 +20,7 @@ file_line:y
 #define DEF_CPPLOGS_ITEMS	{ "info", "warn", "error", FileFormat::CppLogsLevel_High, true, true }
 
 namespace CppLogs {
-	class FileFormat : public DataFormat {
+	class FileFormat{
 	public:
 		enum EnCppLogsLevel {
 			CppLogsLevel_High = 1,
@@ -36,20 +35,36 @@ namespace CppLogs {
 			bool		stampRecord;
 			bool		fileLineRecord;
 		};
+		struct StCppLogsItem {
+			std::string key;
+			std::string secondKey;
+			std::string timeStamp;
+			std::string fileLine;
+			std::string data;
+		};
 
 	public:
 		FileFormat(const std::string& filename) :
-			_filename(filename) {}
+			_filename(filename) 
+		{
+			_st_CppLogsIHeader = DEF_CPPLOGS_ITEMS;
+		}
 		~FileFormat();
 
 		bool existfile();
 		FileFormat::StCppLogsHeader analysis_header();
 
 		Error::EnErrorCode set_log_header(const StCppLogsHeader& st_CppLogsHeader = DEF_CPPLOGS_ITEMS);
-		Error::EnErrorCode create_log_file(const StCppLogsHeader& st_CppLogsHeader);
+		Error::EnErrorCode create_log_file();
 		Error::EnErrorCode writefile(const std::string& key, const std::string secondKey, const std::string& data);
+
+		std::string format_header();
+		StCppLogsItem unformat_header();
+		std::string format_data(const std::string& data);
+		FileFormat::StCppLogsItem unformat_data(const std::string& data);
 
 	private:
 		std::string _filename;
+		FileFormat::StCppLogsHeader	_st_CppLogsIHeader;
 	};
 }

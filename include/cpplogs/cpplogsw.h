@@ -25,9 +25,8 @@ namespace CppLogs {
 	class CPPLOGS_API CppLogsW
 	{
 	public:
-		CppLogsW(const std::string& filename) :
-			_filename(PrivateString{ filename }) {
-			_st_CppLogsItem = DEF_CPPLOGS_ITEMS;
+		CppLogsW(const std::string& filename)
+		{
 			_fileFormat = new FileFormat(filename);
 		}
 		~CppLogsW() {
@@ -42,11 +41,7 @@ namespace CppLogs {
 		*/
 		Error::EnErrorCode set_item_type(const FileFormat::StCppLogsHeader& st_CppLogsItem = DEF_CPPLOGS_ITEMS)
 		{
-			Error::EnErrorCode ec = _fileFormat->set_log_header(st_CppLogsItem);
-			if (!ec) {
-				_st_CppLogsItem = st_CppLogsItem;
-			}
-			return ec;
+			return _fileFormat->set_log_header(st_CppLogsItem);
 		}
 
 		/*
@@ -55,7 +50,7 @@ namespace CppLogs {
 		*/
 		Error::EnErrorCode create_log_file()
 		{
-			return _fileFormat->create_log_file(_st_CppLogsItem);
+			return _fileFormat->create_log_file();
 		}
 
 		/*
@@ -66,7 +61,7 @@ namespace CppLogs {
 		*/
 		Error::EnErrorCode information(const std::string& secondaryKey = "", const std::string& data = "")
 		{
-			return _fileFormat->writefile(_st_CppLogsItem.keyInfo, secondaryKey, data);
+			return _fileFormat->writefile(_fileFormat->analysis_header().keyInfo, secondaryKey, data);
 		}
 
 		/*
@@ -77,7 +72,7 @@ namespace CppLogs {
 		*/
 		Error::EnErrorCode warning(const std::string& secondaryKey = "", const std::string& data = "")
 		{
-			return _fileFormat->writefile(_st_CppLogsItem.keyWarn, secondaryKey, data);
+			return _fileFormat->writefile(_fileFormat->analysis_header().keyWarn, secondaryKey, data);
 		}
 
 		/*
@@ -88,16 +83,10 @@ namespace CppLogs {
 		*/
 		Error::EnErrorCode error(const std::string& secondaryKey = "", const std::string& data = "")
 		{
-			return _fileFormat->writefile(_st_CppLogsItem.keyError, secondaryKey, data);
+			return _fileFormat->writefile(_fileFormat->analysis_header().keyError, secondaryKey, data);
 		}
 
 	private:
-		PrivateString	_filename;
-		FileFormat::StCppLogsHeader	_st_CppLogsItem;
 		FileFormat *_fileFormat;
-
-	//private:
-	//	std::string _format_item(const std::string& itemKey, const std::string& secondaryKey, const std::string& data);
-	//	FileFormat::StCppLogsHeader _analy_item();
 	};
 }
