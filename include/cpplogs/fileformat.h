@@ -12,6 +12,7 @@
 #pragma once
 #include <iostream>
 #include <fstream>
+#include <any>
 #include "error.h"
 
 /*
@@ -73,7 +74,7 @@ namespace CppLogs {
 		* @brief get current file log header define, if have no, return keyword is null, other param return default value.
 		* @return current header param
 		*/
-		FileFormat::StCppLogsHeader analysis_header();
+		std::any analysis_header();
 
 		/*
 		* @brief get using header

@@ -13,9 +13,9 @@ namespace CppLogs {
 		return f.good();
 	}
 
-	FileFormat::StCppLogsHeader FileFormat::analysis_header()
+	std::any FileFormat::analysis_header()
 	{
-		return {"", "", "", (FileFormat::EnCppLogsLevel)1, true, true};
+		return std::any();
 	}
 
 	FileFormat::StCppLogsHeader FileFormat::get_header()
@@ -25,12 +25,8 @@ namespace CppLogs {
 
 	Error::EnErrorCode FileFormat::set_log_header(const StCppLogsHeader& st_CppLogsHeader)
 	{
-		if (!existfile()) {
-			return Error::ErrorCode_OpenFileFailed;
-		}
-		FileFormat::StCppLogsHeader st_CppLogsItemCurr = analysis_header();
-		if (!st_CppLogsItemCurr.keyError.empty()) {
-			return Error::ErrorCode_CreateItemFailed;
+		if (existfile()) {
+			return Error::ErrorCode_LogFileExist;
 		}
 		if (st_CppLogsHeader.keyInfo.empty() || \
 			st_CppLogsHeader.keyWarn.empty() || \
