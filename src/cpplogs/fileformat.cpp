@@ -56,7 +56,7 @@ namespace CppLogs {
 
 	std::string FileFormat::format_header(const std::string& create_time)
 	{
-		return std::format("<#header>\ncreate_time:{}\nlevel:{}\ninfo:{}\nwarn:{}\nerror:{}\ntime_stamp:{}\nfile_line:{}\n<#headerEnd>", \
+		return std::format("<#header#>\ncreate_time:{}\nlevel:{}\ninfo:{}\nwarn:{}\nerror:{}\ntime_stamp:{}\nfile_line:{}\n<#headerEnd#>", \
 			create_time.c_str(), (int)_st_CppLogsIHeader.en_CppLogsLevel, _st_CppLogsIHeader.keyInfo.c_str(), _st_CppLogsIHeader.keyWarn.c_str(), \
 			_st_CppLogsIHeader.keyError.c_str(), _st_CppLogsIHeader.stampRecord ? "y" : "n", _st_CppLogsIHeader.fileLineRecord ? "y" : "n");
 	}
