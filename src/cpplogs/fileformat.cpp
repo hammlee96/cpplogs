@@ -39,8 +39,9 @@ namespace CppLogs {
 
 	Error::EnErrorCode FileFormat::create_log_file(const std::string& create_time)
 	{
+		CPPLOGS_DEBUG << existfile();
 		if (!existfile()) {
-			return ToolBox::writefile(_filename, format_header(create_time)) ? Error::ErrorCode_OpenFileFailed : Error::ErrorCode_None;
+			return ToolBox::writefile(_filename, format_header(create_time)) ? Error::ErrorCode_None : Error::ErrorCode_OpenFileFailed;
 		}
 		return Error::ErrorCode_LogFileExist;
 	}
