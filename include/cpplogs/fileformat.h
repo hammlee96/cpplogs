@@ -35,6 +35,11 @@ file_line:y
 namespace CppLogs {
 	class FileFormat{
 	public:
+		enum EnCppLogsItemType {
+			CppLogsItemType_Info,
+			CppLogsItemType_Warn,
+			CppLogsItemType_Error
+		};
 		enum EnCppLogsLevel {
 			CppLogsLevel_High = 1,
 			CppLogsLevel_Middle,
@@ -103,7 +108,7 @@ namespace CppLogs {
 		* @param data		: the data you want record
 		* @return error code
 		*/
-		Error::EnErrorCode writefile(const std::string& key, const std::string secondKey, const std::string& data);
+		Error::EnErrorCode writefile(const FileFormat::EnCppLogsItemType& key, const std::string secondKey, const std::string& data);
 
 		/*
 		* @brief format header data
@@ -118,7 +123,7 @@ namespace CppLogs {
 		*/
 		StCppLogsHeader unformat_header();
 
-		std::string format_data(const std::string& data);
+		std::string format_data(const FileFormat::EnCppLogsItemType& key, const std::string secondKey, const std::string& data);
 		FileFormat::StCppLogsItem unformat_data();
 
 	private:

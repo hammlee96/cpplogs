@@ -57,7 +57,7 @@ namespace CppLogs {
 		*/
 		Error::EnErrorCode information(const std::string& secondaryKey = "", const std::string& data = "")
 		{
-			return _fileFormat->writefile(_fileFormat->get_header().keyInfo, secondaryKey, data);
+			return _fileFormat->writefile(FileFormat::CppLogsItemType_Info, secondaryKey, data);
 		}
 
 		/*
@@ -68,7 +68,7 @@ namespace CppLogs {
 		*/
 		Error::EnErrorCode warning(const std::string& secondaryKey = "", const std::string& data = "")
 		{
-			return _fileFormat->writefile(_fileFormat->get_header().keyWarn, secondaryKey, data);
+			return _fileFormat->writefile(FileFormat::CppLogsItemType_Warn, secondaryKey, data);
 		}
 
 		/*
@@ -79,7 +79,7 @@ namespace CppLogs {
 		*/
 		Error::EnErrorCode error(const std::string& secondaryKey = "", const std::string& data = "")
 		{
-			return _fileFormat->writefile(_fileFormat->get_header().keyError, secondaryKey, data);
+			return _fileFormat->writefile(FileFormat::CppLogsItemType_Error, secondaryKey, data);
 		}
 
 	private:

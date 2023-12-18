@@ -46,9 +46,12 @@ namespace CppLogs {
 		return Error::ErrorCode_LogFileExist;
 	}
 
-	Error::EnErrorCode FileFormat::writefile(const std::string& key, const std::string secondKey, const std::string& data)
+	Error::EnErrorCode FileFormat::writefile(const FileFormat::EnCppLogsItemType& key, const std::string secondKey, const std::string& data)
 	{
-		return Error::EnErrorCode();
+		if (existfile()) {
+			return ToolBox::writefile(_filename, format_data(key, secondKey, data)) ? Error::ErrorCode_None : Error::ErrorCode_OpenFileFailed;
+		}
+		return Error::ErrorCode_OpenFileFailed;
 	}
 
 	std::string FileFormat::format_header(const std::string& create_time)
@@ -63,7 +66,7 @@ namespace CppLogs {
 		return FileFormat::StCppLogsHeader();
 	}
 
-	std::string FileFormat::format_data(const std::string& data)
+	std::string FileFormat::format_data(const FileFormat::EnCppLogsItemType& key, const std::string secondKey, const std::string& data)
 	{
 		return std::string();
 	}
