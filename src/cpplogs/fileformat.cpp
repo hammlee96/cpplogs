@@ -1,6 +1,7 @@
 #include "fileformat.h"
 #include "toolbox.h"
 #include <format>
+#include <regex>
 
 namespace CppLogs {
 	FileFormat::~FileFormat()
@@ -39,9 +40,8 @@ namespace CppLogs {
 
 	Error::EnErrorCode FileFormat::create_log_file(const std::string& create_time)
 	{
-		CPPLOGS_DEBUG << existfile();
 		if (!existfile()) {
-			return ToolBox::writefile(_filename + CPPLOGS_EXTNAME, format_header(create_time)) ? Error::ErrorCode_None : Error::ErrorCode_OpenFileFailed;
+			return ToolBox::writefile(_filename, format_header(create_time)) ? Error::ErrorCode_None : Error::ErrorCode_OpenFileFailed;
 		}
 		return Error::ErrorCode_LogFileExist;
 	}
@@ -63,7 +63,6 @@ namespace CppLogs {
 
 	FileFormat::StCppLogsHeader FileFormat::unformat_header()
 	{
-
 		return FileFormat::StCppLogsHeader();
 	}
 

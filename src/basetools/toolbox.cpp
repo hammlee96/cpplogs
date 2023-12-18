@@ -20,7 +20,7 @@ namespace CppLogs {
 	{
 		std::ifstream f;
 		f.open(filename);
-		if (f.is_open()) {
+		if (!f.is_open()) {
 			return false;
 		}
 		std::string str;

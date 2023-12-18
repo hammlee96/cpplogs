@@ -63,7 +63,7 @@ namespace CppLogs {
 
 	public:
 		FileFormat(const std::string& filename) :
-			_filename(filename) 
+			_filename(filename + CPPLOGS_EXTNAME)
 		{
 			_st_CppLogsIHeader = DEF_CPPLOGS_ITEMS;
 		}
