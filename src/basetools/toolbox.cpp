@@ -1,6 +1,4 @@
 #include "toolbox.h"
-#include <fstream>
-#include <string>
 
 namespace CppLogs {
 
@@ -31,7 +29,7 @@ namespace CppLogs {
 		return true;
 	}
 
-	bool existfile(const std::string& filename)
+	bool ToolBox::existfile(const std::string& filename)
 	{
 		std::ifstream f(filename.c_str());
 		return f.good();

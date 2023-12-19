@@ -10,10 +10,9 @@
 */
 
 #pragma once
-#include <iostream>
-#include <fstream>
-#include <any>
+#include "toolbox.h"
 #include "error.h"
+//#include <any>
 
 /*
 <#header#>
@@ -73,13 +72,10 @@ namespace CppLogs {
 		* @brief check if the file exists
 		* @return the file status
 		*/
-		bool existfile();
-
-		/*
-		* @brief get current file log header define, if have no, return keyword is null, other param return default value.
-		* @return current header param
-		*/
-		std::any analysis_header();
+		bool existfile()
+		{
+			return ToolBox::existfile(_filename);
+		}
 
 		/*
 		* @brief get using header

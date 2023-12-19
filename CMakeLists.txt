@@ -15,7 +15,6 @@ set(CMAKE_INCLUDE_CURRENT_DIR ON)
 include_directories(include/cpplogs
 					include/basetools)
 set(PROJECT_SOURCES
-	src/cpplogs/cpplogsw.cpp
 	src/cpplogs/fileformat.cpp
 	src/basetools/toolbox.cpp)
 

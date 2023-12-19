@@ -1,22 +1,8 @@
 #include "fileformat.h"
-#include "toolbox.h"
-#include <format>
-#include <regex>
 
 namespace CppLogs {
 	FileFormat::~FileFormat()
 	{
-	}
-
-	bool FileFormat::existfile()
-	{
-		std::ifstream f(_filename.c_str());
-		return f.good();
-	}
-
-	std::any FileFormat::analysis_header()
-	{
-		return std::any();
 	}
 
 	FileFormat::StCppLogsHeader FileFormat::get_header()
@@ -56,7 +42,7 @@ namespace CppLogs {
 
 	std::string FileFormat::format_header(const std::string& create_time)
 	{
-		return std::format("<#header#>\ncreate_time:{}\nlevel:{}\ninfo:{}\nwarn:{}\nerror:{}\ntime_stamp:{}\nfile_line:{}\n<#headerEnd#>", \
+		return ToolBox::format("<#header#>\ncreate_time:%s\nlevel:%d\ninfo:%s\nwarn:%s\nerror:%s\ntime_stamp:%s\nfile_line:%s\n<#headerEnd#>", \
 			create_time.c_str(), (int)_st_CppLogsIHeader.en_CppLogsLevel, _st_CppLogsIHeader.keyInfo.c_str(), _st_CppLogsIHeader.keyWarn.c_str(), \
 			_st_CppLogsIHeader.keyError.c_str(), _st_CppLogsIHeader.stampRecord ? "y" : "n", _st_CppLogsIHeader.fileLineRecord ? "y" : "n");
 	}
