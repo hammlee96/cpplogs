@@ -1,4 +1,5 @@
 #include "toolbox.h"
+#include "base.h"
 
 namespace CppLogs {
 
@@ -33,5 +34,18 @@ namespace CppLogs {
 	{
 		std::ifstream f(filename.c_str());
 		return f.good();
+	}
+
+	std::vector<std::string> ToolBox::regexmatch(const std::string& value, const std::string& matchstr)
+	{
+		std::regex reg(matchstr);
+		std::vector<std::string> result;
+		result.clear();
+		std::sregex_iterator pos(value.begin(), value.end(), reg);
+		std::sregex_iterator end;
+		for (; pos != end; pos++) {
+			result.push_back(pos->str(1));
+		}
+		return result;
 	}
 }

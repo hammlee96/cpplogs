@@ -42,14 +42,25 @@ namespace CppLogs {
 
 	std::string FileFormat::format_header(const std::string& create_time)
 	{
-		return ToolBox::format("<#header#>\ncreate_time:%s\nlevel:%d\ninfo:%s\nwarn:%s\nerror:%s\ntime_stamp:%s\nfile_line:%s\n<#headerEnd#>", \
-			create_time.c_str(), (int)_st_CppLogsIHeader.en_CppLogsLevel, _st_CppLogsIHeader.keyInfo.c_str(), _st_CppLogsIHeader.keyWarn.c_str(), \
-			_st_CppLogsIHeader.keyError.c_str(), _st_CppLogsIHeader.stampRecord ? "y" : "n", _st_CppLogsIHeader.fileLineRecord ? "y" : "n");
+		return ToolBox::format("<#%s#>\ncreate_time:%s\nlevel:%d\ninfo:%s\nwarn:%s\nerror:%s\ntime_stamp:%s\nfile_line:%s\n<#/%s#>", \
+			DEF_HEADER, create_time.c_str(), (int)_st_CppLogsIHeader.en_CppLogsLevel, _st_CppLogsIHeader.keyInfo.c_str(), _st_CppLogsIHeader.keyWarn.c_str(), \
+			_st_CppLogsIHeader.keyError.c_str(), _st_CppLogsIHeader.stampRecord ? "y" : "n", _st_CppLogsIHeader.fileLineRecord ? "y" : "n", DEF_HEADER);
 	}
 
-	FileFormat::StCppLogsHeader FileFormat::unformat_header()
+	Error::EnErrorCode FileFormat::unformat_header(FileFormat::StCppLogsHeader& st_CppLogsHeader)
 	{
-		return FileFormat::StCppLogsHeader();
+		std::string data;
+		std::string pattern = ToolBox::format("<#%s#>([\\s\\S]*?)<#/%s#>", DEF_HEADER, DEF_HEADER);
+		Error::EnErrorCode ec = Error::ErrorCode_None;
+		ToolBox::readfile(_filename, data);
+		std::vector<std::string> result = ToolBox::regexmatch(data, pattern);
+		//for (auto it : result) {
+		//	CPPLOGS_DEBUG << it;
+		//}
+		if (result.size() != 1) {
+			ec = Error::ErrorCode_HeaderDamage;
+		}
+		return ec;
 	}
 
 	std::string FileFormat::format_data(const FileFormat::EnCppLogsItemType& key, const std::string secondKey, const std::string& data)

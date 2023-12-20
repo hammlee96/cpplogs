@@ -20,7 +20,8 @@ namespace CppLogs {
 			ErrorCode_None = 0,
 			ErrorCode_LogFileExist,
 			ErrorCode_OpenFileFailed,
-			ErrorCode_CreateItemFailed
+			ErrorCode_CreateItemFailed,
+			ErrorCode_HeaderDamage
 		};
 	};
 }

@@ -82,7 +82,7 @@ namespace CppLogs {
 			return _fileFormat->writefile(FileFormat::CppLogsItemType_Error, secondaryKey, data);
 		}
 
-	private:
+	public:
 		FileFormat *_fileFormat;
 	};
 }

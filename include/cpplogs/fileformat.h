@@ -23,11 +23,13 @@ warn:warn
 error:error
 time_stamp:y
 file_line:y
-<#headerEnd#>
-<#info#secondkeyinfo#T2022-02-03 23:22:25#F/home/root/clim/cpplogs/test.cpp:235#>xxxxxxxxx<#infoEnd#>
-<#warn#secondkeywarn#T2022-02-03 23:22:25#F/home/root/clim/cpplogs/test.cpp:240#>xxxxxxxxx<#errorEnd#>
-<#error#secondkeyerror#T2022-02-03 23:22:25#F/home/root/clim/cpplogs/test.cpp:256#>xxxxxxxxx<#errorEnd#>
+<#/header#>
+<#info#secondkeyinfo#T2022-02-03 23:22:25#F/home/root/clim/cpplogs/test.cpp:235#>xxxxxxxxx<#/info#>
+<#warn#secondkeywarn#T2022-02-03 23:22:25#F/home/root/clim/cpplogs/test.cpp:240#>xxxxxxxxx<#/error#>
+<#error#secondkeyerror#T2022-02-03 23:22:25#F/home/root/clim/cpplogs/test.cpp:256#>xxxxxxxxx<#/error#>
 */
+
+#define DEF_HEADER			"header"
 
 #define DEF_CPPLOGS_ITEMS	{ "info", "warn", "error", FileFormat::CppLogsLevel_High, true, true }
 
@@ -115,9 +117,10 @@ namespace CppLogs {
 
 		/*
 		* @brief analysis header data
-		* @return the header structure
+		* @param st_CppLogsHeader : get header info
+		* @return the error code
 		*/
-		StCppLogsHeader unformat_header();
+		Error::EnErrorCode unformat_header(FileFormat::StCppLogsHeader& st_CppLogsHeader);
 
 		std::string format_data(const FileFormat::EnCppLogsItemType& key, const std::string secondKey, const std::string& data);
 		FileFormat::StCppLogsItem unformat_data();
