@@ -1,5 +1,4 @@
 #include "toolbox.h"
-#include "base.h"
 
 namespace CppLogs {
 

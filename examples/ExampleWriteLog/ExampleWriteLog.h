@@ -10,7 +10,7 @@
 */
 
 #include <iostream>
-#include "cpplogsw.h"
+#include "cpplogs/cpplogsw.h"
 
 class ExampleWriteLog 
 {

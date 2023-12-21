@@ -1,5 +1,5 @@
 #include "ExampleWriteLog.h"
-#include "../../include/basetools/base.h"
+#include "basetools/base.h"
 
 int main()
 {

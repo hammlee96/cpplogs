@@ -15,10 +15,11 @@
 #include <fstream>
 #include <string>
 #include <regex>
+#include "base.h"
 
 namespace CppLogs {
 
-	class ToolBox
+	class CPPLOGS_API ToolBox
 	{
 	public:
 		ToolBox() = delete;
