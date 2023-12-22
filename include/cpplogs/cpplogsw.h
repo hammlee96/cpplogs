@@ -18,17 +18,12 @@
 
 namespace CppLogs {
 
-	class CPPLOGS_API CppLogsW
+	class CPPLOGS_API CppLogsW : public FileFormat
 	{
 	public:
-		CppLogsW(const std::string& filename)
-		{
-			_fileFormat = new FileFormat(filename);
-		}
-		~CppLogsW() {
-			delete _fileFormat;
-			_fileFormat = nullptr;
-		}
+		CppLogsW(const std::string& filename) : FileFormat(filename)
+		{}
+		~CppLogsW() {}
 
 		/*
 		* @brief set keyword and timestamp
@@ -37,16 +32,16 @@ namespace CppLogs {
 		*/
 		Error::EnErrorCode set_item_type(const FileFormat::StCppLogsHeader& st_CppLogsItem = DEF_CPPLOGS_ITEMS)
 		{
-			return _fileFormat->set_log_header(st_CppLogsItem);
+			return set_log_header(st_CppLogsItem);
 		}
 
 		/*
 		* @brief create log file at the under the specified path
 		* @return error code
 		*/
-		Error::EnErrorCode create_log_file(const std::string& create_time)
+		Error::EnErrorCode create_file(const std::string& create_time)
 		{
-			return _fileFormat->create_log_file(create_time);
+			return create_log_file(create_time);
 		}
 
 		/*
@@ -57,7 +52,7 @@ namespace CppLogs {
 		*/
 		Error::EnErrorCode information(const std::string& secondaryKey = "", const std::string& data = "")
 		{
-			return _fileFormat->writefile(FileFormat::CppLogsItemType_Info, secondaryKey, data);
+			return writefile(FileFormat::CppLogsItemType_Info, secondaryKey, data);
 		}
 
 		/*
@@ -68,7 +63,7 @@ namespace CppLogs {
 		*/
 		Error::EnErrorCode warning(const std::string& secondaryKey = "", const std::string& data = "")
 		{
-			return _fileFormat->writefile(FileFormat::CppLogsItemType_Warn, secondaryKey, data);
+			return writefile(FileFormat::CppLogsItemType_Warn, secondaryKey, data);
 		}
 
 		/*
@@ -79,10 +74,7 @@ namespace CppLogs {
 		*/
 		Error::EnErrorCode error(const std::string& secondaryKey = "", const std::string& data = "")
 		{
-			return _fileFormat->writefile(FileFormat::CppLogsItemType_Error, secondaryKey, data);
+			return writefile(FileFormat::CppLogsItemType_Error, secondaryKey, data);
 		}
-
-	public:
-		FileFormat *_fileFormat;
 	};
 }
