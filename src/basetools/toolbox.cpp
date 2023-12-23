@@ -2,7 +2,7 @@
 #if defined(CPPLOGS_SYSTEM_WINDOWS)
 #include <windows.h>
 #else
-
+#include<time.h>
 #endif
 
 namespace CppLogs {
@@ -86,7 +86,14 @@ namespace CppLogs {
 		st_CppLogsDateTime.uiMinute = sysTime.wMinute;
 		st_CppLogsDateTime.uiSecond = sysTime.wSecond;
 #else
-
+		time_t timer = time(NULL);
+		struct tm* st_tm = localtime(&timer);
+		st_CppLogsDateTime.uiYear = 1900 + st_tm->tm_year;
+		st_CppLogsDateTime.uiMonth = st_tm->tm_mon;
+		st_CppLogsDateTime.uiDay = st_tm->tm_yday;
+		st_CppLogsDateTime.uiHour = st_tm->tm_hour;
+		st_CppLogsDateTime.uiMinute = st_tm->tm_min;
+		st_CppLogsDateTime.uiSecond = st_tm->tm_sec;
 #endif
 		return st_CppLogsDateTime;
 	}

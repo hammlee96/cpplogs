@@ -4,10 +4,23 @@ cmake_minimum_required (VERSION 3.8)
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-set(PJNAME
-	CppLogs)
+enable_language(C)
+enable_language(CXX)
+set(CMAKE_CXX_COMPILE g++)
+set(CMAKE_C_COMPILE gcc)
 
-project (${PJNAME})
+set(CPPLOGS_PJNAME
+	cpplogs)
+	
+set(CPPLOGS_PLATFORM_Windows false)
+set(CPPLOGS_PLATFORM_LINUX false)
+if(${CMAKE_HOST_SYSTEM_NAME} STREQUAL "Windows")
+set(CPPLOGS_PLATFORM_Windows true)
+elseif(${CMAKE_HOST_SYSTEM_NAME} STREQUAL "Linux")
+set(CPPLOGS_PLATFORM_LINUX true)
+endif()
+
+project (${CPPLOGS_PJNAME})
 
 set(CPPLOGS_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/out/${CMAKE_BUILD_TYPE})
 set(CPPLOGS_SOURCE_DIRECTORY ${CMAKE_SOURCE_DIR})
@@ -32,7 +45,7 @@ set(PROJECT_HEADERS
 	include/basetools/base.h
 	include/basetools/toolbox.h)
 
-add_library(${PJNAME} 
+add_library(${CPPLOGS_PJNAME} 
 			SHARED
 			${PROJECT_HEADERS}
 			${PROJECT_SOURCES})
