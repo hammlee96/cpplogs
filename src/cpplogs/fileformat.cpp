@@ -59,8 +59,8 @@ namespace CppLogs {
 	{
 		std::string data;
 		std::string pattern = ToolBox::format("<#%s#>([\\s\\S]*?)<#/%s#>", DEF_HEADER, DEF_HEADER);
-		std::vector<std::string> result = ToolBox::regexmatch(data, pattern);
 		ToolBox::readfile(_filename, data);
+		std::vector<std::string> result = ToolBox::regexmatch(data, pattern);
 		//for (auto it : result) {
 		//	CPPLOGS_DEBUG << it;
 		//}
