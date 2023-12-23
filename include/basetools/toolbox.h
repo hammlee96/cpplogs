@@ -24,12 +24,23 @@ namespace CppLogs {
 	class CPPLOGS_API ToolBox
 	{
 	public:
+		struct StCppLogsDateTime {
+			unsigned int uiYear;
+			unsigned int uiMonth;
+			unsigned int uiDay;
+			unsigned int uiHour;
+			unsigned int uiMinute;
+			unsigned int uiSecond;
+		};
+
+	public:
 		ToolBox() = delete;
 		static bool writefile(const std::string& filename, const std::string& data);
 		static bool readfile(const std::string& filename, std::string& data);
 		static bool existfile(const std::string& filename);
 		static std::vector<std::string> regexmatch(const std::string& value, const std::string& matchstr);
 		static std::map<std::string, std::string> regexmatchsplit(const std::string& value, const std::string& matchstr, const std::string& split_key);
+		static ToolBox::StCppLogsDateTime gettime();
 
 		template<typename ... Args>
 		static std::string format(const std::string& format, Args ... args)

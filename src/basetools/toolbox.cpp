@@ -1,4 +1,9 @@
 #include "toolbox.h"
+#if defined(CPPLOGS_SYSTEM_WINDOWS)
+#include <windows.h>
+#else
+
+#endif
 
 namespace CppLogs {
 
@@ -66,5 +71,23 @@ namespace CppLogs {
 			line.clear();
 		}
 		return result;
+	}
+
+	ToolBox::StCppLogsDateTime ToolBox::gettime()
+	{
+		ToolBox::StCppLogsDateTime st_CppLogsDateTime;
+#if defined(CPPLOGS_SYSTEM_WINDOWS)
+		SYSTEMTIME sysTime;
+		GetLocalTime(&sysTime);
+		st_CppLogsDateTime.uiYear = sysTime.wYear;
+		st_CppLogsDateTime.uiMonth = sysTime.wMonth;
+		st_CppLogsDateTime.uiDay = sysTime.wDay;
+		st_CppLogsDateTime.uiHour = sysTime.wHour;
+		st_CppLogsDateTime.uiMinute = sysTime.wMinute;
+		st_CppLogsDateTime.uiSecond = sysTime.wSecond;
+#else
+
+#endif
+		return st_CppLogsDateTime;
 	}
 }

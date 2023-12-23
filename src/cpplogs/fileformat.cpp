@@ -14,7 +14,11 @@ namespace CppLogs {
 	Error::EnErrorCode FileFormat::set_log_header(const StCppLogsHeader& st_CppLogsHeader)
 	{
 		if (existfile()) {
-			return Error::ErrorCode_LogFileExist;
+			Error::EnErrorCode ec = unformat_header(_st_CppLogsIHeader);
+			if (!ec) {
+				return Error::ErrorCode_LogFileExist;
+			}
+			return ec;
 		}
 		if (st_CppLogsHeader.keyInfo.empty() || \
 			st_CppLogsHeader.keyWarn.empty() || \
@@ -50,8 +54,8 @@ namespace CppLogs {
 			DEF_HEADER_INFO, _st_CppLogsIHeader.keyInfo.c_str(), \
 			DEF_HEADER_WARN, _st_CppLogsIHeader.keyWarn.c_str(), \
 			DEF_HEADER_ERROR, _st_CppLogsIHeader.keyError.c_str(), \
-			DEF_HEADER_TIME_STAMP, _st_CppLogsIHeader.stampRecord ? "y" : "n", \
-			DEF_HEADER_FILE_LINE, _st_CppLogsIHeader.fileLineRecord ? "y" : "n", \
+			DEF_HEADER_TIME_STAMP, _st_CppLogsIHeader.stampRecord ? DEF_CPPLOGS_TRUE : DEF_CPPLOGS_FALSE, \
+			DEF_HEADER_FILE_LINE, _st_CppLogsIHeader.fileLineRecord ? DEF_CPPLOGS_TRUE : DEF_CPPLOGS_FALSE, \
 			DEF_HEADER);
 	}
 
@@ -61,14 +65,12 @@ namespace CppLogs {
 		std::string pattern = ToolBox::format("<#%s#>([\\s\\S]*?)<#/%s#>", DEF_HEADER, DEF_HEADER);
 		ToolBox::readfile(_filename, data);
 		std::vector<std::string> result = ToolBox::regexmatch(data, pattern);
-		//for (auto it : result) {
-		//	CPPLOGS_DEBUG << it;
-		//}
+
 		if (result.size() != 1) {
 			return Error::ErrorCode_HeaderDamage;
 		}
 
-		std::map<std::string, std::string> mm = ToolBox::regexmatchsplit(data, pattern, ":");
+		std::map<std::string, std::string> mm = ToolBox::regexmatchsplit(result.at(0), pattern, ":");
 		if (mm.size() != 7) {
 			return Error::ErrorCode_HeaderDamage;
 		}
@@ -89,22 +91,44 @@ namespace CppLogs {
 				st_CppLogsHeader.keyError = it.second;
 			}
 			else if (it.first == DEF_HEADER_TIME_STAMP) {
-				st_CppLogsHeader.stampRecord = it.second == "y" ? true : false;
+				st_CppLogsHeader.stampRecord = it.second == DEF_CPPLOGS_TRUE ? true : false;
 			}
 			else if (it.first == DEF_HEADER_FILE_LINE) {
-				st_CppLogsHeader.fileLineRecord = it.second == "y" ? true : false;
+				st_CppLogsHeader.fileLineRecord = it.second == DEF_CPPLOGS_TRUE ? true : false;
 			}
 		}
-		//for (auto it : mm) {
-		//	CPPLOGS_DEBUG << it.first<<":"<<it.second;
-		//}
 
 		return Error::ErrorCode_None;
 	}
-
 	std::string FileFormat::format_data(const FileFormat::EnCppLogsItemType& key, const std::string secondKey, const std::string& data)
 	{
-		return std::string();
+		std::string keystr = "";
+		switch (key) {
+		case CppLogsItemType_Info: {
+			keystr = _st_CppLogsIHeader.keyInfo;
+		}break;
+		case CppLogsItemType_Warn: {
+			keystr = _st_CppLogsIHeader.keyWarn;
+		}break;
+		case CppLogsItemType_Error: {
+			keystr = _st_CppLogsIHeader.keyError;
+		}break;
+		}
+		std::string formatdata = ToolBox::format("<#%s#%s", \
+			keystr.c_str(), secondKey.c_str());
+		if (_st_CppLogsIHeader.stampRecord) {
+			ToolBox::StCppLogsDateTime st_CppLogsDateTime = ToolBox::gettime();
+			formatdata = ToolBox::format("%s#T%d-%d-%d %d:%d:%d", \
+				formatdata.c_str(), \
+				st_CppLogsDateTime.uiYear, st_CppLogsDateTime.uiMonth, st_CppLogsDateTime.uiDay, \
+				st_CppLogsDateTime.uiHour, st_CppLogsDateTime.uiMinute, st_CppLogsDateTime.uiSecond);
+		}
+		//if (_st_CppLogsIHeader.fileLineRecord) {
+		//	formatdata = ToolBox::format("%s#F%s", \
+		//		formatdata.c_str(), "/home/root/clim/cpplogs/test.cpp:235");
+		//}
+		return ToolBox::format("%s#>%s<#/%s#>", \
+			formatdata.c_str(), data.c_str(), keystr.c_str());
 	}
 
 	FileFormat::StCppLogsItem FileFormat::unformat_data()

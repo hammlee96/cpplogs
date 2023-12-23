@@ -65,6 +65,9 @@ namespace CppLogs {
 			_filename(filename + CPPLOGS_EXTNAME)
 		{
 			_st_CppLogsIHeader = DEF_CPPLOGS_ITEMS;
+			if (existfile()) {
+				unformat_header(_st_CppLogsIHeader);
+			}
 		}
 		~FileFormat();
 

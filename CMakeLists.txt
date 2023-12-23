@@ -28,6 +28,7 @@ set(PROJECT_HEADERS
 	include/cpplogs/cpplogsw.h
 	include/cpplogs/error.h
 	include/cpplogs/fileformat.h
+	include/cpplogs/timestamp.h
 	include/basetools/base.h
 	include/basetools/toolbox.h)
 
