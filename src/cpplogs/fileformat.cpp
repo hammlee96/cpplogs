@@ -74,10 +74,10 @@ namespace CppLogs {
 		}
 		for (auto it : mm) {
 			if (it.first == DEF_HEADER_CREATE_TIME) {
-				st_CppLogsHeader.create_time = it.first;
+				st_CppLogsHeader.create_time = it.second;
 			}
 			else if (it.first == DEF_HEADER_LEVEL) {
-				st_CppLogsHeader.en_CppLogsLevel == (EnCppLogsLevel)stoi(it.second);
+				st_CppLogsHeader.en_CppLogsLevel = (EnCppLogsLevel)std::stoi(it.second);
 			}
 			else if (it.first == DEF_HEADER_INFO) {
 				st_CppLogsHeader.keyInfo = it.second;
