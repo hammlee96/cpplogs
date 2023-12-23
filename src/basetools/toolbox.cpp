@@ -47,4 +47,24 @@ namespace CppLogs {
 		}
 		return result;
 	}
+
+	std::map<std::string, std::string> ToolBox::regexmatchsplit(const std::string& value, const std::string& matchstr, const std::string& split_key)
+	{
+		std::istringstream iss(value);
+		std::string line;
+		std::string strsplit = ToolBox::format(R"(\s*([^\s*%s]+)%s(.+))", split_key.c_str(), split_key.c_str());
+		std::regex pattern(strsplit);
+		std::map<std::string, std::string> result;
+		result.clear();
+		while (getline(iss, line)) {
+			std::smatch match;
+			if (std::regex_match(line, match, pattern)) {
+				if (match.size() == 3) {
+					result[match.str(1)] = match.str(2);
+				}
+			}
+			line.clear();
+		}
+		return result;
+	}
 }

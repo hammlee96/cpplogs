@@ -15,6 +15,8 @@
 #include <fstream>
 #include <string>
 #include <regex>
+#include <map>
+#include <sstream>
 #include "base.h"
 
 namespace CppLogs {
@@ -27,6 +29,7 @@ namespace CppLogs {
 		static bool readfile(const std::string& filename, std::string& data);
 		static bool existfile(const std::string& filename);
 		static std::vector<std::string> regexmatch(const std::string& value, const std::string& matchstr);
+		static std::map<std::string, std::string> regexmatchsplit(const std::string& value, const std::string& matchstr, const std::string& split_key);
 
 		template<typename ... Args>
 		static std::string format(const std::string& format, Args ... args)

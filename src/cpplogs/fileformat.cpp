@@ -59,16 +59,47 @@ namespace CppLogs {
 	{
 		std::string data;
 		std::string pattern = ToolBox::format("<#%s#>([\\s\\S]*?)<#/%s#>", DEF_HEADER, DEF_HEADER);
-		Error::EnErrorCode ec = Error::ErrorCode_None;
 		ToolBox::readfile(_filename, data);
 		std::vector<std::string> result = ToolBox::regexmatch(data, pattern);
-		for (auto it : result) {
-			CPPLOGS_DEBUG << it;
-		}
+		//for (auto it : result) {
+		//	CPPLOGS_DEBUG << it;
+		//}
 		if (result.size() != 1) {
-			ec = Error::ErrorCode_HeaderDamage;
+			return Error::ErrorCode_HeaderDamage;
 		}
-		return ec;
+
+		std::map<std::string, std::string> mm = ToolBox::regexmatchsplit(data, pattern, ":");
+		if (mm.size() != 7) {
+			return Error::ErrorCode_HeaderDamage;
+		}
+		for (auto it : mm) {
+			if (it.first == DEF_HEADER_CREATE_TIME) {
+				st_CppLogsHeader.create_time = it.first;
+			}
+			else if (it.first == DEF_HEADER_LEVEL) {
+				st_CppLogsHeader.en_CppLogsLevel == (EnCppLogsLevel)stoi(it.second);
+			}
+			else if (it.first == DEF_HEADER_INFO) {
+				st_CppLogsHeader.keyInfo = it.second;
+			}
+			else if (it.first == DEF_HEADER_WARN) {
+				st_CppLogsHeader.keyWarn = it.second;
+			}
+			else if (it.first == DEF_HEADER_ERROR) {
+				st_CppLogsHeader.keyError = it.second;
+			}
+			else if (it.first == DEF_HEADER_TIME_STAMP) {
+				st_CppLogsHeader.stampRecord = it.second == "y" ? true : false;
+			}
+			else if (it.first == DEF_HEADER_FILE_LINE) {
+				st_CppLogsHeader.fileLineRecord = it.second == "y" ? true : false;
+			}
+		}
+		//for (auto it : mm) {
+		//	CPPLOGS_DEBUG << it.first<<":"<<it.second;
+		//}
+
+		return Error::ErrorCode_None;
 	}
 
 	std::string FileFormat::format_data(const FileFormat::EnCppLogsItemType& key, const std::string secondKey, const std::string& data)
