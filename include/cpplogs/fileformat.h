@@ -28,7 +28,7 @@ file_line:y
 <#error#secondkeyerror#T2022-02-03 23:22:25#F/home/root/clim/cpplogs/test.cpp:256#>xxxxxxxxx<#/error#>
 */
 
-#define DEF_CPPLOGS_ITEMS	{"",  "info", "warn", "error", FileFormat::CppLogsLevel_High, true, true }
+#define DEF_CPPLOGS_ITEMS	{"",  "info", "warn", "error", FileFormat::CppLogsLevel_High, true }
 
 namespace CppLogs {
 	class CPPLOGS_API FileFormat{
@@ -50,7 +50,6 @@ namespace CppLogs {
 			std::string keyError;
 			EnCppLogsLevel en_CppLogsLevel;
 			bool		stampRecord;
-			bool		fileLineRecord;
 		};
 		struct StCppLogsItem {
 			std::string key;

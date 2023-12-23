@@ -47,7 +47,7 @@ namespace CppLogs {
 
 	std::string FileFormat::format_header(const std::string& create_time)
 	{
-		return ToolBox::format("<#%s#>\n%s:%s\n%s:%d\n%s:%s\n%s:%s\n%s:%s\n%s:%s\n%s:%s\n<#/%s#>", \
+		return ToolBox::format("<#%s#>\n%s:%s\n%s:%d\n%s:%s\n%s:%s\n%s:%s\n%s:%s\n<#/%s#>", \
 			DEF_HEADER, \
 			DEF_HEADER_CREATE_TIME, create_time.c_str(), \
 			DEF_HEADER_LEVEL, (int)_st_CppLogsIHeader.en_CppLogsLevel, \
@@ -55,7 +55,6 @@ namespace CppLogs {
 			DEF_HEADER_WARN, _st_CppLogsIHeader.keyWarn.c_str(), \
 			DEF_HEADER_ERROR, _st_CppLogsIHeader.keyError.c_str(), \
 			DEF_HEADER_TIME_STAMP, _st_CppLogsIHeader.stampRecord ? DEF_CPPLOGS_TRUE : DEF_CPPLOGS_FALSE, \
-			DEF_HEADER_FILE_LINE, _st_CppLogsIHeader.fileLineRecord ? DEF_CPPLOGS_TRUE : DEF_CPPLOGS_FALSE, \
 			DEF_HEADER);
 	}
 
@@ -71,7 +70,7 @@ namespace CppLogs {
 		}
 
 		std::map<std::string, std::string> mm = ToolBox::regexmatchsplit(result.at(0), pattern, ":");
-		if (mm.size() != 7) {
+		if (mm.size() != 6) {
 			return Error::ErrorCode_HeaderDamage;
 		}
 		for (auto it : mm) {
@@ -92,9 +91,6 @@ namespace CppLogs {
 			}
 			else if (it.first == DEF_HEADER_TIME_STAMP) {
 				st_CppLogsHeader.stampRecord = it.second == DEF_CPPLOGS_TRUE ? true : false;
-			}
-			else if (it.first == DEF_HEADER_FILE_LINE) {
-				st_CppLogsHeader.fileLineRecord = it.second == DEF_CPPLOGS_TRUE ? true : false;
 			}
 		}
 
@@ -123,10 +119,7 @@ namespace CppLogs {
 				st_CppLogsDateTime.uiYear, st_CppLogsDateTime.uiMonth, st_CppLogsDateTime.uiDay, \
 				st_CppLogsDateTime.uiHour, st_CppLogsDateTime.uiMinute, st_CppLogsDateTime.uiSecond);
 		}
-		//if (_st_CppLogsIHeader.fileLineRecord) {
-		//	formatdata = ToolBox::format("%s#F%s", \
-		//		formatdata.c_str(), "/home/root/clim/cpplogs/test.cpp:235");
-		//}
+
 		return ToolBox::format("%s#>%s<#/%s#>", \
 			formatdata.c_str(), data.c_str(), keystr.c_str());
 	}
