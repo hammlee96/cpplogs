@@ -55,7 +55,6 @@ namespace CppLogs {
 			std::string key;
 			std::string secondKey;
 			std::string timeStamp;
-			std::string fileLine;
 			std::string data;
 		};
 
@@ -123,7 +122,7 @@ namespace CppLogs {
 		Error::EnErrorCode unformat_header(FileFormat::StCppLogsHeader& st_CppLogsHeader);
 
 		std::string format_data(const FileFormat::EnCppLogsItemType& key, const std::string secondKey, const std::string& data);
-		FileFormat::StCppLogsItem unformat_data();
+		Error::EnErrorCode unformat_data(std::vector<FileFormat::StCppLogsItem>& st_CppLogsItem);
 
 	private:
 		std::string _filename;

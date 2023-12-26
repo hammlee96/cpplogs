@@ -1,5 +1,6 @@
 #include "fileformat.h"
 #include "base.h"
+#include <string>
 
 namespace CppLogs {
 	FileFormat::~FileFormat()
@@ -124,8 +125,33 @@ namespace CppLogs {
 			formatdata.c_str(), data.c_str(), keystr.c_str());
 	}
 
-	FileFormat::StCppLogsItem FileFormat::unformat_data()
+	Error::EnErrorCode FileFormat::unformat_data(std::vector<FileFormat::StCppLogsItem> &st_CppLogsItemVector)
 	{
-		return FileFormat::StCppLogsItem();
+		std::string data;
+		std::string pattern;
+		if (_st_CppLogsIHeader.stampRecord) {
+			pattern = "<#(.*)?#(.*)?#T(.*)?#>([\\s\\S]*?)<#/(.*)?#>";
+		}
+		else {
+			pattern = "<#(.*)?#(.*)?#>([\\s\\S]*?)<#/(.*)?#>";
+		}
+		std::regex matchStr(pattern);
+		std::smatch matched;
+		ToolBox::readfile(_filename, data);
+		std::istringstream iss(data);
+		std::string line;
+		while (getline(iss, line)) {
+			if (std::regex_match(line, matched, matchStr)) {
+				if (_st_CppLogsIHeader.stampRecord && matched.size() == 6) {
+					st_CppLogsItemVector.push_back({ matched.str(1), matched.str(2), matched.str(3), \
+						matched.str(4) });
+				}
+				else if (!_st_CppLogsIHeader.stampRecord && matched.size() == 5) {
+					st_CppLogsItemVector.push_back({ matched.str(1), matched.str(2), matched.str(3), \
+						matched.str(4) });
+				}
+			}
+		}
+		return Error::EnErrorCode();
 	}
 }
