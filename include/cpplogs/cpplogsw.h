@@ -1,5 +1,5 @@
 ﻿/*
-* function		: logs library entry
+* function		: write logs file
 * author		: hammlee
 * e-mail		: hammlee@163.com
 * create date	: 2023.12.10
@@ -61,7 +61,7 @@ namespace CppLogs {
 		* @param data			: the explain of this item
 		* @return error code
 		*/
-		Error::EnErrorCode warning(const std::string& secondaryKey = "", const std::string& data = "")
+		Error::EnErrorCode warn(const std::string& secondaryKey = "", const std::string& data = "")
 		{
 			return writefile(FileFormat::CppLogsItemType_Warn, secondaryKey, data);
 		}
