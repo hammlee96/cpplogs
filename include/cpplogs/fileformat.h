@@ -121,7 +121,20 @@ namespace CppLogs {
 		*/
 		Error::EnErrorCode unformat_header(FileFormat::StCppLogsHeader& st_CppLogsHeader);
 
+		/*
+		* @brief format logs item
+		* @param key : the key value of item type
+		* @param secondKey : the key value of item type's name
+		* @param data : the data of log
+		* @return formatted data
+		*/
 		std::string format_data(const FileFormat::EnCppLogsItemType& key, const std::string secondKey, const std::string& data);
+		
+		/*
+		* @brief analysis log item data
+		* @param st_CppLogsItem : get item info
+		* @return error code
+		*/
 		Error::EnErrorCode unformat_data(std::vector<FileFormat::StCppLogsItem>& st_CppLogsItem);
 
 	private:

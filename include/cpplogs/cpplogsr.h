@@ -13,7 +13,9 @@
 #include "fileformat.h"
 
 namespace CppLogs {
-	class CPPLOGS_API CppLogsR {
+	class CPPLOGS_API CppLogsR 
+	{
+	public:
 		CppLogsR(const std::string& filename) : public FileFormat(filename)
 		{}
 		~CppLogsR()
