@@ -52,6 +52,9 @@ namespace CppLogs {
 		*/
 		Error::EnErrorCode information(const std::string& secondaryKey = "", const std::string& data = "")
 		{
+			if (get_header().en_CppLogsLevel >= CppLogsLevel_Middle) {
+				return Error::ErrorCode_LevelNotMatch;
+			}
 			return writefile(FileFormat::CppLogsItemType_Info, secondaryKey, data);
 		}
 
@@ -63,6 +66,9 @@ namespace CppLogs {
 		*/
 		Error::EnErrorCode warn(const std::string& secondaryKey = "", const std::string& data = "")
 		{
+			if (get_header().en_CppLogsLevel > CppLogsLevel_Middle) {
+				return Error::ErrorCode_LevelNotMatch;
+			}
 			return writefile(FileFormat::CppLogsItemType_Warn, secondaryKey, data);
 		}
 
