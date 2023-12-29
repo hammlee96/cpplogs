@@ -21,6 +21,7 @@ namespace CppLogs {
 			ErrorCode_LogFileExist,
 			ErrorCode_OpenFileFailed,
 			ErrorCode_CreateItemFailed,
+			ErrorCode_FindItemFailed,
 			ErrorCode_HeaderDamage,
 			ErrorCode_LevelNotMatch
 		};

@@ -140,18 +140,21 @@ namespace CppLogs {
 		ToolBox::readfile(_filename, data);
 		std::istringstream iss(data);
 		std::string line;
+		bool isFind = false;
 		while (getline(iss, line)) {
 			if (std::regex_match(line, matched, matchStr)) {
 				if (_st_CppLogsIHeader.stampRecord && matched.size() == 6) {
 					st_CppLogsItemVector.push_back({ matched.str(1), matched.str(2), matched.str(3), \
 						matched.str(4) });
+					isFind = true;
 				}
 				else if (!_st_CppLogsIHeader.stampRecord && matched.size() == 5) {
 					st_CppLogsItemVector.push_back({ matched.str(1), matched.str(2), matched.str(3), \
 						matched.str(4) });
+					isFind = true;
 				}
 			}
 		}
-		return Error::EnErrorCode();
+		return (isFind ? Error::ErrorCode_None : Error::ErrorCode_FindItemFailed);
 	}
 }
