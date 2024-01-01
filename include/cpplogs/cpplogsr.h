@@ -21,14 +21,24 @@ namespace CppLogs {
 		~CppLogsR()
 		{}
 
+		/*
+		* @brief get log header information
+		* @param st_CppLogsItem : header information
+		* @return error code
+		*/
 		Error::EnErrorCode get_item_type(FileFormat::StCppLogsHeader& st_CppLogsItem)
 		{
 			if (!existfile()) {
 				return Error::ErrorCode_OpenFileFailed;
 			}
-			return st_CppLogsItem = unformat_header();
+			return unformat_header(st_CppLogsItem);
 		}
 
+		/*
+		* @brief get log item data
+		* @param st_CppLogsItemVector : get item info
+		* @return error code
+		*/
 		Error::EnErrorCode get_items(std::vector<FileFormat::StCppLogsItem>& st_CppLogsItemVector)
 		{
 			if (!existfile()) {
