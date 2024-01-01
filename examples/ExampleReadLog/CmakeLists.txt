@@ -1,9 +1,9 @@
 cmake_minimum_required(VERSION 3.8)
 
-set(PJNAME_WRITE
-	ExampleWriteLog)
+set(PJNAME_READ
+	ExampleReadLog)
 
-project(${PJNAME_WRITE})
+project(${PJNAME_READ})
 
 include_directories(${CPPLOGS_SOURCE_DIRECTORY}/include)
 link_directories(${CMAKE_ARCHIVE_OUTPUT_DIRECTORY})
@@ -11,5 +11,5 @@ link_directories(${CMAKE_ARCHIVE_OUTPUT_DIRECTORY})
 set(LIBSNAME_WRITE
 	${CPPLOGS_PJNAME})
 
-add_executable(${PJNAME_WRITE} ExampleWriteLog.h ExampleWriteLog.cpp)
-target_link_libraries(${PJNAME_WRITE} ${LIBSNAME_WRITE})
+add_executable(${PJNAME_READ} ExampleReadLog.h ExampleReadLog.cpp)
+target_link_libraries(${PJNAME_READ} ${LIBSNAME_WRITE})

@@ -52,3 +52,4 @@ add_library(${CPPLOGS_PJNAME}
 			${PROJECT_SOURCES})
 	
 add_subdirectory(examples/ExampleWriteLog)
+add_subdirectory(examples/ExampleReadLog)

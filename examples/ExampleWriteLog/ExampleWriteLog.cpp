@@ -12,7 +12,7 @@ ExampleWriteLog::ExampleWriteLog()
 {
 	CppLogs::ToolBox::StCppLogsDateTime st_CppLogsDateTime = CppLogs::ToolBox::gettime();
 #if defined(CPPLOGS_SYSTEM_WINDOWS)
-	std::string logPathName = CppLogs::ToolBox::format("D:/test_field/test_cpplogs/%d%d%d_1.0.0", \
+	std::string logPathName = CppLogs::ToolBox::format("F:/test_field/test_cpplogs/%d%d%d_1.0.0", \
 		st_CppLogsDateTime.uiYear, st_CppLogsDateTime.uiMonth, st_CppLogsDateTime.uiDay);
 	m_pCppLogs = new CppLogs::CppLogsW(logPathName);
 #else
