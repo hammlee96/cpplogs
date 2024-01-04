@@ -15,7 +15,7 @@
 class ExampleReadLog
 {
 public:
-	ExampleReadLog();
+	ExampleReadLog(const std::string& filepath);
 	~ExampleReadLog();
 
 private:
