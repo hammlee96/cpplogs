@@ -39,6 +39,7 @@ set(PROJECT_SOURCES
 set(PROJECT_HEADERS
 	include/cpplogs/cpplogsw.h
 	include/cpplogs/cpplogsr.h
+	include/cpplogs/cpplogsasync.h
 	include/cpplogs/error.h
 	include/cpplogs/fileformat.h
 	include/cpplogs/timestamp.h
