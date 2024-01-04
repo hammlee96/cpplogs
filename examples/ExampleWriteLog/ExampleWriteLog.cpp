@@ -14,17 +14,14 @@ ExampleWriteLog::ExampleWriteLog()
 	CppLogs::ToolBox::StCppLogsDateTime st_CppLogsDateTime = CppLogs::ToolBox::gettime();
 #if defined(CPPLOGS_SYSTEM_WINDOWS)
 #define LOGSPATH		"F:/test_field/test_cpplogs"
+#else
+#define LOGSPATH		"/root/test_field/cpplogs"
+#endif
 	std::filesystem::create_directories(LOGSPATH);
 	std::string logPathName = CppLogs::ToolBox::format("%s/%d%02d%02d_1.0.0", \
 		LOGSPATH, st_CppLogsDateTime.uiYear, st_CppLogsDateTime.uiMonth, st_CppLogsDateTime.uiDay);
 	m_pCppLogs = new CppLogs::CppLogsW(logPathName);
-#else
-#define LOGSPATH		"/root/test_field/cpplogs"
-	std::filesystem::create_directories(LOGSPATH);
-	std::string logPathName = CppLogs::ToolBox::format("%s/%d%d%d_1.0.0", \
-		LOGSPATH, st_CppLogsDateTime.uiYear, st_CppLogsDateTime.uiMonth, st_CppLogsDateTime.uiDay);
-	m_pCppLogs = new CppLogs::CppLogsW(logPathName);
-#endif
+
 	m_pCppLogs->set_item_type({"", "infomation", "warning", "error", CppLogs::FileFormat::CppLogsLevel_High, true});
 	CppLogs::Error::EnErrorCode ec = m_pCppLogs->create_file(CppLogs::ToolBox::format("%d-%02d-%02d %02d:%02d:%02d", \
 		st_CppLogsDateTime.uiYear, st_CppLogsDateTime.uiMonth, st_CppLogsDateTime.uiDay, \

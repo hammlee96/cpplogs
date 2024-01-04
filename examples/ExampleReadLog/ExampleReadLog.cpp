@@ -12,11 +12,8 @@ int main(char argc, char* argv[])
 
 ExampleReadLog::ExampleReadLog(const std::string& filepath)
 {
-#if defined(CPPLOGS_SYSTEM_WINDOWS)
 	m_pCppLogs = new CppLogs::CppLogsR(filepath);
-#else
-	m_pCppLogs = new CppLogs::CppLogsR(filepath);
-#endif
+
 	CppLogs::FileFormat::StCppLogsHeader st_CppLogsHeader;
 	CppLogs::Error::EnErrorCode ec = m_pCppLogs->get_item_type(st_CppLogsHeader);
 	if (ec) {

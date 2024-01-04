@@ -31,8 +31,7 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CPPLOGS_OUTPUT_DIRECTORY})
 set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS OFF)
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
-include_directories(include/cpplogs
-					include/basetools)
+include_directories(include/cpplogs)
 set(PROJECT_SOURCES
 	src/cpplogs/fileformat.cpp
 	src/basetools/toolbox.cpp)
@@ -43,8 +42,8 @@ set(PROJECT_HEADERS
 	include/cpplogs/error.h
 	include/cpplogs/fileformat.h
 	include/cpplogs/timestamp.h
-	include/basetools/base.h
-	include/basetools/toolbox.h)
+	include/cpplogs/base.h
+	include/cpplogs/toolbox.h)
 
 add_library(${CPPLOGS_PJNAME} 
 			SHARED
