@@ -31,6 +31,6 @@ namespace CppLogs {
 		}
 	private:
 		std::chrono::steady_clock::time_point _start;
-		const std::string _mark;
+		CPPLOGS_DISABLE4251(const std::string _mark);
 	};
 }

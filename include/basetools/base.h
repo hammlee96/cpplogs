@@ -8,6 +8,12 @@
 #define CPPLOGS_SYSTEM_LINUX
 #endif
 
+#define CPPLOGS_DISABLE4251(_DISABLE4521TYPE) \
+					__pragma(warning(push)) \
+					__pragma(warning(disable:4251)) \
+					_DISABLE4521TYPE;\
+					__pragma(warning(pop)) \
+					
 #define CPPLOGS_EXTNAME				".cpplog"
 
 #define CPPLOGS_DEBUG				std::cout<<"\n\033[1m\033[32m"<<"["<<__FILE__<<": "<<__LINE__<<"] "<<__FUNCTION__<<": "

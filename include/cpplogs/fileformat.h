@@ -138,7 +138,7 @@ namespace CppLogs {
 		Error::EnErrorCode unformat_data(std::vector<FileFormat::StCppLogsItem>& st_CppLogsItem);
 
 	private:
-		std::string _filename;
+		CPPLOGS_DISABLE4251(std::string _filename);
 		FileFormat::StCppLogsHeader	_st_CppLogsIHeader;
 	};
 }
