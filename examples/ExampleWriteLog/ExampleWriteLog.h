@@ -9,7 +9,6 @@
 * change log	: init
 */
 
-#include <iostream>
 #include "cpplogsw.h"
 
 class ExampleWriteLog 
