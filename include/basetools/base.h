@@ -8,11 +8,15 @@
 #define CPPLOGS_SYSTEM_LINUX
 #endif
 
+#if defined(CPPLOGS_SYSTEM_WINDOWS)
 #define CPPLOGS_DISABLE4251(_DISABLE4521TYPE) \
 					__pragma(warning(push)) \
 					__pragma(warning(disable:4251)) \
 					_DISABLE4521TYPE;\
-					__pragma(warning(pop)) \
+					__pragma(warning(pop)) 
+#else
+#define CPPLOGS_DISABLE4251(...)
+#endif
 					
 #define CPPLOGS_EXTNAME				".cpplog"
 
