@@ -22,7 +22,7 @@ ExampleWriteLog::ExampleWriteLog()
 		LOGSPATH, st_CppLogsDateTime.uiYear, st_CppLogsDateTime.uiMonth, st_CppLogsDateTime.uiDay);
 	m_pCppLogs = new CppLogs::CppLogsW(logPathName);
 
-	m_pCppLogs->set_item_type({"", "infomation", "warning", "error", CppLogs::FileFormat::CppLogsLevel_High, true});
+	m_pCppLogs->set_item_type({"", "infomation", "warning", "error", CppLogs::DataFormat::CppLogsLevel_High, true});
 	CppLogs::Error::EnErrorCode ec = m_pCppLogs->create_file(CppLogs::ToolBox::format("%d-%02d-%02d %02d:%02d:%02d", \
 		st_CppLogsDateTime.uiYear, st_CppLogsDateTime.uiMonth, st_CppLogsDateTime.uiDay, \
 		st_CppLogsDateTime.uiHour, st_CppLogsDateTime.uiMinute, st_CppLogsDateTime.uiSecond));

@@ -34,19 +34,22 @@ set(CMAKE_INCLUDE_CURRENT_DIR ON)
 include_directories(include/cpplogs)
 set(PROJECT_SOURCES
 	src/cpplogs/fileformat.cpp
-	src/basetools/toolbox.cpp
-	src/basetools/compare/comparefile.cpp)
+	src/cpplogs/dataformat.cpp
+	src/cpplogs/cpplogsstreamclient.cpp
+	src/cpplogs/cpplogsstreamserver.cpp
+	src/basetools/toolbox.cpp)
 
 set(PROJECT_HEADERS
 	include/cpplogs/cpplogsw.h
 	include/cpplogs/cpplogsr.h
-	include/cpplogs/cpplogsasync.h
+	include/cpplogs/cpplogsstreamclient.h
+	include/cpplogs/cpplogsstreamserver.h
 	include/cpplogs/error.h
 	include/cpplogs/fileformat.h
+	include/cpplogs/dataformat.h
 	include/cpplogs/timestamp.h
 	include/cpplogs/base.h
-	include/cpplogs/toolbox.h
-	include/cpplogs/compare/comparefile.h)
+	include/cpplogs/toolbox.h)
 
 add_library(${CPPLOGS_PJNAME} 
 			SHARED

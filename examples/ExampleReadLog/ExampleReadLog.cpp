@@ -14,7 +14,7 @@ ExampleReadLog::ExampleReadLog(const std::string& filepath)
 {
 	m_pCppLogs = new CppLogs::CppLogsR(filepath);
 
-	CppLogs::FileFormat::StCppLogsHeader st_CppLogsHeader;
+	CppLogs::DataFormat::StCppLogsHeader st_CppLogsHeader;
 	CppLogs::Error::EnErrorCode ec = m_pCppLogs->get_item_type(st_CppLogsHeader);
 	if (ec) {
 		CPPLOGS_ERROR << ec;
@@ -25,7 +25,7 @@ ExampleReadLog::ExampleReadLog(const std::string& filepath)
 		"information key word: " << st_CppLogsHeader.keyInfo << "\n" << \
 		"warning key word: " << st_CppLogsHeader.keyWarn << "\n" << \
 		"error key word: " << st_CppLogsHeader.keyError;
-	std::vector<CppLogs::FileFormat::StCppLogsItem> st_CppLogsItemVector;
+	std::vector<CppLogs::DataFormat::StCppLogsItem> st_CppLogsItemVector;
 	ec = m_pCppLogs->get_items(st_CppLogsItemVector);
 	if (ec) {
 		CPPLOGS_ERROR << ec;
