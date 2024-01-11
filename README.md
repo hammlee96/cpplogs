@@ -1,9 +1,8 @@
 # cpplogs - A cpp standard log library
+- [X] Create and read local log files
+- [ ] Send and download local log files to the server
+- [ ] Create and read remote log files
+- [ ] Send log data to the server and forward it to the specified IP address
 ## Preparation before compilation
 ### `Windows`
-Compile `protobuf` and `grpc`.
-
-About `protobuf`, you can download source code from https://github.com/protocolbuffers/protobuf, and compile by yourself. Compile finished and find the path of the `protoc.exe`, configure it path into environment variables.
-You can also download the executable file from https://github.com/protocolbuffers/protobuf/releases
-
-About `grpc`, you can only compile from [source code](https://github.com/grpc/grpc.git). Before compile, you should install [nasm](https://www.nasm.us/), and configure it path into enviroment variables.
+### `Linux`

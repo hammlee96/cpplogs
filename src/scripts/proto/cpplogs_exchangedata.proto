@@ -1,0 +1,14 @@
+syntax="proto3";
+
+// declaring namespace
+package CppLogs;
+
+// declaring grpc service
+service CppLogsGreeter{
+	rpc trans_data(CppLogsExchangeData) returns (CppLogsExchangeData) {}
+}
+
+// declaring class
+message CppLogsExchangeData{
+	string test = 1;
+}
