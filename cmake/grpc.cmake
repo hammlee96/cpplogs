@@ -1,6 +1,8 @@
 
 set(ABSL_ENABLE_INSTALL ON)
 
-set(CPPLOGS_GRPC_ROOT_DIR ${CPPLOGS_SOURCE_DIRECTORY}/src/third_party/grpc)
+set(CPPLOGS_GRPC_ROOT_DIR ${CPPLOGS_GRPC_SOURCE_DIRECTORY})
 
-add_subdirectory(${CPPLOGS_GRPC_ROOT_DIR} third_party/grpc)
+#add_compile_options(-bigobj)
+
+add_subdirectory(${CPPLOGS_GRPC_ROOT_DIR} ${CPPLOGS_GRPC_OUTPUT_DIRECTORY})
