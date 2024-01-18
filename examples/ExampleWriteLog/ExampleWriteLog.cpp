@@ -1,6 +1,6 @@
 #include "ExampleWriteLog.h"
-#include "base.h"
-#include "toolbox.h"
+#include "cpplogs/base.h"
+#include "cpplogs/toolbox.h"
 #include <filesystem>
 
 int main()

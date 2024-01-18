@@ -17,7 +17,7 @@
 #include <regex>
 #include <map>
 #include <sstream>
-#include "base.h"
+#include "cpplogs/base.h"
 
 namespace CppLogs {
 

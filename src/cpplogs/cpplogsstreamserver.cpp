@@ -1,4 +1,4 @@
-#include "cpplogsstreamserver.h"
+#include "cpplogs/cpplogsstreamserver.h"
 
 namespace CppLogs {
 	CppLogsStreamServer::CppLogsStreamServer()

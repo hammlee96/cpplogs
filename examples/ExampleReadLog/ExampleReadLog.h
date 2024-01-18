@@ -9,8 +9,8 @@
 * change log	: init
 */
 
-#include "cpplogsr.h"
-#include "base.h"
+#include "cpplogs/cpplogsr.h"
+#include "cpplogs/base.h"
 
 class ExampleReadLog
 {

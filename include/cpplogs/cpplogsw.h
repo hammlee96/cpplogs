@@ -12,9 +12,9 @@
 #pragma once
 
 #include <iostream>
-#include "base.h"
-#include "error.h"
-#include "fileformat.h"
+#include "cpplogs/base.h"
+#include "cpplogs/error.h"
+#include "cpplogs/fileformat.h"
 
 namespace CppLogs {
 

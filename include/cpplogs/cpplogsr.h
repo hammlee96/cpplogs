@@ -9,8 +9,8 @@
 * change log	: init
 */
 
-#include "base.h"
-#include "fileformat.h"
+#include "cpplogs/base.h"
+#include "cpplogs/fileformat.h"
 
 namespace CppLogs {
 	class CPPLOGS_API CppLogsR : public FileFormat
