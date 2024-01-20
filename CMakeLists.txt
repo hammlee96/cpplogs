@@ -79,6 +79,12 @@ include_directories(${CPPLOGS_SOURCE_DIRECTORY}/include
 
 link_directories(${CMAKE_ARCHIVE_OUTPUT_DIRECTORY})
 
+set(CPPLOGS_LIBS
+	absl_flags.lib
+	absl_flags_parse.lib
+	grpc.lib
+	libprotobufd.lib)
+
 set(PROJECT_SOURCES
 	src/cpplogs/fileformat.cpp
 	src/cpplogs/dataformat.cpp
@@ -105,11 +111,9 @@ add_library(${CPPLOGS_PJNAME}
 			${PROJECT_HEADERS}
 			${PROJECT_SOURCES})
 
-target_link_libraries(${CPPLOGS_PJNAME}
-						absl_flags.lib
-						absl_flags_parse.lib
-						grpc.lib
-						libprotobufd.lib)
+target_link_libraries(${CPPLOGS_PJNAME} ${CPPLOGS_LIBS})
 	
 add_subdirectory(examples/ExampleWriteLog)
 add_subdirectory(examples/ExampleReadLog)
+add_subdirectory(examples/ExampleStreamClient)
+add_subdirectory(examples/ExampleStreamServer)
