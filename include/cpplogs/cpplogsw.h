@@ -12,8 +12,8 @@
 #pragma once
 
 #include <iostream>
-#include "cpplogs/base.h"
-#include "cpplogs/error.h"
+#include "cpplogs/basetools/base.h"
+#include "cpplogs/basetools/error.h"
 #include "cpplogs/fileformat.h"
 
 namespace CppLogs {

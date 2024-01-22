@@ -11,7 +11,7 @@
 
 #pragma once
 
-#include "cpplogs/base.h"
+#include "cpplogs/basetools/base.h"
 
 namespace CppLogs
 {

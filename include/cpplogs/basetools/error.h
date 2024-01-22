@@ -10,7 +10,7 @@
 */
 #pragma once
 
-#include "cpplogs/base.h"
+#include "cpplogs/basetools/base.h"
 
 namespace CppLogs {
 	class CPPLOGS_API Error

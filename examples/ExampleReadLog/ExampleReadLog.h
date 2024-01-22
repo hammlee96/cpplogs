@@ -10,7 +10,7 @@
 */
 
 #include "cpplogs/cpplogsr.h"
-#include "cpplogs/base.h"
+#include "cpplogs/basetools/base.h"
 
 class ExampleReadLog
 {

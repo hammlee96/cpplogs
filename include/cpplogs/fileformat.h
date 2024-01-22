@@ -10,8 +10,8 @@
 */
 
 #pragma once
-#include "cpplogs/toolbox.h"
-#include "cpplogs/error.h"
+#include "cpplogs/basetools/toolbox.h"
+#include "cpplogs/basetools/error.h"
 #include "cpplogs/dataformat.h"
 
 #define DEF_CPPLOGS_ITEMS	{"",  "info", "warn", "error", DataFormat::CppLogsLevel_High, true }

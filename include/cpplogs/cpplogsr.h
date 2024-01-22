@@ -9,7 +9,7 @@
 * change log	: init
 */
 
-#include "cpplogs/base.h"
+#include "cpplogs/basetools/base.h"
 #include "cpplogs/fileformat.h"
 
 namespace CppLogs {

@@ -11,9 +11,9 @@
 
 #pragma once
 
-#include "cpplogs/base.h"
-#include "cpplogs/error.h"
-#include "cpplogs/toolbox.h"
+#include "cpplogs/basetools/base.h"
+#include "cpplogs/basetools/error.h"
+#include "cpplogs/basetools/toolbox.h"
 #include <iostream>
 
 /*
