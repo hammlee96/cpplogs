@@ -12,10 +12,10 @@ set(CMAKE_C_COMPILE gcc)
 set(CPPLOGS_PJNAME
 	cpplogs)
 	
-set(CPPLOGS_PLATFORM_Windows false)
+set(CPPLOGS_PLATFORM_WINDOWS false)
 set(CPPLOGS_PLATFORM_LINUX false)
 if(${CMAKE_HOST_SYSTEM_NAME} STREQUAL "Windows")
-set(CPPLOGS_PLATFORM_Windows true)
+set(CPPLOGS_PLATFORM_WINDOWS true)
 elseif(${CMAKE_HOST_SYSTEM_NAME} STREQUAL "Linux")
 set(CPPLOGS_PLATFORM_LINUX true)
 endif()
@@ -31,7 +31,8 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CPPLOGS_OUTPUT_DIRECTORY})
 set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS OFF)
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
-include_directories(include/cpplogs)
+include_directories(${CPPLOGS_SOURCE_DIRECTORY}/include)
+
 set(PROJECT_SOURCES
 	src/cpplogs/fileformat.cpp
 	src/cpplogs/dataformat.cpp
