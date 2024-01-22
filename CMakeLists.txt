@@ -34,10 +34,8 @@ set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS OFF)
 include_directories(${CPPLOGS_SOURCE_DIRECTORY}/include)
 
 set(PROJECT_SOURCES
-	src/cpplogs/basetools/net/sockettcp.cpp
 	src/cpplogs/basetools/toolbox.cpp
 	src/cpplogs/dataformat.cpp
-	src/cpplogs/fileformat.cpp
 	src/cpplogs/cpplogsstreamclient.cpp
 	src/cpplogs/cpplogsstreamserver.cpp)
 
