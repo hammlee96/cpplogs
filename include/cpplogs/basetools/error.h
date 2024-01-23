@@ -25,5 +25,16 @@ namespace CppLogs {
 			ErrorCode_HeaderDamage,
 			ErrorCode_LevelNotMatch
 		};
+		enum EnCppLogsNetError {
+			EnCppLogsNetError_None,
+			EnCppLogsNetError_InitFailed,
+			EnCppLogsNetError_CreateListenFailed,
+			EnCppLogsNetError_DisconnectFailed,
+			EnCppLogsNetError_GetAddrInfoFailed,
+			EnCppLogsNetError_SetSocketFailed,
+			EnCppLogsNetError_ConnectFailed,
+			EnCppLogsNetError_SendFailed,
+			EnCppLogsNetError_RecvFailed
+		};
 	};
 }

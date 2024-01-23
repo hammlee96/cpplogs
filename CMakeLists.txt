@@ -59,3 +59,4 @@ add_library(${CPPLOGS_PJNAME}
 	
 add_subdirectory(examples/ExampleWriteLog)
 add_subdirectory(examples/ExampleReadLog)
+add_subdirectory(examples/ExampleStreamClient)

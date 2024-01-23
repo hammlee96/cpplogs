@@ -41,6 +41,7 @@ namespace CppLogs {
 		static std::vector<std::string> regexmatch(const std::string& value, const std::string& matchstr);
 		static std::map<std::string, std::string> regexmatchsplit(const std::string& value, const std::string& matchstr, const std::string& split_key);
 		static ToolBox::StCppLogsDateTime gettime();
+		static void msleep(const unsigned int& u_times);
 
 		template<typename ... Args>
 		static std::string format(const std::string& format, Args ... args)

@@ -17,35 +17,62 @@
 
 namespace CppLogs
 {
-	class SocketTcpLinux : public SocketTcpBase
+	class SocketTcpLinuxClient : public SocketTcpBase
 	{
 	public:
-		SocketTcpLinux(const char* hostip = "127.0.0.1", const int hostport = 9605);
-		~SocketTcpLinux();
+		SocketTcpLinuxClient(const std::string& hostip = "127.0.0.1", const int& hostport = 9605);
+		~SocketTcpLinuxClient();
 
-		bool init() override
+		Error::EnCppLogsNetError init() override
 		{
-			return true;
+			return Error::EnCppLogsNetError();
 		}
 
-		bool connect() override
+		Error::EnCppLogsNetError connect() override
 		{
-			return true;
+			return Error::EnCppLogsNetError();
 		}
 
-		bool disconnect() override
+		Error::EnCppLogsNetError disconnect() override
 		{
-			return true;
+			return Error::EnCppLogsNetError();
 		}
 
-		bool send(const char* data, const unsigned int size) override
+		Error::EnCppLogsNetError send(const char* data, const size_t& size) override
 		{
-			return true;
+			return Error::EnCppLogsNetError();
 		}
 
-		bool recv(char* data, unsigned int* size) override
+		Error::EnCppLogsNetError recv(char* data, size_t& size) override
 		{
-			return true;
+			return Error::EnCppLogsNetError();
+		}
+	};
+
+	class SocketTcpLinuxServer : public SocketTcpBase
+	{
+	public:
+		SocketTcpLinuxServer(const std::string& hostip = "127.0.0.1", const int& hostport = 9605);
+		~SocketTcpLinuxServer();
+
+		Error::EnCppLogsNetError init() override
+		{
+			return Error::EnCppLogsNetError();
+		}
+
+		Error::EnCppLogsNetError connect() override
+		{
+			return Error::EnCppLogsNetError();
+		}
+
+		Error::EnCppLogsNetError disconnect() override
+		{
+			return Error::EnCppLogsNetError();
+		}
+
+		Error::EnCppLogsNetError listen() override
+		{
+			return Error::EnCppLogsNetError();
 		}
 	};
 }

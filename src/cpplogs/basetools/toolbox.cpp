@@ -2,7 +2,8 @@
 #if defined(CPPLOGS_SYSTEM_WINDOWS)
 #include <windows.h>
 #else
-#include<time.h>
+#include <time.h>
+#include <unistd.h>
 #endif
 
 namespace CppLogs {
@@ -96,5 +97,14 @@ namespace CppLogs {
 		st_CppLogsDateTime.uiSecond = st_tm->tm_sec;
 #endif
 		return st_CppLogsDateTime;
+	}
+
+	void ToolBox::msleep(const unsigned int& u_times)
+	{
+#if defined(CPPLOGS_SYSTEM_WINDOWS)
+		::Sleep(u_times);
+#else
+		::usleep(u_times * 1000);
+#endif
 	}
 }
