@@ -7,7 +7,7 @@ int main()
 
 ExampleStreamClient::ExampleStreamClient()
 {
-	CppLogs::SocketTcp *pSocketTcp = new CppLogs::SocketTcp("192.168.30.58");
+	CppLogs::SocketTcp *pSocketTcp = new CppLogs::SocketTcp(CppLogs::SocketTcp::CppLogsSocketType_Server, "127.0.0.1");
 }
 
 ExampleStreamClient::~ExampleStreamClient()

@@ -17,6 +17,12 @@
 #else
 #define CPPLOGS_DISABLE4251(...)
 #endif
+
+#if defined(CPPLOGS_SYSTEM_WINDOWS)
+#define CPPLOGS_SOCKET SOCKET
+#else
+#define CPPLOGS_SOCKET int
+#endif
 					
 #define CPPLOGS_EXTNAME				".cpplog"
 

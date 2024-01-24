@@ -19,6 +19,7 @@
 #pragma comment(lib, "Ws2_32.lib")
 #pragma comment (lib, "Mswsock.lib")
 #pragma comment (lib, "AdvApi32.lib")
+#pragma warning(disable:4996)
 
 namespace CppLogs
 {
@@ -165,34 +166,121 @@ namespace CppLogs
 			if (ret) {
 				return Error::EnCppLogsNetError();
 			}
-			return Error::EnCppLogsNetError();
-		}
 
-		Error::EnCppLogsNetError connect() override
-		{
-			return Error::EnCppLogsNetError();
-		}
 
-		Error::EnCppLogsNetError disconnect() override
-		{
-			::closesocket(_socket);
-			_socket = INVALID_SOCKET;
-			return Error::EnCppLogsNetError();
+			struct ::addrinfo st_addrinfo;
+			struct ::addrinfo* st_addrinfo_result;
+
+			::ZeroMemory(&st_addrinfo, sizeof(st_addrinfo));
+			st_addrinfo.ai_family = AF_INET;
+			st_addrinfo.ai_socktype = SOCK_STREAM;
+			st_addrinfo.ai_protocol = IPPROTO_TCP;
+			st_addrinfo.ai_flags = AI_PASSIVE;
+
+			std::string str_port = std::to_string(_hostport);
+			ret = ::getaddrinfo(NULL, str_port.data(), &st_addrinfo, &st_addrinfo_result);
+			if (ret) {
+				::WSAGetLastError();
+				::WSACleanup();
+				return Error::EnCppLogsNetError_GetAddrInfoFailed;
+			}
+
+			_listen_socket = ::socket(st_addrinfo_result->ai_family, st_addrinfo_result->ai_socktype, st_addrinfo_result->ai_protocol);
+			if (_listen_socket == INVALID_SOCKET) {
+				::WSAGetLastError();
+				::freeaddrinfo(st_addrinfo_result);
+				::WSACleanup();
+				return Error::EnCppLogsNetError_SetSocketFailed;
+			}
+
+			ret = ::bind(_listen_socket, st_addrinfo_result->ai_addr, (int)st_addrinfo_result->ai_addrlen);
+			if (ret == SOCKET_ERROR) {
+				::WSAGetLastError();
+				::freeaddrinfo(st_addrinfo_result);
+				::closesocket(_listen_socket);
+				::WSACleanup();
+				return Error::EnCppLogsNetError_BindFailed;
+			}
+
+			::freeaddrinfo(st_addrinfo_result);
+
+			ret = ::listen(_listen_socket, SOMAXCONN);
+			if (ret == SOCKET_ERROR) {
+				::closesocket(_listen_socket);
+				return Error::EnCppLogsNetError_ListenFailed;
+			}
+
+			return Error::EnCppLogsNetError_None;
 		}
 
 		Error::EnCppLogsNetError listen() override
 		{
+			int ret = 0;
+			sockaddr_in st_client_sockaddr_in;
+			int len_client_sockaddr_in = sizeof(st_client_sockaddr_in);
+
+			SOCKET client_socket = ::accept(_listen_socket, reinterpret_cast<SOCKADDR*>(&st_client_sockaddr_in), &len_client_sockaddr_in);
+			//CPPLOGS_DEBUG << "client ip: " << ::inet_ntoa(st_client_sockaddr_in.sin_addr);
+			//::inet_ntoa: st_client_sockaddr_in.sin_addr to char*
+			//::inet_addr: char* to st_client_sockaddr_in.sin_addr
+			if (client_socket == INVALID_SOCKET) {
+				::closesocket(_listen_socket);
+				::WSACleanup();
+				return Error::EnCppLogsNetError_AcceptFailed;
+			}
+			st_CppLogsNetAddrInfo_Vector.push_back({::inet_ntoa(st_client_sockaddr_in.sin_addr), st_client_sockaddr_in.sin_port, (unsigned int)client_socket });
+
+			return Error::EnCppLogsNetError_None;
+		}
+
+		// disconnect all
+		Error::EnCppLogsNetError disconnect() override
+		{
+			if (!st_CppLogsNetAddrInfo_Vector.size()) {
+				return Error::EnCppLogsNetError_ClientSizeNull;
+			}
+			int ret = 0;
+			for (unsigned int i = 0; i < st_CppLogsNetAddrInfo_Vector.size(); i++) {
+				::shutdown(st_CppLogsNetAddrInfo_Vector.at(i).fd, SD_SEND);
+				::closesocket(st_CppLogsNetAddrInfo_Vector.at(i).fd);
+			}
+			::WSACleanup();
+			::closesocket(_listen_socket);
+			_listen_socket = INVALID_SOCKET;
+			st_CppLogsNetAddrInfo_Vector.clear();
+			::WSACleanup();
+			return Error::EnCppLogsNetError_None;
+		}
+
+		// disconnect designated IP
+		Error::EnCppLogsNetError disconnect(const StCppLogsNetAddrInfo& st_CppLogsNetAddrInfo) override
+		{
+			::shutdown(st_CppLogsNetAddrInfo.fd, SD_SEND);
+			::closesocket(st_CppLogsNetAddrInfo.fd);
+			::WSACleanup();
+			return Error::EnCppLogsNetError_None;
+		}
+
+		Error::EnCppLogsNetError send(const char* data, const size_t& size) override
+		{
 			return Error::EnCppLogsNetError();
 		}
 
-		bool is_connected() const override
+		Error::EnCppLogsNetError recv(char* data, size_t& size) override
 		{
-			return _socket != INVALID_SOCKET;
+			int ret = 0;
+			for (auto it : st_CppLogsNetAddrInfo_Vector) {
+				::ZeroMemory(data, size);
+				ret = ::recv(it.fd, data, size, 0);
+				CPPLOGS_DEBUG << "[" << it.str_ip<<":"<<it.port<<"]" << data;
+			}
+			return Error::EnCppLogsNetError_None;
 		}
 
 	private:
 		std::string_view _hostip;
 		int _hostport;
-		SOCKET _socket;
+		SOCKET _listen_socket;
+		std::vector<StCppLogsNetAddrInfo> st_CppLogsNetAddrInfo_Vector;
 	};
 }

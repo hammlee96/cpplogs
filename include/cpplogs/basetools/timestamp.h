@@ -10,7 +10,7 @@
 */
 
 #pragma once
-#include "cpplogs/base.h"
+#include "cpplogs/basetools/base.h"
 #include <chrono>
 
 namespace CppLogs {

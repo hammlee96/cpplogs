@@ -24,25 +24,54 @@ namespace CppLogs
 	class SocketTcp
 	{
 	public:
-		SocketTcp(const std::string& hostip = "127.0.0.1", const int& hostport = 9605)
+		enum EnCppLogsSocketType
 		{
+			CppLogsSocketType_Client,
+			CppLogsSocketType_Server
+		};
+
+	public:
+		SocketTcp(const EnCppLogsSocketType type, const std::string& hostip = "127.0.0.1", const int& hostport = 9605)
+		{
+			if(type == CppLogsSocketType_Client){
 #if defined(CPPLOGS_SYSTEM_WINDOWS)
-			_pSocketTcpBase = new SocketTcpWinClient(hostip, hostport);
+				_pSocketTcpBase = new SocketTcpWinClient(hostip, hostport);
 #else
-			_pSocketTcpBase = new SocketTcpLinuxClient(hostip, hostport);
+				_pSocketTcpBase = new SocketTcpLinuxClient(hostip, hostport);
 #endif
-			Error::EnCppLogsNetError ret = _pSocketTcpBase->init();
-			if (ret) {
-				CPPLOGS_ERROR << ret;
+				Error::EnCppLogsNetError ret = _pSocketTcpBase->init();
+				if (ret) {
+					CPPLOGS_ERROR << ret;
+				}
+				ret = _pSocketTcpBase->connect();
+				if (ret) {
+					CPPLOGS_ERROR << ret;
+				}
+				ToolBox::msleep(100);
+				ret = _pSocketTcpBase->send("aaa", 3);
+				if (ret) {
+					CPPLOGS_ERROR << ret;
+				}
 			}
-			ret = _pSocketTcpBase->connect();
-			if (ret) {
-				CPPLOGS_ERROR << ret;
-			}
-			ToolBox::msleep(100);
-			ret = _pSocketTcpBase->send("aaa", 3);
-			if (ret) {
-				CPPLOGS_ERROR << ret;
+			else {
+				_pSocketTcpBase = new SocketTcpWinServer(hostip, hostport);
+
+				Error::EnCppLogsNetError ret = _pSocketTcpBase->init();
+				if (ret) {
+					CPPLOGS_ERROR << ret;
+				}
+
+				ret = _pSocketTcpBase->listen();
+				if (ret) {
+					CPPLOGS_ERROR << ret;
+				}
+
+				char data[512] = { 0 };
+				size_t data_len = 512;
+				ret = _pSocketTcpBase->recv(data, data_len);
+				if (ret) {
+					CPPLOGS_ERROR << ret;
+				}
 			}
 		}
 

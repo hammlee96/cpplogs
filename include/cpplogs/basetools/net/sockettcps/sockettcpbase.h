@@ -28,6 +28,13 @@ namespace CppLogs
 			CppLogsSocketTcpType_Server
 		};
 
+		struct StCppLogsNetAddrInfo
+		{
+			std::string str_ip;
+			unsigned short port;
+			unsigned int fd;
+		};
+
 	public:
 		SocketTcpBase(const std::string& hostip = "127.0.0.1", const int& hostport = 9605)
 		{
@@ -38,7 +45,6 @@ namespace CppLogs
 
 		}
 		
-		virtual Error::EnCppLogsNetError init() = 0;
 		virtual Error::EnCppLogsNetError connect()
 		{
 			return Error::EnCppLogsNetError_ConnectFailed;
@@ -49,14 +55,23 @@ namespace CppLogs
 			return Error::EnCppLogsNetError_DisconnectFailed;
 		}
 
+		virtual Error::EnCppLogsNetError disconnect(const StCppLogsNetAddrInfo& st_CppLogsNetAddrInfo)
+		{
+			return Error::EnCppLogsNetError_DisconnectFailed;
+		}
+
 		virtual Error::EnCppLogsNetError listen()
 		{
 			return Error::EnCppLogsNetError_CreateListenFailed;
 		}
 
+		virtual bool is_connected() const
+		{
+			return false;
+		}
+
+		virtual Error::EnCppLogsNetError init() = 0;
 		virtual Error::EnCppLogsNetError send(const char* data, const size_t& size) = 0;
 		virtual Error::EnCppLogsNetError recv(char* data, size_t& size) = 0;
-
-		virtual bool is_connected() const = 0;
 	};
 }
