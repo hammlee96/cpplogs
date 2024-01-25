@@ -31,13 +31,15 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CPPLOGS_OUTPUT_DIRECTORY})
 set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS OFF)
 #set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
-include_directories(${CPPLOGS_SOURCE_DIRECTORY}/include)
+include_directories(${CPPLOGS_SOURCE_DIRECTORY}/include
+					${CPPLOGS_SOURCE_DIRECTORY}/src)
 
 set(PROJECT_SOURCES
 	src/cpplogs/basetools/toolbox.cpp
 	src/cpplogs/dataformat.cpp
 	src/cpplogs/cpplogsstreamclient.cpp
-	src/cpplogs/cpplogsstreamserver.cpp)
+	src/cpplogs/cpplogsstreamserver.cpp
+	src/third_party/cJSON/cJSON.c)
 
 set(PROJECT_HEADERS
 	include/cpplogs/basetools/timestamp.h
@@ -50,7 +52,8 @@ set(PROJECT_HEADERS
 	include/cpplogs/cpplogsw.h
 	include/cpplogs/cpplogsr.h
 	include/cpplogs/cpplogsstreamclient.h
-	include/cpplogs/cpplogsstreamserver.h)
+	include/cpplogs/cpplogsstreamserver.h
+	src/third_party/cJSON/cJSON.h)
 
 add_library(${CPPLOGS_PJNAME} 
 			STATIC

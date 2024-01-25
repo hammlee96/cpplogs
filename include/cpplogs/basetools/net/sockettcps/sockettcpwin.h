@@ -148,8 +148,7 @@ namespace CppLogs
 	class SocketTcpWinServer : public SocketTcpBase
 	{
 	public:
-		SocketTcpWinServer(const std::string_view& hostip = "127.0.0.1", const int& hostport = 9605) :
-			_hostip(hostip), _hostport(hostport)
+		SocketTcpWinServer(const std::string_view& hostip = "127.0.0.1", const int& hostport = 9605)
 		{
 
 		}
@@ -160,11 +159,6 @@ namespace CppLogs
 
 		Error::EnCppLogsNetError init() override
 		{
-			WSADATA wsaData;
-			int ret = WSAStartup(MAKEWORD(2, 2), &wsaData);
-			if (ret) {
-				return Error::EnCppLogsNetError();
-			}
 			return Error::EnCppLogsNetError();
 		}
 
@@ -175,8 +169,6 @@ namespace CppLogs
 
 		Error::EnCppLogsNetError disconnect() override
 		{
-			::closesocket(_socket);
-			_socket = INVALID_SOCKET;
 			return Error::EnCppLogsNetError();
 		}
 
@@ -187,12 +179,7 @@ namespace CppLogs
 
 		bool is_connected() const override
 		{
-			return _socket != INVALID_SOCKET;
+			return false;
 		}
-
-	private:
-		std::string_view _hostip;
-		int _hostport;
-		SOCKET _socket;
 	};
 }
