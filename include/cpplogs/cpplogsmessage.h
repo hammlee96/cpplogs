@@ -13,35 +13,51 @@
 #include "basetools/base.h"
 #include "basetools/cppjson.h"
 
+#define CPPLOGS_JsonReturn(func) if(!func){return false;}
+
 namespace CppLogs
 {
-	class CppLogsMessage
+	class CppLogsMessage : public CppJson
 	{
 	public:
 		CppLogsMessage()
 		{
-			CppJson json;
-			std::string jsonData;
-			CPPLOGS_DEBUG << json.Add("name", "hammlee");
-			CPPLOGS_DEBUG << json.Add("age", 27);
-			CPPLOGS_DEBUG << json.Add("height", 170.2);
-			CPPLOGS_DEBUG << json.ToString(jsonData);
-			CPPLOGS_DEBUG << jsonData;
-
-			std::string value;
-			int n_value = 0;
-			float d_value = 0.0f;
-			CPPLOGS_DEBUG << json.Parse(jsonData);
-			CPPLOGS_DEBUG << json.Get("name", value);
-			CPPLOGS_DEBUG << value;
-			CPPLOGS_DEBUG << json.Get("age", n_value);
-			CPPLOGS_DEBUG << n_value;
-			CPPLOGS_DEBUG << json.Get("height", d_value);
-			CPPLOGS_DEBUG << d_value;
 		}
 		~CppLogsMessage()
 		{
 
+		}
+
+		bool CommandSetFileInfo(const std::string& filepathname, std::string& json_value)
+		{
+			Clear();
+			CPPLOGS_JsonReturn(PushValue("commond", "set_fileinfo"));
+			CPPLOGS_JsonReturn(PushValue("file_path_name", filepathname));
+			CPPLOGS_JsonReturn(GetString(json_value));
+			return true;
+		}
+
+	private:
+		bool ParseJson(const std::string& json)
+		{
+			return Parse(json);
+		}
+
+		bool GetString(std::string& value)
+		{
+			return ToString(value);
+		}
+
+		template<typename _ty_value>
+		bool GetValue(const std::string& key, _ty_value& value)
+		{
+			return Get(key, value);
+		}
+
+		template<typename _ty_value>
+		bool PushValue(const std::string& key, const _ty_value& value)
+		{
+			return Add(key, value);
 		}
 	};
 }
