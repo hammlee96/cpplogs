@@ -36,6 +36,7 @@ include_directories(${CPPLOGS_SOURCE_DIRECTORY}/include
 
 set(PROJECT_SOURCES
 	src/cpplogs/basetools/toolbox.cpp
+	src/cpplogs/basetools/cppjson.cpp
 	src/cpplogs/dataformat.cpp
 	src/cpplogs/cpplogsstreamclient.cpp
 	src/cpplogs/cpplogsstreamserver.cpp
@@ -46,6 +47,7 @@ set(PROJECT_HEADERS
 	include/cpplogs/basetools/error.h
 	include/cpplogs/basetools/base.h
 	include/cpplogs/basetools/toolbox.h
+	include/cpplogs/basetools/cppjson.h
 	include/cpplogs/basetools/net/sockettcp.h
 	include/cpplogs/dataformat.h
 	include/cpplogs/fileformat.h
@@ -53,6 +55,7 @@ set(PROJECT_HEADERS
 	include/cpplogs/cpplogsr.h
 	include/cpplogs/cpplogsstreamclient.h
 	include/cpplogs/cpplogsstreamserver.h
+	include/cpplogs/cpplogsmessage.h
 	src/third_party/cJSON/cJSON.h)
 
 add_library(${CPPLOGS_PJNAME} 
@@ -63,3 +66,4 @@ add_library(${CPPLOGS_PJNAME}
 add_subdirectory(examples/ExampleWriteLog)
 add_subdirectory(examples/ExampleReadLog)
 add_subdirectory(examples/ExampleStreamClient)
+add_subdirectory(examples/ExamplePackMessage)
