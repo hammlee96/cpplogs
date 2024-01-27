@@ -9,7 +9,7 @@
 * change log	: init
 */
 
-#include "cpplogs/basetools/net/sockettcp.h"
+#include "cpplogs/cpplogsstreamclient.h"
 
 class ExampleStreamClient
 {

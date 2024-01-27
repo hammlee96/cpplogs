@@ -7,7 +7,13 @@ int main()
 
 ExampleStreamClient::ExampleStreamClient()
 {
-	CppLogs::SocketTcp *pSocketTcp = new CppLogs::SocketTcp("127.0.0.1");
+	CppLogs::CppLogsStreamClient* pCppLogsStreamClient = new CppLogs::CppLogsStreamClient();
+	CppLogs::Error::EnCppLogsNetError ret = CppLogs::Error::EnCppLogsNetError_None;
+	ret = pCppLogsStreamClient->init();
+	if (ret) {
+		CPPLOGS_ERROR << ret;
+	}
+	pCppLogsStreamClient->send_file_info("c:/new/aap.cpplog");
 }
 
 ExampleStreamClient::~ExampleStreamClient()

@@ -66,7 +66,7 @@ namespace CppLogs
 			int ret = ::getaddrinfo(_hostip.data(), str_port.data(), &st_addrinfo, &st_addrinfo_result);
 			if (ret) {
 				::WSAGetLastError();
-				WSACleanup();
+				::WSACleanup();
 				return Error::EnCppLogsNetError_GetAddrInfoFailed;
 			}
 			//CPPLOGS_DEBUG << st_addrinfo.ai_addr;
@@ -74,7 +74,7 @@ namespace CppLogs
 				_socket = socket(ptr->ai_family, ptr->ai_socktype, ptr->ai_protocol);
 				if (_socket == INVALID_SOCKET) {
 					::WSAGetLastError();
-					WSACleanup();
+					::WSACleanup();
 					continue;
 				}
 				if (::connect(_socket, ptr->ai_addr, (int)ptr->ai_addrlen) == 0) {
@@ -88,7 +88,7 @@ namespace CppLogs
 			}
 			::freeaddrinfo(st_addrinfo_result);
 			if (_socket == INVALID_SOCKET) {
-				WSACleanup();
+				::WSACleanup();
 				return Error::EnCppLogsNetError_SetSocketFailed;
 			}
 			int enable_flag = 1;
@@ -140,7 +140,7 @@ namespace CppLogs
 		}
 
 	private:
-		std::string_view _hostip;
+		std::string _hostip;
 		int _hostport;
 		SOCKET _socket;
 	};

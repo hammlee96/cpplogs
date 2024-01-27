@@ -31,24 +31,31 @@ namespace CppLogs
 #else
 			_pSocketTcpBase = new SocketTcpLinuxClient(hostip, hostport);
 #endif
-			Error::EnCppLogsNetError ret = _pSocketTcpBase->init();
-			if (ret) {
-				CPPLOGS_ERROR << ret;
-			}
-			ret = _pSocketTcpBase->connect();
-			if (ret) {
-				CPPLOGS_ERROR << ret;
-			}
-			ToolBox::msleep(100);
-			ret = _pSocketTcpBase->send("aaa", 3);
-			if (ret) {
-				CPPLOGS_ERROR << ret;
-			}
 		}
 
 		~SocketTcp()
 		{
+			if (_pSocketTcpBase) {
+				delete _pSocketTcpBase;
+				_pSocketTcpBase = nullptr;
+			}
+		}
 
+		Error::EnCppLogsNetError init()
+		{
+			return _pSocketTcpBase->init();
+		}
+
+		Error::EnCppLogsNetError connect()
+		{
+			Error::EnCppLogsNetError ret = _pSocketTcpBase->connect();
+			ToolBox::msleep(100);
+			return ret;
+		}
+
+		Error::EnCppLogsNetError send(const std::string& data)
+		{
+			return _pSocketTcpBase->send(data.c_str(), data.size());;
 		}
 
 	private:
