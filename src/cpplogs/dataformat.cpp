@@ -5,19 +5,19 @@ namespace CppLogs {
 	std::string DataFormat::format_header(const DataFormat::StCppLogsHeader& st_CppLogsHeader)
 	{
 		return ToolBox::format("<#%s#>\n%s:%s\n%s:%d\n%s:%s\n%s:%s\n%s:%s\n%s:%s\n<#/%s#>", \
-			DEF_HEADER, \
-			DEF_HEADER_CREATE_TIME, st_CppLogsHeader.create_time.c_str(), \
-			DEF_HEADER_LEVEL, (int)st_CppLogsHeader.en_CppLogsLevel, \
-			DEF_HEADER_INFO, st_CppLogsHeader.keyInfo.c_str(), \
-			DEF_HEADER_WARN, st_CppLogsHeader.keyWarn.c_str(), \
-			DEF_HEADER_ERROR, st_CppLogsHeader.keyError.c_str(), \
-			DEF_HEADER_TIME_STAMP, st_CppLogsHeader.stampRecord ? DEF_CPPLOGS_TRUE : DEF_CPPLOGS_FALSE, \
-			DEF_HEADER);
+			CPPLOGS_DEF_HEADER, \
+			CPPLOGS_DEF_HEADER_CREATE_TIME, st_CppLogsHeader.create_time.c_str(), \
+			CPPLOGS_DEF_HEADER_LEVEL, (int)st_CppLogsHeader.en_CppLogsLevel, \
+			CPPLOGS_DEF_HEADER_INFO, st_CppLogsHeader.keyInfo.c_str(), \
+			CPPLOGS_DEF_HEADER_WARN, st_CppLogsHeader.keyWarn.c_str(), \
+			CPPLOGS_DEF_HEADER_ERROR, st_CppLogsHeader.keyError.c_str(), \
+			CPPLOGS_DEF_HEADER_TIME_STAMP, st_CppLogsHeader.stampRecord ? CPPLOGS_DEF_CPPLOGS_TRUE : CPPLOGS_DEF_CPPLOGS_FALSE, \
+			CPPLOGS_DEF_HEADER);
 	}
 
 	Error::EnErrorCode DataFormat::unformat_header(const std::string& data, DataFormat::StCppLogsHeader& st_CppLogsHeader)
 	{
-		std::string pattern = ToolBox::format("<#%s#>([\\s\\S]*?)<#/%s#>", DEF_HEADER, DEF_HEADER);
+		std::string pattern = ToolBox::format("<#%s#>([\\s\\S]*?)<#/%s#>", CPPLOGS_DEF_HEADER, CPPLOGS_DEF_HEADER);
 		std::vector<std::string> result = ToolBox::regexmatch(data, pattern);
 
 		if (result.size() != 1) {
@@ -29,23 +29,23 @@ namespace CppLogs {
 			return Error::ErrorCode_HeaderDamage;
 		}
 		for (auto it : mm) {
-			if (it.first == DEF_HEADER_CREATE_TIME) {
+			if (it.first == CPPLOGS_DEF_HEADER_CREATE_TIME) {
 				st_CppLogsHeader.create_time = it.second;
 			}
-			else if (it.first == DEF_HEADER_LEVEL) {
+			else if (it.first == CPPLOGS_DEF_HEADER_LEVEL) {
 				st_CppLogsHeader.en_CppLogsLevel = (EnCppLogsLevel)std::stoi(it.second);
 			}
-			else if (it.first == DEF_HEADER_INFO) {
+			else if (it.first == CPPLOGS_DEF_HEADER_INFO) {
 				st_CppLogsHeader.keyInfo = it.second;
 			}
-			else if (it.first == DEF_HEADER_WARN) {
+			else if (it.first == CPPLOGS_DEF_HEADER_WARN) {
 				st_CppLogsHeader.keyWarn = it.second;
 			}
-			else if (it.first == DEF_HEADER_ERROR) {
+			else if (it.first == CPPLOGS_DEF_HEADER_ERROR) {
 				st_CppLogsHeader.keyError = it.second;
 			}
-			else if (it.first == DEF_HEADER_TIME_STAMP) {
-				st_CppLogsHeader.stampRecord = it.second == DEF_CPPLOGS_TRUE ? true : false;
+			else if (it.first == CPPLOGS_DEF_HEADER_TIME_STAMP) {
+				st_CppLogsHeader.stampRecord = it.second == CPPLOGS_DEF_CPPLOGS_TRUE ? true : false;
 			}
 		}
 
