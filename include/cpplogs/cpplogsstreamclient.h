@@ -79,6 +79,14 @@ namespace CppLogs
 			return _NetClient.get()->send(jsValue);
 		}
 
+		// TODO: return error need redefine
+		Error::EnCppLogsNetError send_log_file(const std::string& filename)
+		{
+			std::string data;
+			ToolBox::readfile(filename, data);
+			return _NetClient.get()->send(data);
+		}
+
 	private:
 		CPPLOGS_DISABLE4251(std::shared_ptr<SocketTcp> _NetClient);
 		CPPLOGS_DISABLE4251(std::shared_ptr<CppLogsMessage> _CppLogsMessage);
