@@ -10,6 +10,7 @@
 */
 
 #include "cpplogs/cpplogsstreamclient.h"
+#include "cpplogs/basetools/toolbox.h"
 
 class ExampleStreamClient
 {

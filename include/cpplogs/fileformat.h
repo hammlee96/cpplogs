@@ -14,8 +14,6 @@
 #include "cpplogs/basetools/error.h"
 #include "cpplogs/dataformat.h"
 
-#define DEF_CPPLOGS_ITEMS	{"",  "info", "warn", "error", DataFormat::CppLogsLevel_High, true }
-
 namespace CppLogs {
 	class CPPLOGS_API FileFormat
 	{
@@ -67,7 +65,7 @@ namespace CppLogs {
 			}
 			if (st_CppLogsHeader.keyInfo.empty() || \
 				st_CppLogsHeader.keyWarn.empty() || \
-				st_CppLogsHeader.keyInfo.empty()) {
+				st_CppLogsHeader.keyError.empty()) {
 				return Error::ErrorCode_CreateItemFailed;
 			}
 			_st_CppLogsIHeader = st_CppLogsHeader;

@@ -42,6 +42,8 @@
 
 #define CPPLOGS_STR_FILEPATHNAME			"file_path_name"
 #define CPPLOGS_STR_KEY						"key"
+#define CPPLOGS_STR_ENUM_KEY				"enum_key"
 #define CPPLOGS_STR_SECOND_KEY				"second_key"
 #define CPPLOGS_STR_TIME_STAMP				"time_stamp"
 #define CPPLOGS_STR_DATA					"data"
+#define CPPLOGS_STR_FORMATTED_DATA			"formatted_data"

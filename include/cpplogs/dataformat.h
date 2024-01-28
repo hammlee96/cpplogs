@@ -15,6 +15,9 @@
 #include "cpplogs/basetools/error.h"
 #include <iostream>
 
+
+#define DEF_CPPLOGS_ITEMS	{"",  "info", "warn", "error", DataFormat::CppLogsLevel_High, true }
+
 /*
 <#header#>
 create_time:2022-02-03 23:22:25
