@@ -39,24 +39,24 @@ namespace CppLogs
 
 		Error::EnCppLogsNetError init()
 		{
-			return _pSocketTcpBase->init();
+			return _pSocketTcpBase.get()->init();
 		}
 
 		Error::EnCppLogsNetError connect()
 		{
-			Error::EnCppLogsNetError ret = _pSocketTcpBase->connect();
+			Error::EnCppLogsNetError ret = _pSocketTcpBase.get()->connect();
 			ToolBox::msleep(100);
 			return ret;
 		}
 
 		Error::EnCppLogsNetError send(const std::string& data)
 		{
-			return _pSocketTcpBase->send(data.c_str(), data.size());;
+			return _pSocketTcpBase.get()->send(data.c_str(), data.size());;
 		}
 
 		Error::EnCppLogsNetError disconnect()
 		{
-			_pSocketTcpBase->disconnect();
+			_pSocketTcpBase.get()->disconnect();
 		}
 
 	private:

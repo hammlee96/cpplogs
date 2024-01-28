@@ -33,11 +33,11 @@ namespace CppLogs
 		Error::EnCppLogsNetError init()
 		{
 			Error::EnCppLogsNetError ret = Error::EnCppLogsNetError_None;
-			ret = _NetClient->init();
+			ret = _NetClient.get()->init();
 			if (ret) {
 				return ret;
 			}
-			ret = _NetClient->connect();
+			ret = _NetClient.get()->connect();
 			if (ret) {
 				return ret;
 			}
@@ -47,10 +47,22 @@ namespace CppLogs
 		Error::EnCppLogsNetError send_file_info(const std::string& filepathname)
 		{
 			std::string jsValue;
-			_CppLogsMessage->CommandSetFileInfo(filepathname, jsValue);
-			//CPPLOGS_DEBUG << jsValue;
-			_NetClient->send(jsValue);
-			return Error::EnCppLogsNetError_None;
+			_CppLogsMessage.get()->CommandSetFileInfo(filepathname, jsValue);
+			return _NetClient.get()->send(jsValue);
+		}
+
+		Error::EnCppLogsNetError send_log_type(const DataFormat::StCppLogsHeader& st_CppLogsHeader)
+		{
+			std::string jsValue;
+			_CppLogsMessage.get()->CommandSetLogType(st_CppLogsHeader, jsValue);
+			return _NetClient.get()->send(jsValue);
+		}
+
+		Error::EnCppLogsNetError send_log_data(const DataFormat::StCppLogsItem& st_CppLogsItem)
+		{
+			std::string jsValue;
+			_CppLogsMessage.get()->CommandSetLogData(st_CppLogsItem, jsValue);
+			return _NetClient.get()->send(jsValue);
 		}
 
 	private:
