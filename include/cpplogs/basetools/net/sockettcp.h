@@ -11,13 +11,13 @@
 
 #pragma once
 #include "cpplogs/basetools/base.h"
-#include "cpplogs/basetools/toolbox.h"
 #include "sockettcps/sockettcpbase.h"
 #if defined(CPPLOGS_SYSTEM_WINDOWS)
 #include "sockettcps/sockettcpwin.h"
 #else
 #include "sockettcps/sockettcplinux.h"
 #endif
+#include "cpplogs/basetools/toolbox.h"
 
 namespace CppLogs
 {

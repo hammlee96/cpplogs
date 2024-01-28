@@ -12,6 +12,7 @@
 #pragma once
 
 #include <string>
+
 struct cJSON;
 
 namespace CppLogs

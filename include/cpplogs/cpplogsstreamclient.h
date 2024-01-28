@@ -20,7 +20,11 @@ namespace CppLogs
 	class CPPLOGS_API CppLogsStreamClient
 	{
 	public:
-		CppLogsStreamClient(const std::string& hostip = "127.0.0.1", const int& hostport = 9605);
+		CppLogsStreamClient(const std::string& hostip = "127.0.0.1", const int& hostport = 9605)
+		{
+			_NetClient = new SocketTcp(hostip, hostport);
+			_CppLogsMessage = new CppLogsMessage();
+		}
 		~CppLogsStreamClient()
 		{
 			if (_NetClient) {
@@ -33,13 +37,30 @@ namespace CppLogs
 			}
 		}
 
-		Error::EnCppLogsNetError init();
+		Error::EnCppLogsNetError init()
+		{
+			Error::EnCppLogsNetError ret = Error::EnCppLogsNetError_None;
+			ret = _NetClient->init();
+			if (ret) {
+				return ret;
+			}
+			ret = _NetClient->connect();
+			if (ret) {
+				return ret;
+			}
+			return ret;
+		}
 
-		Error::EnCppLogsNetError send_file_info(const std::string& filepathname);
+		Error::EnCppLogsNetError send_file_info(const std::string& filepathname)
+		{
+			std::string jsValue;
+			_CppLogsMessage->CommandSetFileInfo(filepathname, jsValue);
+			//CPPLOGS_DEBUG << jsValue;
+			_NetClient->send(jsValue);
+			return Error::EnCppLogsNetError_None;
+		}
 
 	private:
-		const std::string& _hostip;
-		const int _hostport;
 		SocketTcp *_NetClient;
 		CppLogsMessage *_CppLogsMessage;
 	};
