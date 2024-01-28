@@ -32,7 +32,7 @@ namespace CppLogs
 		}
 		~SocketTcpWinClient()
 		{
-
+			disconnect();
 		}
 
 		Error::EnCppLogsNetError init() override

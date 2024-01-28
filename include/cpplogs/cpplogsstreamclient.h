@@ -22,19 +22,12 @@ namespace CppLogs
 	public:
 		CppLogsStreamClient(const std::string& hostip = "127.0.0.1", const int& hostport = 9605)
 		{
-			_NetClient = new SocketTcp(hostip, hostport);
-			_CppLogsMessage = new CppLogsMessage();
+			_NetClient = std::make_shared<SocketTcp>(hostip, hostport);
+			_CppLogsMessage = std::make_shared<CppLogsMessage>();
 		}
 		~CppLogsStreamClient()
 		{
-			if (_NetClient) {
-				delete _NetClient;
-				_NetClient = nullptr;
-			}
-			if (_CppLogsMessage) {
-				delete _CppLogsMessage;
-				_CppLogsMessage = nullptr;
-			}
+
 		}
 
 		Error::EnCppLogsNetError init()
@@ -61,7 +54,7 @@ namespace CppLogs
 		}
 
 	private:
-		SocketTcp *_NetClient;
-		CppLogsMessage *_CppLogsMessage;
+		CPPLOGS_DISABLE4251(std::shared_ptr<SocketTcp> _NetClient);
+		CPPLOGS_DISABLE4251(std::shared_ptr<CppLogsMessage> _CppLogsMessage);
 	};
 }

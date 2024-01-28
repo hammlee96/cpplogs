@@ -27,18 +27,14 @@ namespace CppLogs
 		SocketTcp(const std::string& hostip = "127.0.0.1", const int& hostport = 9605)
 		{
 #if defined(CPPLOGS_SYSTEM_WINDOWS)
-			_pSocketTcpBase = new SocketTcpWinClient(hostip, hostport);
+			_pSocketTcpBase = std::make_shared<SocketTcpWinClient>(hostip, hostport);
 #else
-			_pSocketTcpBase = new SocketTcpLinuxClient(hostip, hostport);
+			_pSocketTcpBase = std::make_shared<SocketTcpLinuxClient>(hostip, hostport);
 #endif
 		}
 
 		~SocketTcp()
 		{
-			if (_pSocketTcpBase) {
-				delete _pSocketTcpBase;
-				_pSocketTcpBase = nullptr;
-			}
 		}
 
 		Error::EnCppLogsNetError init()
@@ -58,7 +54,12 @@ namespace CppLogs
 			return _pSocketTcpBase->send(data.c_str(), data.size());;
 		}
 
+		Error::EnCppLogsNetError disconnect()
+		{
+			_pSocketTcpBase->disconnect();
+		}
+
 	private:
-		SocketTcpBase* _pSocketTcpBase;
+		CPPLOGS_DISABLE4251(std::shared_ptr<SocketTcpBase> _pSocketTcpBase);
 	};
 }

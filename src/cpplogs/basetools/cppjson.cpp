@@ -10,6 +10,7 @@ namespace CppLogs
 
 	CppJson::~CppJson()
 	{
+		Clear();
 	}
 
 	void CppJson::Clear()
