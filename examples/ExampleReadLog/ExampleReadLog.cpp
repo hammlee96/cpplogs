@@ -1,7 +1,7 @@
 #include"ExampleReadLog.h"
 #include <cassert>
 
-int main(char argc, char* argv[])
+int main(int argc, char* argv[])
 {
 	if (argc != 2) {
 		assert(false);

@@ -20,32 +20,43 @@ namespace CppLogs
 	class SocketTcpLinuxClient : public SocketTcpBase
 	{
 	public:
-		SocketTcpLinuxClient(const std::string& hostip = "127.0.0.1", const int& hostport = 9605);
-		~SocketTcpLinuxClient();
+		SocketTcpLinuxClient(const std::string& hostip = "127.0.0.1", const int& hostport = 9605)
+		{
+
+		}
+		~SocketTcpLinuxClient()
+		{
+
+		}
 
 		Error::EnCppLogsNetError init() override
 		{
-			return Error::EnCppLogsNetError();
+			return Error::EnCppLogsNetError_None;
 		}
 
 		Error::EnCppLogsNetError connect() override
 		{
-			return Error::EnCppLogsNetError();
+			return Error::EnCppLogsNetError_None;
 		}
 
 		Error::EnCppLogsNetError disconnect() override
 		{
-			return Error::EnCppLogsNetError();
+			return Error::EnCppLogsNetError_None;
 		}
 
 		Error::EnCppLogsNetError send(const char* data, const size_t& size) override
 		{
-			return Error::EnCppLogsNetError();
+			return Error::EnCppLogsNetError_None;
 		}
 
 		Error::EnCppLogsNetError recv(char* data, size_t& size) override
 		{
-			return Error::EnCppLogsNetError();
+			return Error::EnCppLogsNetError_None;
+		}
+
+		bool is_connected() const override
+		{
+			return true;
 		}
 	};
 

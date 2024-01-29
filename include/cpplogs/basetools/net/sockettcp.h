@@ -56,7 +56,7 @@ namespace CppLogs
 
 		Error::EnCppLogsNetError disconnect()
 		{
-			_pSocketTcpBase.get()->disconnect();
+			return _pSocketTcpBase.get()->disconnect();
 		}
 
 	private:

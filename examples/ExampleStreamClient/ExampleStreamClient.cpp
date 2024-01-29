@@ -3,14 +3,13 @@
 int main()
 {
 	ExampleStreamClient client;
+	return 0;
 }
 
 ExampleStreamClient::ExampleStreamClient()
 {
 	CppLogs::CppLogsStreamClient* pCppLogsStreamClient = new CppLogs::CppLogsStreamClient();
 	CppLogs::Error::EnCppLogsNetError ret = CppLogs::Error::EnCppLogsNetError_None;
-
-
 
 	CppLogs::ToolBox::StCppLogsDateTime st_CppLogsDateTime = CppLogs::ToolBox::gettime();
 #if defined(CPPLOGS_SYSTEM_WINDOWS)

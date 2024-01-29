@@ -15,7 +15,7 @@
 					_DISABLE4521TYPE;\
 					__pragma(warning(pop)) 
 #else
-#define CPPLOGS_DISABLE4251(...)
+#define CPPLOGS_DISABLE4251(_DISABLE4521TYPE) _DISABLE4521TYPE
 #endif
 					
 #define CPPLOGS_EXTNAME						".cpplog"
