@@ -17,6 +17,7 @@
 #include <sys/socket.h>
 #include <arpa/inet.h>
 #include <unistd.h>
+#include <string.h>
 
 namespace CppLogs
 {
@@ -40,15 +41,24 @@ namespace CppLogs
 
 		Error::EnCppLogsNetError connect() override
 		{
-			int _socket = ::socket(AF_INET, SOCK_STREAM, 0);
+			if (is_connected()) {
+				disconnect();
+			}
+			_socket = ::socket(AF_INET, SOCK_STREAM, 0);
 			if (_socket == -1) {
 				return Error::EnCppLogsNetError_InitFailed;
 			}
 			struct ::sockaddr_in st_sockaddr_in;
+			memset(&st_sockaddr_in, 0, sizeof(st_sockaddr_in));
 			st_sockaddr_in.sin_family = AF_INET;
-			st_sockaddr_in.sin_addr.s_addr = inet_addr(_hostip.c_str());
-			st_sockaddr_in.sin_port = _hostport;
+			//st_sockaddr_in.sin_addr.s_addr = inet_addr(_hostip.c_str());
+			st_sockaddr_in.sin_port = ::htons(_hostport);
+			if (::inet_pton(AF_INET, _hostip.c_str(), &st_sockaddr_in.sin_addr) <= 0) {
+				disconnect();
+				return Error::EnCppLogsNetError_SetSocketFailed;
+			}
 			if (::connect(_socket, (struct sockaddr*)&st_sockaddr_in, sizeof(st_sockaddr_in)) == -1) {
+				disconnect();
 				return Error::EnCppLogsNetError_ConnectFailed;
 			}
 
@@ -65,6 +75,7 @@ namespace CppLogs
 		Error::EnCppLogsNetError send(const char* data, const size_t& size) override
 		{
 			if (::send(_socket, data, size, 0) != size) {
+				disconnect();
 				return Error::EnCppLogsNetError_SendFailed;
 			}
 			return Error::EnCppLogsNetError_None;
@@ -73,6 +84,7 @@ namespace CppLogs
 		Error::EnCppLogsNetError recv(char* data, size_t& size) override
 		{
 			if (::recv(_socket, data, size, 0) < 0) {
+				disconnect();
 				return Error::EnCppLogsNetError_RecvFailed;
 			}
 			return Error::EnCppLogsNetError_None;
