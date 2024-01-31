@@ -9,6 +9,7 @@
   - [Write log file to local](#write-log-file-to-local)
   - [Read log file from local](#read-log-file-from-local)
   - [Send log file to server](#send-log-file-to-server)
+- [Third-party](#third-party)
 ## Functions
 - [X] Create and read local log files
 - [ ] Send and download local log files to the server
@@ -22,6 +23,6 @@
 - ### Write log file to local
 - ### Read log file from local
 - ### Send log file to server
-## Third-party open-source library
+## Third-party
 Thanks for the third-party open-source library
 - [cJSON](https://github.com/DaveGamble/cJSON)
