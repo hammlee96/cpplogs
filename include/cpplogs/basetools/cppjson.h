@@ -12,6 +12,7 @@
 #pragma once
 
 #include <string>
+#include "cpplogs/basetools/base.h"
 
 struct cJSON;
 
@@ -20,7 +21,7 @@ namespace CppLogs
 	static void* (*CppLogs_malloc)(size_t) = malloc;
 	static void (*CppLogs_free)(void* ptr) = free;
 
-	class CppJson
+	class CPPLOGS_API CppJson
 	{
 	public:
 		CppJson();
