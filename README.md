@@ -19,10 +19,125 @@
 - ### Windows
 - ### Linux
 ## Build
+- ### Options
+	| option                                | function                                           |
+	| ------------------------------------- | -------------------------------------------------- |
+	| CPPLOGS_COMPILE_STATIC_OPTION         | If true, then use the static compile mode          |
 ## Usage
 - ### Write log file to local
+	To enable the function of writing local log files, you need include `cpplogsw.h`.
+	Use the following code, will write log file to local file system
+	```cpp
+	#include "cpplogs/cpplogsw.h"
+	#include "cpplogs/basetools/base.h"
+
+	int main()
+	{
+		CppLogs::CppLogsW *pCppLogs = new CppLogs::CppLogsW("/home/log_files/test_log");
+		pCppLogs->set_item_type({"", "infomation", "warning", "error", CppLogs::DataFormat::CppLogsLevel_High, true});
+    		CppLogs::Error::EnErrorCode ec = pCppLogs->create_file("2024-02-01 15:34:30");
+		if (ec) {
+			CPPLOGS_ERROR << ec;
+		}
+		ec = pCppLogs->information("secondinfo", "this is a information");
+		if (ec) {
+			CPPLOGS_ERROR << ec;
+			return ec;
+		}
+		ec = pCppLogs->warn("secondwarn", "this is a warning");
+		if (ec) {
+			CPPLOGS_ERROR << ec;
+			return ec;
+		}
+		ec = pCppLogs->error("seconderror", "this is a error");
+		if (ec) {
+			CPPLOGS_ERROR << ec;
+			return ec;
+		}
+		return 0;
+	}
+	```
 - ### Read log file from local
+	To enable the function of read local log files, you need include `cpplogsr.h`.
+	Use the following code, will read log file from local file system
+	```cpp
+	#include "cpplogs/cpplogsr.h"
+	#include "cpplogs/basetools/base.h"
+
+	CppLogs::CppLogsR pCppLogs = new CppLogs::CppLogsR("/home/log_files/test_log");
+
+	CppLogs::DataFormat::StCppLogsHeader st_CppLogsHeader;
+	CppLogs::Error::EnErrorCode ec = pCppLogs->get_item_type(st_CppLogsHeader);
+	if (ec) {
+		CPPLOGS_ERROR << ec;
+	}
+	CPPLOGS_DEBUG << "create_time: " << st_CppLogsHeader.create_time << "\n" << \
+		"level: " << st_CppLogsHeader.en_CppLogsLevel << "\n" << \
+		"stamp_status: " << st_CppLogsHeader.stampRecord << "\n" << \
+		"information key word: " << st_CppLogsHeader.keyInfo << "\n" << \
+		"warning key word: " << st_CppLogsHeader.keyWarn << "\n" << \
+		"error key word: " << st_CppLogsHeader.keyError;
+	std::vector<CppLogs::DataFormat::StCppLogsItem> st_CppLogsItemVector;
+	ec = pCppLogs->get_items(st_CppLogsItemVector);
+	if (ec) {
+		CPPLOGS_ERROR << ec;
+	}
+	for (auto it : st_CppLogsItemVector) {
+		CPPLOGS_WARNING << "*************************beg************************";
+		CPPLOGS_DEBUG << "key word: " << it.key << "\n" << \
+			"second key word: " << it.secondKey << "\n" << \
+			"time_stamp: " << it.timeStamp << "\n" << \
+			"data: " << it.data;
+		CPPLOGS_WARNING << "*************************end************************";
+	}
+	```
 - ### Send log file to server
+  	To enable the function of writing log files to server, you need include `cpplogsstreamclient.h`.
+	Use the following code, will write log data to server file system
+	```cpp
+	#include "cpplogs/cpplogsstreamclient.h"
+	#include "cpplogs/basetools/toolbox.h"
+
+	CppLogs::CppLogsStreamClient* pCppLogsStreamClient = new CppLogs::CppLogsStreamClient();
+	CppLogs::Error::EnCppLogsNetError ret = CppLogs::Error::EnCppLogsNetError_None;
+
+	ret = pCppLogsStreamClient->init();
+	if (ret) {
+		CPPLOGS_ERROR << ret;
+	}
+	ret = pCppLogsStreamClient->send_file_info("/home/log_files/test_log");
+	if (ret) {
+		CPPLOGS_ERROR << ret;
+	}
+
+	CppLogs::ToolBox::msleep(1000);
+
+	ret = pCppLogsStreamClient->send_log_type({"", "infomation", "warning", "error", CppLogs::DataFormat::CppLogsLevel_High, true});
+	if (ret) {
+		CPPLOGS_ERROR << ret;
+	}
+
+	CppLogs::ToolBox::msleep(1000);
+
+	ret = pCppLogsStreamClient->send_log_data_info("secondinfo", "this is a information");
+	if (ret) {
+		CPPLOGS_ERROR << ret;
+	}
+
+	CppLogs::ToolBox::msleep(1000);
+
+	ret = pCppLogsStreamClient->send_log_data_warn("secondwarn", "this is a warning");
+	if (ret) {
+		CPPLOGS_ERROR << ret;
+	}
+
+	CppLogs::ToolBox::msleep(1000);
+
+	ret = pCppLogsStreamClient->send_log_data_error("seconderror", "this is a error");
+	if (ret) {
+		CPPLOGS_ERROR << ret;
+	}
+	```
 ## Third-party
 Thanks for the third-party open-source library
 - [cJSON](https://github.com/DaveGamble/cJSON)
