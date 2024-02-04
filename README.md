@@ -98,7 +98,7 @@
 	#include "cpplogs/cpplogsstreamclient.h"
 	#include "cpplogs/basetools/toolbox.h"
 
-	CppLogs::CppLogsStreamClient* pCppLogsStreamClient = new CppLogs::CppLogsStreamClient();
+	CppLogs::CppLogsStreamClient* pCppLogsStreamClient = new CppLogs::CppLogsStreamClient("127.0.0.1", 9605);
 	CppLogs::Error::EnCppLogsNetError ret = CppLogs::Error::EnCppLogsNetError_None;
 
 	ret = pCppLogsStreamClient->init();
