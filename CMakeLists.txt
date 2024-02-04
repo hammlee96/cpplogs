@@ -2,6 +2,10 @@
 cmake_minimum_required (VERSION 3.8)
 
 option(CPPLOGS_COMPILE_STATIC_OPTION "Whether to compile in static compilation mode" ON)
+option(CPPLOGS_COMPILE_EXAMPLE_OPTION "Enable Compilation Example" ON)
+
+message("-- CPPLOGS_COMPILE_STATIC_OPTION: ${CPPLOGS_COMPILE_STATIC_OPTION}")
+message("-- CPPLOGS_COMPILE_EXAMPLE_OPTION: ${CPPLOGS_COMPILE_EXAMPLE_OPTION}")
 
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -65,7 +69,8 @@ add_library(${PJNAME_CPPLOGS}
 			${CPPLOGS_COMPILE_MODE}
 			${PROJECT_HEADERS}
 			${PROJECT_SOURCES})
-	
-add_subdirectory(examples/ExampleWriteLog)
-add_subdirectory(examples/ExampleReadLog)
-add_subdirectory(examples/ExampleStreamClient)
+if(${CPPLOGS_COMPILE_EXAMPLE_OPTION})
+	add_subdirectory(examples/ExampleWriteLog)
+	add_subdirectory(examples/ExampleReadLog)
+	add_subdirectory(examples/ExampleStreamClient)
+endif()
