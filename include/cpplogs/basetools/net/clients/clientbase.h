@@ -1,5 +1,5 @@
 /*
-* function		: tcp base
+* function		: net client base
 * author		: hammlee
 * e-mail		: hammlee@163.com
 * create date	: 2024.01.22
@@ -20,14 +20,14 @@
 
 namespace CppLogs
 {
-	class SocketTcpBase
+	class ClientBase
 	{
 	public:
-		SocketTcpBase(const std::string& hostip = "127.0.0.1", const int& hostport = 9605)
+		ClientBase(const std::string& hostip = "127.0.0.1", const int& hostport = 9605)
 		{
 
 		}
-		virtual ~SocketTcpBase()
+		virtual ~ClientBase()
 		{
 
 		}

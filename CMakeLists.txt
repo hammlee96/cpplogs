@@ -52,7 +52,7 @@ set(PROJECT_HEADERS
 	include/cpplogs/basetools/base.h
 	include/cpplogs/basetools/toolbox.h
 	include/cpplogs/basetools/cppjson.h
-	include/cpplogs/basetools/net/sockettcp.h
+	include/cpplogs/basetools/net/netclient.h
 	include/cpplogs/dataformat.h
 	include/cpplogs/fileformat.h
 	include/cpplogs/cpplogsw.h

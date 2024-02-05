@@ -11,20 +11,20 @@
 
 #pragma once
 #include "cpplogs/basetools/base.h"
-#include "sockettcps/sockettcpbase.h"
+#include "clients/clientbase.h"
 #if defined(CPPLOGS_SYSTEM_WINDOWS)
-#include "sockettcps/sockettcpwin.h"
+#include "clients/sockettcpwinclient.h"
 #else
-#include "sockettcps/sockettcplinux.h"
+#include "clients/sockettcplinuxclient.h"
 #endif
 #include "cpplogs/basetools/toolbox.h"
 
 namespace CppLogs
 {
-	class SocketTcp
+	class NetClient
 	{
 	public:
-		SocketTcp(const std::string& hostip = "127.0.0.1", const int& hostport = 9605)
+		NetClient(const std::string& hostip = "127.0.0.1", const int& hostport = 9605)
 		{
 #if defined(CPPLOGS_SYSTEM_WINDOWS)
 			_pSocketTcpBase = std::make_shared<SocketTcpWinClient>(hostip, hostport);
@@ -33,7 +33,7 @@ namespace CppLogs
 #endif
 		}
 
-		~SocketTcp()
+		~NetClient()
 		{
 		}
 
@@ -60,6 +60,6 @@ namespace CppLogs
 		}
 
 	private:
-		CPPLOGS_DISABLE4251(std::shared_ptr<SocketTcpBase> _pSocketTcpBase);
+		CPPLOGS_DISABLE4251(std::shared_ptr<ClientBase> _pSocketTcpBase);
 	};
 }

@@ -12,7 +12,7 @@
 #pragma once
 
 #include "cpplogs/basetools/base.h"
-#include "cpplogs/basetools/net/sockettcp.h"
+#include "cpplogs/basetools/net/netclient.h"
 #include "cpplogs/cpplogsmessage.h"
 
 namespace CppLogs
@@ -22,7 +22,7 @@ namespace CppLogs
 	public:
 		CppLogsStreamClient(const std::string& hostip = "127.0.0.1", const int& hostport = 9605)
 		{
-			_NetClient = std::make_shared<SocketTcp>(hostip, hostport);
+			_NetClient = std::make_shared<NetClient>(hostip, hostport);
 			_CppLogsMessage = std::make_shared<CppLogsMessage>();
 		}
 		~CppLogsStreamClient()
@@ -88,7 +88,7 @@ namespace CppLogs
 		}
 
 	private:
-		CPPLOGS_DISABLE4251(std::shared_ptr<SocketTcp> _NetClient);
+		CPPLOGS_DISABLE4251(std::shared_ptr<NetClient> _NetClient);
 		CPPLOGS_DISABLE4251(std::shared_ptr<CppLogsMessage> _CppLogsMessage);
 	};
 }

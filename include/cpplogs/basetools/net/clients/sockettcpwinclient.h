@@ -12,7 +12,7 @@
 
 #pragma once
 
-#include "sockettcpbase.h"
+#include "clientbase.h"
 
 #include <winsock2.h>
 #include <ws2tcpip.h>
@@ -22,7 +22,7 @@
 
 namespace CppLogs
 {
-	class SocketTcpWinClient : public SocketTcpBase
+	class SocketTcpWinClient : public ClientBase
 	{
 	public:
 		SocketTcpWinClient(const std::string& hostip = "127.0.0.1", const int& hostport = 9605) :

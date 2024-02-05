@@ -12,7 +12,7 @@
 
 #pragma once
 
-#include "sockettcpbase.h"
+#include "clientbase.h"
 #include <sys/types.h>
 #include <sys/socket.h>
 #include <arpa/inet.h>
@@ -21,7 +21,7 @@
 
 namespace CppLogs
 {
-	class SocketTcpLinuxClient : public SocketTcpBase
+	class SocketTcpLinuxClient : public ClientBase
 	{
 	public:
 		SocketTcpLinuxClient(const std::string& hostip = "127.0.0.1", const int& hostport = 9605) : 
@@ -83,10 +83,12 @@ namespace CppLogs
 
 		Error::EnCppLogsNetError recv(char* data, size_t& size) override
 		{
-			if (::recv(_socket, data, size, 0) < 0) {
+			int ret = ::recv(_socket, data, CPPLOGS_NET_SIZE, 0);
+			if (ret < 0) {
 				disconnect();
 				return Error::EnCppLogsNetError_RecvFailed;
 			}
+			size = ret;
 			return Error::EnCppLogsNetError_None;
 		}
 
