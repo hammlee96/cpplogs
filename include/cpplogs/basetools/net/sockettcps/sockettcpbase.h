@@ -23,12 +23,6 @@ namespace CppLogs
 	class SocketTcpBase
 	{
 	public:
-		enum EnCppLogsSocketTcpType {
-			CppLogsSocketTcpType_Client,
-			CppLogsSocketTcpType_Server
-		};
-
-	public:
 		SocketTcpBase(const std::string& hostip = "127.0.0.1", const int& hostport = 9605)
 		{
 
@@ -39,20 +33,8 @@ namespace CppLogs
 		}
 		
 		virtual Error::EnCppLogsNetError init() = 0;
-		virtual Error::EnCppLogsNetError connect()
-		{
-			return Error::EnCppLogsNetError_ConnectFailed;
-		}
-
-		virtual Error::EnCppLogsNetError disconnect()
-		{
-			return Error::EnCppLogsNetError_DisconnectFailed;
-		}
-
-		virtual Error::EnCppLogsNetError listen()
-		{
-			return Error::EnCppLogsNetError_CreateListenFailed;
-		}
+		virtual Error::EnCppLogsNetError connect() = 0;
+		virtual Error::EnCppLogsNetError disconnect() = 0;
 
 		virtual Error::EnCppLogsNetError send(const char* data, const size_t& size) = 0;
 		virtual Error::EnCppLogsNetError recv(char* data, size_t& size) = 0;

@@ -144,42 +144,4 @@ namespace CppLogs
 		int _hostport;
 		SOCKET _socket;
 	};
-
-	class SocketTcpWinServer : public SocketTcpBase
-	{
-	public:
-		SocketTcpWinServer(const std::string_view& hostip = "127.0.0.1", const int& hostport = 9605)
-		{
-
-		}
-		~SocketTcpWinServer()
-		{
-
-		}
-
-		Error::EnCppLogsNetError init() override
-		{
-			return Error::EnCppLogsNetError();
-		}
-
-		Error::EnCppLogsNetError connect() override
-		{
-			return Error::EnCppLogsNetError();
-		}
-
-		Error::EnCppLogsNetError disconnect() override
-		{
-			return Error::EnCppLogsNetError();
-		}
-
-		Error::EnCppLogsNetError listen() override
-		{
-			return Error::EnCppLogsNetError();
-		}
-
-		bool is_connected() const override
-		{
-			return false;
-		}
-	};
 }

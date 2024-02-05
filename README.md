@@ -23,6 +23,7 @@
 	| option                                | function                                           |
 	| ------------------------------------- | -------------------------------------------------- |
 	| CPPLOGS_COMPILE_STATIC_OPTION         | If true, then use the static compile mode          |
+	| CPPLOGS_COMPILE_EXAMPLE_OPTION        | If true, then compile with examples                |
 ## Usage
 - ### Write log file to local
 	To enable the function of writing local log files, you need include `cpplogsw.h`.

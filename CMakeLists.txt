@@ -26,6 +26,8 @@ elseif(${CMAKE_HOST_SYSTEM_NAME} STREQUAL "Linux")
 set(CPPLOGS_PLATFORM_LINUX True)
 endif()
 
+message("-- build paltform: ${CMAKE_HOST_SYSTEM_NAME}")
+
 project (${PJNAME_CPPLOGS})
 
 set(CPPLOGS_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/out/${CMAKE_BUILD_TYPE})
@@ -73,4 +75,5 @@ if(${CPPLOGS_COMPILE_EXAMPLE_OPTION})
 	add_subdirectory(examples/CppLogsWriteLog)
 	add_subdirectory(examples/CppLogsReadLog)
 	add_subdirectory(examples/CppLogsStreamClient)
+	add_subdirectory(examples/CppLogsStreamServer)
 endif()
