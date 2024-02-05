@@ -1,12 +1,12 @@
-#include "ExampleStreamClient.h"
+#include "CppLogsStreamClient.h"
 
 int main()
 {
-	ExampleStreamClient client;
+	CppLogsStreamClient client;
 	return 0;
 }
 
-ExampleStreamClient::ExampleStreamClient()
+CppLogsStreamClient::CppLogsStreamClient()
 {
 	CppLogs::CppLogsStreamClient* pCppLogsStreamClient = new CppLogs::CppLogsStreamClient();
 	CppLogs::Error::EnCppLogsNetError ret = CppLogs::Error::EnCppLogsNetError_None;
@@ -58,6 +58,6 @@ ExampleStreamClient::ExampleStreamClient()
 	}
 }
 
-ExampleStreamClient::~ExampleStreamClient()
+CppLogsStreamClient::~CppLogsStreamClient()
 {
 }

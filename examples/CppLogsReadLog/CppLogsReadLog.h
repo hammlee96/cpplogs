@@ -12,11 +12,11 @@
 #include "cpplogs/cpplogsr.h"
 #include "cpplogs/basetools/base.h"
 
-class ExampleReadLog
+class CppLogsReadLog
 {
 public:
-	ExampleReadLog(const std::string& filepath);
-	~ExampleReadLog();
+	CppLogsReadLog(const std::string& filepath);
+	~CppLogsReadLog();
 
 private:
 	CppLogs::CppLogsR *m_pCppLogs;

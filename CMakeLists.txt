@@ -70,7 +70,7 @@ add_library(${PJNAME_CPPLOGS}
 			${PROJECT_HEADERS}
 			${PROJECT_SOURCES})
 if(${CPPLOGS_COMPILE_EXAMPLE_OPTION})
-	add_subdirectory(examples/ExampleWriteLog)
-	add_subdirectory(examples/ExampleReadLog)
-	add_subdirectory(examples/ExampleStreamClient)
+	add_subdirectory(examples/CppLogsWriteLog)
+	add_subdirectory(examples/CppLogsReadLog)
+	add_subdirectory(examples/CppLogsStreamClient)
 endif()

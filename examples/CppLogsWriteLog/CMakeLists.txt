@@ -4,7 +4,7 @@ set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 set(PJNAME_EXAMPLE
-	cpplogs_streamclient)
+	cpplogs_writelog)
 
 project(${PJNAME_EXAMPLE})
 
@@ -21,5 +21,5 @@ else()
 	)
 endif()
 
-add_executable(${PJNAME_EXAMPLE} ExampleStreamClient.h ExampleStreamClient.cpp)
+add_executable(${PJNAME_EXAMPLE} CppLogsWriteLog.h CppLogsWriteLog.cpp)
 target_link_libraries(${PJNAME_EXAMPLE} ${LIBSNAME_EXAMPLE})

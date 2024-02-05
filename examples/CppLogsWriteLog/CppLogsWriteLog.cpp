@@ -1,15 +1,15 @@
-#include "ExampleWriteLog.h"
+#include "CppLogsWriteLog.h"
 #include "cpplogs/basetools/base.h"
 #include "cpplogs/basetools/toolbox.h"
 #include <filesystem>
 
 int main()
 {
-	ExampleWriteLog w;
+	CppLogsWriteLog w;
 	return 0;
 }
 
-ExampleWriteLog::ExampleWriteLog()
+CppLogsWriteLog::CppLogsWriteLog()
 {
 	CppLogs::ToolBox::StCppLogsDateTime st_CppLogsDateTime = CppLogs::ToolBox::gettime();
 #if defined(CPPLOGS_SYSTEM_WINDOWS)
@@ -43,6 +43,6 @@ ExampleWriteLog::ExampleWriteLog()
 	}
 }
 
-ExampleWriteLog::~ExampleWriteLog()
+CppLogsWriteLog::~CppLogsWriteLog()
 {
 }

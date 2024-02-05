@@ -11,11 +11,11 @@
 
 #include "cpplogs/cpplogsw.h"
 
-class ExampleWriteLog 
+class CppLogsWriteLog
 {
 public:
-	ExampleWriteLog();
-	~ExampleWriteLog();
+	CppLogsWriteLog();
+	~CppLogsWriteLog();
 
 private:
 	CppLogs::CppLogsW* m_pCppLogs;

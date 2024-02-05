@@ -1,4 +1,4 @@
-#include"ExampleReadLog.h"
+#include"CppLogsReadLog.h"
 #include <cassert>
 
 int main(int argc, char* argv[])
@@ -6,11 +6,11 @@ int main(int argc, char* argv[])
 	if (argc != 2) {
 		assert(false);
 	}
-	ExampleReadLog r(argv[1]);
+	CppLogsReadLog r(argv[1]);
 	return 0;
 }
 
-ExampleReadLog::ExampleReadLog(const std::string& filepath)
+CppLogsReadLog::CppLogsReadLog(const std::string& filepath)
 {
 	m_pCppLogs = new CppLogs::CppLogsR(filepath);
 
@@ -40,6 +40,6 @@ ExampleReadLog::ExampleReadLog(const std::string& filepath)
 	}
 }
 
-ExampleReadLog::~ExampleReadLog()
+CppLogsReadLog::~CppLogsReadLog()
 {
 }
