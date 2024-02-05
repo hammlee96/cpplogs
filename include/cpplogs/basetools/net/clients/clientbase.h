@@ -12,7 +12,6 @@
 
 #pragma once
 #include <iostream>
-#include <string_view>
 #include <string>
 #include "cpplogs/basetools/error.h"
 

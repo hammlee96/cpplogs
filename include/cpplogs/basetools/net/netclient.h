@@ -1,5 +1,5 @@
 /*
-* function		: tcp summery
+* function		: client summery
 * author		: hammlee
 * e-mail		: hammlee@163.com
 * create date	: 2024.01.22
@@ -27,9 +27,9 @@ namespace CppLogs
 		NetClient(const std::string& hostip = "127.0.0.1", const int& hostport = 9605)
 		{
 #if defined(CPPLOGS_SYSTEM_WINDOWS)
-			_pSocketTcpBase = std::make_shared<SocketTcpWinClient>(hostip, hostport);
+			_pClientBase = std::make_shared<SocketTcpWinClient>(hostip, hostport);
 #else
-			_pSocketTcpBase = std::make_shared<SocketTcpLinuxClient>(hostip, hostport);
+			_pClientBase = std::make_shared<SocketTcpLinuxClient>(hostip, hostport);
 #endif
 		}
 
@@ -39,27 +39,27 @@ namespace CppLogs
 
 		Error::EnCppLogsNetError init()
 		{
-			return _pSocketTcpBase.get()->init();
+			return _pClientBase.get()->init();
 		}
 
 		Error::EnCppLogsNetError connect()
 		{
-			Error::EnCppLogsNetError ret = _pSocketTcpBase.get()->connect();
+			Error::EnCppLogsNetError ret = _pClientBase.get()->connect();
 			ToolBox::msleep(100);
 			return ret;
 		}
 
 		Error::EnCppLogsNetError send(const std::string& data)
 		{
-			return _pSocketTcpBase.get()->send(data.c_str(), data.size());;
+			return _pClientBase.get()->send(data.c_str(), data.size());;
 		}
 
 		Error::EnCppLogsNetError disconnect()
 		{
-			return _pSocketTcpBase.get()->disconnect();
+			return _pClientBase.get()->disconnect();
 		}
 
 	private:
-		CPPLOGS_DISABLE4251(std::shared_ptr<ClientBase> _pSocketTcpBase);
+		CPPLOGS_DISABLE4251(std::shared_ptr<ClientBase> _pClientBase);
 	};
 }

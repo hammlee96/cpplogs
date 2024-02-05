@@ -1,5 +1,5 @@
 /*
-* function		: tcp base for linux
+* function		: tcp client for linux
 * author		: hammlee
 * e-mail		: hammlee@163.com
 * create date	: 2024.01.22

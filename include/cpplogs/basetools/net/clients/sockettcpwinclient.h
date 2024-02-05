@@ -1,5 +1,5 @@
 /*
-* function		: tcp base for windows
+* function		: tcp client for windows
 * author		: hammlee
 * e-mail		: hammlee@163.com
 * create date	: 2024.01.22

@@ -12,7 +12,6 @@
 #pragma once
 
 #include <iostream>
-#include <string_view>
 #include <string>
 #include "cpplogs/basetools/error.h"
 
@@ -47,7 +46,7 @@ namespace CppLogs
 		virtual Error::EnCppLogsNetError recv(char* data, size_t& size) = 0;
 		virtual Error::EnCppLogsNetError close() = 0;
 
-		int connect_num() = 0;
-		std::vector<StCppLogsNetAddrInfo> connect_info() = 0;
+		virtual int connect_num() = 0;
+		virtual std::vector<StCppLogsNetAddrInfo> connect_info() = 0;
 	};
 }
