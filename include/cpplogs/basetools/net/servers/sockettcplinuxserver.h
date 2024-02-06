@@ -12,6 +12,7 @@
 #pragma once
 
 #include "serverbase.h"
+#include <vector>
 
 namespace CppLogs
 {
@@ -35,7 +36,7 @@ namespace CppLogs
 		{
 			return Error::EnCppLogsNetError();
 		}
-		virtual Error::EnCppLogsNetError \
+		Error::EnCppLogsNetError \
 			send(const std::string& destip, const int& destport, const char* data, const size_t& size)
 		{
 			return Error::EnCppLogsNetError();

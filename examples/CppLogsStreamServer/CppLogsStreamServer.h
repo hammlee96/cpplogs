@@ -10,6 +10,7 @@
 */
 
 #include "cpplogs/basetools/toolbox.h"
+#include "cpplogs/basetools/net/netserver.h"
 
 class CppLogsStreamServer
 {

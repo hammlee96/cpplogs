@@ -38,6 +38,21 @@ namespace CppLogs
 
 		}
 
+		bool init()
+		{
+			return _pServerBase->init();
+		}
+
+		bool accept()
+		{
+			return _pServerBase->accept();
+		}
+
+		bool recv(char* data, size_t& size)
+		{
+			return _pServerBase->recv(data, size);
+		}
+
 	private:
 		CPPLOGS_DISABLE4251(std::shared_ptr<ServerBase> _pServerBase);
 	};

@@ -34,7 +34,11 @@ namespace CppLogs {
 			EnCppLogsNetError_SetSocketFailed,
 			EnCppLogsNetError_ConnectFailed,
 			EnCppLogsNetError_SendFailed,
-			EnCppLogsNetError_RecvFailed
+			EnCppLogsNetError_RecvFailed,
+			EnCppLogsNetError_BindFailed,
+			EnCppLogsNetError_ListenFailed,
+			EnCppLogsNetError_AcceptFailed,
+			EnCppLogsNetError_ClientSizeNull
 		};
 	};
 }
