@@ -119,8 +119,8 @@ namespace CppLogs
 			for (auto it : _st_CppLogsNetAddrInfo_Vector) {
 				::ZeroMemory(data, CPPLOGS_NET_SIZE);
 				ret = ::recv(it.fd, data, CPPLOGS_NET_SIZE, 0);
-				CPPLOGS_DEBUG << "[" << it.str_ip << ":" << it.port << "]" << data;
-				if (ret <= 0) {
+				//CPPLOGS_DEBUG << "[" << it.str_ip << ":" << it.port << "]" << data;
+				if (ret < 0) {
 					return Error::EnCppLogsNetError_RecvFailed;
 				}
 				size = ret;

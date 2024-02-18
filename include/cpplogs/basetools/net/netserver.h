@@ -38,19 +38,24 @@ namespace CppLogs
 
 		}
 
-		bool init()
+		Error::EnCppLogsNetError init()
 		{
 			return _pServerBase->init();
 		}
 
-		bool accept()
+		Error::EnCppLogsNetError accept()
 		{
 			return _pServerBase->accept();
 		}
 
-		bool recv(char* data, size_t& size)
+		Error::EnCppLogsNetError recv(char* data, size_t& size)
 		{
 			return _pServerBase->recv(data, size);
+		}
+
+		Error::EnCppLogsNetError close() 
+		{
+			return _pServerBase->close();
 		}
 
 	private:
