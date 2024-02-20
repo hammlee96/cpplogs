@@ -43,7 +43,7 @@ namespace CppLogs
 		virtual Error::EnCppLogsNetError accept() = 0;
 		virtual Error::EnCppLogsNetError \
 			send(const std::string& destip, const int& destport, const char* data, const size_t& size) = 0;
-		virtual Error::EnCppLogsNetError recv(char* data, size_t& size) = 0;
+		virtual Error::EnCppLogsNetError recv(char* data, int& size) = 0;
 		virtual Error::EnCppLogsNetError close() = 0;
 
 		virtual int connect_num() = 0;

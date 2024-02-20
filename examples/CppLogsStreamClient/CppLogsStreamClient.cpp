@@ -8,7 +8,7 @@ int main()
 
 CppLogsStreamClient::CppLogsStreamClient()
 {
-	CppLogs::CppLogsStreamClient* pCppLogsStreamClient = new CppLogs::CppLogsStreamClient();
+	CppLogs::CppLogsStreamClient* pCppLogsStreamClient = new CppLogs::CppLogsStreamClient("192.168.30.58");
 	CppLogs::Error::EnCppLogsNetError ret = CppLogs::Error::EnCppLogsNetError_None;
 
 	CppLogs::ToolBox::StCppLogsDateTime st_CppLogsDateTime = CppLogs::ToolBox::gettime();
@@ -24,17 +24,15 @@ CppLogsStreamClient::CppLogsStreamClient()
 	if (ret) {
 		CPPLOGS_ERROR << ret;
 	}
-	ret = pCppLogsStreamClient->send_file_info(logPathName);
-	if (ret) {
-		CPPLOGS_ERROR << ret;
-	}
+	pCppLogsStreamClient->send_file_info(logPathName);
+	//if (ret) {
+	//	CPPLOGS_ERROR << ret;
+	//}
 
-	CppLogs::ToolBox::msleep(1000);
-
-	ret = pCppLogsStreamClient->send_log_type({"", "infomation", "warning", "error", CppLogs::DataFormat::CppLogsLevel_High, true});
-	if (ret) {
-		CPPLOGS_ERROR << ret;
-	}
+	pCppLogsStreamClient->send_log_type({"", "infomation", "warning", "error", CppLogs::DataFormat::CppLogsLevel_High, true});
+	//if (ret) {
+	//	CPPLOGS_ERROR << ret;
+	//}
 
 	CppLogs::ToolBox::msleep(1000);
 

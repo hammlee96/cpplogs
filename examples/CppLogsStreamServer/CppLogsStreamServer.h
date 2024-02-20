@@ -11,10 +11,29 @@
 
 #include "cpplogs/basetools/toolbox.h"
 #include "cpplogs/basetools/net/netserver.h"
+#include "cpplogs/cpplogsstreamclient.h"
+#include "cthreadpool.h"
+#include <memory>
 
 class CppLogsStreamServer
 {
+private:
+	std::shared_ptr<CppLogs::NetServer> m_spNetServer;
+	//std::shared_ptr<CppLogs::CppLogsStreamClient> m_spNetForward;
+	std::shared_ptr<CThreadPool> m_spCThreadPool;
+	std::shared_ptr<CThreadBase> m_spCThreadBase;
+	struct StThreadPoolUse
+	{
+		CppLogsStreamServer* pCppLogsStreamServer;
+		CppLogs::ServerBase::StCppLogsNetAddrInfo st_CppLogsNetAddrInfo;
+	};
+
 public:
-	CppLogsStreamServer();
+	CppLogsStreamServer(const int& port = 9605);
 	~CppLogsStreamServer();
+
+	void init();
+	CppLogs::Error::EnCppLogsNetError recv(char* data, int& size);
+	void manager_thread();
+	static void net_process_thread(StThreadPoolUse* pst_ThreadPoolUse);
 };

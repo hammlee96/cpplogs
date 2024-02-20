@@ -44,39 +44,46 @@ namespace CppLogs
 			return ret;
 		}
 
-		Error::EnCppLogsNetError send_file_info(const std::string& filepathname)
+		void send_file_info(const std::string& filepathname)
 		{
-			std::string jsValue;
-			_CppLogsMessage.get()->CommandSetFileInfo(jsValue, filepathname);
-			return _NetClient.get()->send(jsValue);
+			_filepathname = filepathname;
 		}
 
-		Error::EnCppLogsNetError send_log_type(const DataFormat::StCppLogsHeader& st_CppLogsHeader)
+		bool send_log_type(const DataFormat::StCppLogsHeader& st_CppLogsHeader = DEF_CPPLOGS_ITEMS)
 		{
-			std::string jsValue;
-			_CppLogsMessage.get()->CommandSetLogType(jsValue, st_CppLogsHeader);
-			return _NetClient.get()->send(jsValue);
+			if (!st_CppLogsHeader.keyInfo.empty() && \
+				!st_CppLogsHeader.keyWarn.empty() && \
+				!st_CppLogsHeader.keyError.empty()) {
+				_st_CppLogsHeader = st_CppLogsHeader;
+				return true;
+			}
+			return false;
 		}
 
 		Error::EnCppLogsNetError send_log_data_info(const std::string secondKey, const std::string& data)
 		{
 			std::string jsValue;
-			_CppLogsMessage.get()->CommandSetLogData(jsValue, DataFormat::CppLogsItemType_Info, secondKey, data);
-			return _NetClient.get()->send(jsValue);
+			_CppLogsMessage.get()->CommandSetLogData(jsValue, _filepathname, _st_CppLogsHeader, DataFormat::CppLogsItemType_Info, secondKey, data);
+			return _NetClient.get()->send(jsValue);\
 		}
 
 		Error::EnCppLogsNetError send_log_data_warn(const std::string secondKey, const std::string& data)
 		{
 			std::string jsValue;
-			_CppLogsMessage.get()->CommandSetLogData(jsValue, DataFormat::CppLogsItemType_Warn, secondKey, data);
+			_CppLogsMessage.get()->CommandSetLogData(jsValue, _filepathname, _st_CppLogsHeader, DataFormat::CppLogsItemType_Warn, secondKey, data);
 			return _NetClient.get()->send(jsValue);
 		}
 
 		Error::EnCppLogsNetError send_log_data_error(const std::string secondKey, const std::string& data)
 		{
 			std::string jsValue;
-			_CppLogsMessage.get()->CommandSetLogData(jsValue, DataFormat::CppLogsItemType_Error, secondKey, data);
+			_CppLogsMessage.get()->CommandSetLogData(jsValue, _filepathname, _st_CppLogsHeader, DataFormat::CppLogsItemType_Error, secondKey, data);
 			return _NetClient.get()->send(jsValue);
+		}
+
+		Error::EnCppLogsNetError send_string(const std::string& str_data)
+		{
+			return _NetClient.get()->send(str_data);
 		}
 
 		// TODO: return error need redefine
@@ -90,5 +97,7 @@ namespace CppLogs
 	private:
 		CPPLOGS_DISABLE4251(std::shared_ptr<NetClient> _NetClient);
 		CPPLOGS_DISABLE4251(std::shared_ptr<CppLogsMessage> _CppLogsMessage);
+		CPPLOGS_DISABLE4251(std::string _filepathname);
+		DataFormat::StCppLogsHeader _st_CppLogsHeader;
 	};
 }

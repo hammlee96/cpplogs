@@ -41,7 +41,7 @@ namespace CppLogs
 		{
 			return Error::EnCppLogsNetError();
 		}
-		Error::EnCppLogsNetError recv(char* data, size_t& size)
+		Error::EnCppLogsNetError recv(char* data, int& size)
 		{
 			return Error::EnCppLogsNetError();
 		}

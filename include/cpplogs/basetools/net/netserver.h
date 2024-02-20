@@ -48,7 +48,7 @@ namespace CppLogs
 			return _pServerBase->accept();
 		}
 
-		Error::EnCppLogsNetError recv(char* data, size_t& size)
+		Error::EnCppLogsNetError recv(char* data, int& size)
 		{
 			return _pServerBase->recv(data, size);
 		}
@@ -56,6 +56,16 @@ namespace CppLogs
 		Error::EnCppLogsNetError close() 
 		{
 			return _pServerBase->close();
+		}
+
+		int get_connect_num()
+		{
+			return _pServerBase->connect_num();
+		}
+
+		std::vector<ServerBase::StCppLogsNetAddrInfo> get_connect_info()
+		{
+			return _pServerBase->connect_info();
 		}
 
 	private:

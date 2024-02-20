@@ -96,7 +96,7 @@ namespace CppLogs
 			int len_client_sockaddr_in = sizeof(st_client_sockaddr_in);
 
 			SOCKET client_socket = ::accept(_listen_socket, reinterpret_cast<SOCKADDR*>(&st_client_sockaddr_in), &len_client_sockaddr_in);
-			//CPPLOGS_DEBUG << "client ip: " << ::inet_ntoa(st_client_sockaddr_in.sin_addr);
+			CPPLOGS_DEBUG << "client ip: " << ::inet_ntoa(st_client_sockaddr_in.sin_addr);
 			//::inet_ntoa: st_client_sockaddr_in.sin_addr to char*
 			//::inet_addr: char* to st_client_sockaddr_in.sin_addr
 			if (client_socket == INVALID_SOCKET) {
@@ -113,7 +113,7 @@ namespace CppLogs
 		{
 			return Error::EnCppLogsNetError();
 		}
-		Error::EnCppLogsNetError recv(char* data, size_t& size)
+		Error::EnCppLogsNetError recv(char* data, int& size)
 		{
 			int ret = 0;
 			for (auto it : _st_CppLogsNetAddrInfo_Vector) {
