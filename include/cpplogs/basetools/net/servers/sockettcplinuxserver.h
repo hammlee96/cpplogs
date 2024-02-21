@@ -71,20 +71,36 @@ namespace CppLogs
 			if (::listen(_StEpSockFd.sockFd, DEF_MAX_LISTEN_CNT) < 0) {
 				return Error::EnCppLogsNetError_ListenFailed;
 			}
-			_StEpSockFd.epFd = epoll_create(DEF_MAX_CONNECT_CNT);
+			_StEpSockFd.epFd = ::epoll_create(DEF_MAX_CONNECT_CNT);
 			if (_StEpSockFd.epFd < 0) {
 				return Error::EnCppLogsNetError_CreateEpollFailed;
 			}
 			st_epoll_event.events = EPOLLIN;
 			st_epoll_event.data.fd = _StEpSockFd.epFd;
-			if (epoll_ctl(_StEpSockFd.epFd, EPOLL_CTL_ADD, _StEpSockFd.sockFd, &st_epoll_event) < 0) {
-
+			if (::epoll_ctl(_StEpSockFd.epFd, EPOLL_CTL_ADD, _StEpSockFd.sockFd, &st_epoll_event) < 0) {
+				return Error::EnCppLogsNetError_CreateEpollFailed;
 			}
 
 			return Error::EnCppLogsNetError_None;
 		}
 		Error::EnCppLogsNetError accept()
 		{
+			epoll_event st_epoll_events[DEF_MAX_CONNECT_CNT], st_epoll_event_add;
+			sockaddr_in st_socket_client_in;
+			socklen_t size =  0;
+			int ready = ::epoll_wait(_StEpSockFd.epFd, st_epoll_events, DEF_MAX_CONNECT_CNT, -1);
+			for (int i = 0; i < ready; i++) {
+				size = sizeof(sockaddr);
+				if (st_epoll_events[i].data.fd == _StEpSockFd.sockFd) {
+					int client_fd = ::accept(_StEpSockFd.sockFd, (struct sockaddr*)&st_socket_client_in, &size);
+					st_epoll_event_add.events = EPOLLIN;
+					st_epoll_event_add.data.fd = client_fd;
+					::epoll_ctl(_StEpSockFd.epFd, EPOLL_CTL_ADD, client_fd, &st_epoll_event_add);
+				}
+				else {
+
+				}
+			}
 			return Error::EnCppLogsNetError_None;
 		}
 		Error::EnCppLogsNetError \
