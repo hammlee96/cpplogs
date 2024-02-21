@@ -18,6 +18,7 @@ if(${CPPLOGS_PLATFORM_WINDOWS})
 else()
 	set(LIBSNAME_EXAMPLE
 		-l${PJNAME_CPPLOGS}
+		-lpthread
 	)
 endif()
 

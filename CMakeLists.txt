@@ -42,6 +42,13 @@ set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS OFF)
 include_directories(${CPPLOGS_SOURCE_DIRECTORY}/include
 					${CPPLOGS_SOURCE_DIRECTORY}/src)
 
+if(${CMAKE_HOST_SYSTEM_NAME} STREQUAL "Windows")
+	set(PROJECT_HEADERS_DIFF_PLATFORM)
+elseif(${CMAKE_HOST_SYSTEM_NAME} STREQUAL "Linux")
+	set(PROJECT_HEADERS_DIFF_PLATFORM
+		include/cpplogs/basetools/net/netserver.h)
+endif()
+
 set(PROJECT_SOURCES
 	src/cpplogs/basetools/cppjson.cpp
 	src/third_party/cJSON/cJSON.c)
@@ -53,14 +60,14 @@ set(PROJECT_HEADERS
 	include/cpplogs/basetools/toolbox.h
 	include/cpplogs/basetools/cppjson.h
 	include/cpplogs/basetools/net/netclient.h
-	include/cpplogs/basetools/net/netserver.h
 	include/cpplogs/dataformat.h
 	include/cpplogs/fileformat.h
 	include/cpplogs/cpplogsw.h
 	include/cpplogs/cpplogsr.h
 	include/cpplogs/cpplogsstreamclient.h
 	include/cpplogs/cpplogsmessage.h
-	src/third_party/cJSON/cJSON.h)
+	src/third_party/cJSON/cJSON.h
+	${PROJECT_HEADERS_DIFF_PLATFORM})
 
 if(${CPPLOGS_COMPILE_STATIC_OPTION})
 	set(CPPLOGS_COMPILE_MODE "STATIC")
@@ -76,5 +83,7 @@ if(${CPPLOGS_COMPILE_EXAMPLE_OPTION})
 	add_subdirectory(examples/CppLogsWriteLog)
 	add_subdirectory(examples/CppLogsReadLog)
 	add_subdirectory(examples/CppLogsStreamClient)
-	add_subdirectory(examples/CppLogsStreamServer)
+	if(${CMAKE_HOST_SYSTEM_NAME} STREQUAL "Linux")
+		add_subdirectory(examples/CppLogsStreamServer)
+	endif()
 endif()

@@ -38,7 +38,8 @@ namespace CppLogs {
 			EnCppLogsNetError_BindFailed,
 			EnCppLogsNetError_ListenFailed,
 			EnCppLogsNetError_AcceptFailed,
-			EnCppLogsNetError_ClientSizeNull
+			EnCppLogsNetError_ClientSizeNull,
+			EnCppLogsNetError_CreateEpollFailed
 		};
 	};
 }

@@ -43,7 +43,7 @@ public:
             return nullptr;
         }
 
-        m_pThreadMap.insert(strThreadName, p);
+        m_pThreadMap[strThreadName] = p;
         return p;
     }
 
