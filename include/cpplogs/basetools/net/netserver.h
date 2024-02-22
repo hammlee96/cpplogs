@@ -35,9 +35,9 @@ namespace CppLogs
 			return _pServerBase->init();
 		}
 
-		Error::EnCppLogsNetError accept()
+		Error::EnCppLogsNetError accept(ServerBase::StNetDataInfo** st_NetDataInfo)
 		{
-			return _pServerBase->accept();
+			return _pServerBase->accept(st_NetDataInfo);
 		}
 
 		Error::EnCppLogsNetError recv(char* data, int& size)
@@ -45,9 +45,24 @@ namespace CppLogs
 			return _pServerBase->recv(data, size);
 		}
 
+		Error::EnCppLogsNetError send(const std::string& destip, const int& destport, const char* data, const size_t& size)
+		{
+			return _pServerBase->send(destip, destport, data, size);
+		}
+
+		Error::EnCppLogsNetError send(const int& client_fd, const char* data, const size_t& size)
+		{
+			return _pServerBase->send(client_fd, data, size);
+		}
+
 		Error::EnCppLogsNetError close() 
 		{
-			return _pServerBase->close();
+			return Error::EnCppLogsNetError_None;
+		}
+
+		void free_struct(ServerBase::StNetDataInfo* st_NetDataInfo)
+		{
+			_pServerBase->free_struct(st_NetDataInfo);
 		}
 
 		int get_connect_num()

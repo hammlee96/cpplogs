@@ -41,16 +41,29 @@ CppLogs::Error::EnCppLogsNetError CppLogsStreamServer::recv(char* data, int& siz
 void CppLogsStreamServer::manager_thread()
 {
 	while (true) {
-		CppLogs::Error::EnCppLogsNetError ec = m_spNetServer.get()->accept();
-		if (ec) {
-			CPPLOGS_ERROR << ec;
+		CppLogs::ServerBase::StNetDataInfo* st_NetDataInfo = nullptr;
+		CppLogs::Error::EnCppLogsNetError ec = m_spNetServer.get()->accept(&st_NetDataInfo);
+
+		CPPLOGS_DEBUG << st_NetDataInfo[0].net_event_type;
+		for (int i = 0; i < st_NetDataInfo[0].ready_num; i++) {
+			switch (st_NetDataInfo[i].net_event_type) {
+			case CppLogs::ServerBase::NetEventType_Conn:
+				CPPLOGS_DEBUG << "[" << st_NetDataInfo[i].st_net_addr_info.addr << ":" \
+					<< st_NetDataInfo[i].st_net_addr_info.port << "] - " << "connect" << std::endl;
+				CPPLOGS_DEBUG << m_spNetServer.get()->send(st_NetDataInfo[i].st_net_addr_info.fd, "connect succeed", 14) << std::endl;
+				break;
+			case CppLogs::ServerBase::NetEventType_DisConn:
+				CPPLOGS_DEBUG << "[" << st_NetDataInfo[i].st_net_addr_info.addr << ":" \
+					<< st_NetDataInfo[i].st_net_addr_info.port << "] - " << "disconnect" << std::endl;
+				break;
+			case CppLogs::ServerBase::NetEventType_Recv:
+				CPPLOGS_DEBUG << "[" << st_NetDataInfo[i].st_net_addr_info.addr << ":" \
+					<< st_NetDataInfo[i].st_net_addr_info.port << "] - \n" << st_NetDataInfo[i].data << std::endl;
+				CPPLOGS_DEBUG << m_spNetServer.get()->send(st_NetDataInfo[i].st_net_addr_info.fd, "recv succeed", 12) << std::endl;
+				break;
+			}
 		}
-		StThreadPoolUse *st_ThreadPoolUse = new StThreadPoolUse;
-		st_ThreadPoolUse->pCppLogsStreamServer = this;
-		st_ThreadPoolUse->st_CppLogsNetAddrInfo = m_spNetServer.get()->\
-			get_connect_info().at(m_spNetServer.get()->get_connect_info().size() - 1);
-		CPPLOGS_DEBUG << m_spNetServer.get()->get_connect_info().size();
-		m_spCThreadPool.get()->thread_pool_add((Function)net_process_thread, (void*)st_ThreadPoolUse);
+		m_spNetServer.get()->free_struct(st_NetDataInfo);
 	}
 }
 
@@ -62,11 +75,11 @@ void CppLogsStreamServer::net_process_thread(StThreadPoolUse* pst_ThreadPoolUse)
 		memset(data, 0, CPPLOGS_NET_SIZE);
 		size = pst_ThreadPoolUse->pCppLogsStreamServer->recv(data, size);
 		CPPLOGS_DEBUG <<
-	"[" << pst_ThreadPoolUse->st_CppLogsNetAddrInfo.str_ip.c_str()<<":" << pst_ThreadPoolUse->st_CppLogsNetAddrInfo.port<<"]"<<
+	"[" << pst_ThreadPoolUse->st_CppLogsNetAddrInfo.addr<<":" << pst_ThreadPoolUse->st_CppLogsNetAddrInfo.port<<"]"<<
 			":"<< data;
 	} while (size > 0);
 	//pst_ThreadPoolUse->pCppLogsStreamServer->m_spNetForward.get()->send_string(data);
-	CPPLOGS_WARNING << "[" << pst_ThreadPoolUse->st_CppLogsNetAddrInfo.str_ip << ":" << pst_ThreadPoolUse->st_CppLogsNetAddrInfo.port << "] " << "exit";
+	CPPLOGS_WARNING << "[" << pst_ThreadPoolUse->st_CppLogsNetAddrInfo.addr << ":" << pst_ThreadPoolUse->st_CppLogsNetAddrInfo.port << "] " << "exit";
 	delete pst_ThreadPoolUse;
 	pst_ThreadPoolUse = nullptr;
 }

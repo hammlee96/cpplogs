@@ -20,21 +20,18 @@
 #include <netinet/in.h>
 #include <arpa/inet.h>
 
-#define DEF_MAX_LISTEN_CNT		60000
-#define DEF_MAX_CONNECT_CNT		DEF_MAX_LISTEN_CNT
-
 namespace CppLogs
 {
 	class SocketTcpLinuxServer : public ServerBase
 	{
 	private:
-		int _port;
-		std::vector<StCppLogsNetAddrInfo> _st_CppLogsNetAddrInfo;
 		struct StEpSockFd
 		{
 			int sockFd;
 			int epFd;
 		};
+		int _port;
+		std::vector<StCppLogsNetAddrInfo> _st_CppLogsNetAddrInfo;
 		StEpSockFd _StEpSockFd;
 
 	public:
@@ -48,7 +45,7 @@ namespace CppLogs
 
 		}
 
-		Error::EnCppLogsNetError init()
+		Error::EnCppLogsNetError init() override
 		{
 			struct sockaddr_in st_sockaddr_in;
 			struct epoll_event st_epoll_event;
@@ -76,52 +73,116 @@ namespace CppLogs
 				return Error::EnCppLogsNetError_CreateEpollFailed;
 			}
 			st_epoll_event.events = EPOLLIN;
-			st_epoll_event.data.fd = _StEpSockFd.epFd;
+			st_epoll_event.data.fd = _StEpSockFd.sockFd;
 			if (::epoll_ctl(_StEpSockFd.epFd, EPOLL_CTL_ADD, _StEpSockFd.sockFd, &st_epoll_event) < 0) {
 				return Error::EnCppLogsNetError_CreateEpollFailed;
 			}
 
 			return Error::EnCppLogsNetError_None;
 		}
-		Error::EnCppLogsNetError accept()
+		Error::EnCppLogsNetError accept(StNetDataInfo** st_NetDataInfo) override
 		{
-			epoll_event st_epoll_events[DEF_MAX_CONNECT_CNT], st_epoll_event_add;
-			sockaddr_in st_socket_client_in;
-			socklen_t size =  0;
-			int ready = ::epoll_wait(_StEpSockFd.epFd, st_epoll_events, DEF_MAX_CONNECT_CNT, -1);
-			for (int i = 0; i < ready; i++) {
-				size = sizeof(sockaddr);
+			epoll_event st_epoll_events[DEF_MAX_CONNECT_CNT];
+			int ready_num = ::epoll_wait(_StEpSockFd.epFd, st_epoll_events, DEF_MAX_CONNECT_CNT, -1);
+			*st_NetDataInfo = new StNetDataInfo[ready_num];
+			for (int i = 0; i < ready_num; i++) {
+				socklen_t size_st_sockaddr = sizeof(sockaddr);
 				if (st_epoll_events[i].data.fd == _StEpSockFd.sockFd) {
-					int client_fd = ::accept(_StEpSockFd.sockFd, (struct sockaddr*)&st_socket_client_in, &size);
+					sockaddr_in st_socket_client_in;
+					epoll_event st_epoll_event_add;
+					int client_fd = ::accept(_StEpSockFd.sockFd, (struct sockaddr*)&st_socket_client_in, &size_st_sockaddr);
 					st_epoll_event_add.events = EPOLLIN;
 					st_epoll_event_add.data.fd = client_fd;
 					::epoll_ctl(_StEpSockFd.epFd, EPOLL_CTL_ADD, client_fd, &st_epoll_event_add);
+					(*st_NetDataInfo)[i].st_net_addr_info.fd = client_fd;
+					(*st_NetDataInfo)[i].net_event_type = NetEventType_Conn;
+					(*st_NetDataInfo)[i].ready_num = ready_num;
+					(*st_NetDataInfo)[i].st_net_addr_info.addr = inet_ntoa(st_socket_client_in.sin_addr);
+					(*st_NetDataInfo)[i].st_net_addr_info.port = st_socket_client_in.sin_port;
+					(*st_NetDataInfo)[i].data = "";
+					(*st_NetDataInfo)[i].size = 0;
+					_st_CppLogsNetAddrInfo.push_back({ inet_ntoa(st_socket_client_in.sin_addr), st_socket_client_in.sin_port, \
+						client_fd});
 				}
 				else {
-
+					char data[DEF_RECV_BUF_SIZE] = { 0 };
+					::memset(data, 0, DEF_RECV_BUF_SIZE);
+					int client_fd = st_epoll_events[i].data.fd;
+					int size = ::recv(client_fd, data, DEF_RECV_BUF_SIZE, 0);
+					sockaddr_in st_sockaddr_peer_in;
+					::getpeername(client_fd, (struct sockaddr*)&st_sockaddr_peer_in, &size_st_sockaddr);
+					(*st_NetDataInfo)[i].st_net_addr_info.fd = client_fd;
+					(*st_NetDataInfo)[i].ready_num = ready_num;
+					(*st_NetDataInfo)[i].st_net_addr_info.addr = inet_ntoa(st_sockaddr_peer_in.sin_addr);
+					(*st_NetDataInfo)[i].st_net_addr_info.port = st_sockaddr_peer_in.sin_port;
+					(*st_NetDataInfo)[i].data = data;
+					(*st_NetDataInfo)[i].size = size;
+					(*st_NetDataInfo)[i].net_event_type = NetEventType_Recv;
+					if (size == 0) {
+						(*st_NetDataInfo)[i].net_event_type = NetEventType_DisConn;
+						close(client_fd);
+					}
 				}
 			}
 			return Error::EnCppLogsNetError_None;
 		}
 		Error::EnCppLogsNetError \
-			send(const std::string& destip, const int& destport, const char* data, const size_t& size)
+			send(const std::string& destip, const int& destport, const char* data, const size_t& size) override
 		{
-			return Error::EnCppLogsNetError_None;
+			auto it = _st_CppLogsNetAddrInfo.begin();
+			while (it != _st_CppLogsNetAddrInfo.end()) {
+				if (it.base()->addr == destip && it.base()->port == destport) {
+					if (::send(it.base()->fd, data, size, 0) < 0) {
+						return Error::EnCppLogsNetError_SendFailed;
+					}
+					return Error::EnCppLogsNetError_None;
+				}
+				it++;
+			}
+			return Error::EnCppLogsNetError_SendFailed;
 		}
-		Error::EnCppLogsNetError recv(char* data, int& size)
+
+		Error::EnCppLogsNetError\
+			send(const int& client_fd, const char* data, const size_t& size) override
 		{
-			return Error::EnCppLogsNetError_None;
-		}
-		Error::EnCppLogsNetError close()
-		{
+			if (::send(client_fd, data, size, 0) < 0) {
+				return Error::EnCppLogsNetError_SendFailed;
+			}
 			return Error::EnCppLogsNetError_None;
 		}
 
-		int connect_num()
+		Error::EnCppLogsNetError recv(char* data, int& size) override
+		{
+			return Error::EnCppLogsNetError_None;
+		}
+		Error::EnCppLogsNetError close(const int client_fd) override
+		{
+			::epoll_ctl(_StEpSockFd.epFd, EPOLL_CTL_DEL, client_fd, NULL);
+			::close(client_fd);
+			//auto it = _st_CppLogsNetAddrInfo.begin();
+			//while (it != _st_CppLogsNetAddrInfo.end()) {
+			//	if (it.base()->fd == client_fd) {
+			//		_st_CppLogsNetAddrInfo.erase(it);
+			//		break;
+			//	}
+			//	it++;
+			//}
+			return Error::EnCppLogsNetError_None;
+		}
+
+		void free_struct(StNetDataInfo* st_NetDataInfo) override
+		{
+			if (st_NetDataInfo) {
+				delete [] st_NetDataInfo;
+				st_NetDataInfo = nullptr;
+			}
+		}
+
+		int connect_num() override
 		{
 			return _st_CppLogsNetAddrInfo.size();
 		}
-		std::vector<StCppLogsNetAddrInfo> connect_info()
+		std::vector<StCppLogsNetAddrInfo> connect_info() override
 		{
 			return _st_CppLogsNetAddrInfo;
 		}

@@ -17,6 +17,10 @@
 
 #define CPPLOGS_NET_SIZE	512
 
+#define DEF_MAX_LISTEN_CNT		6000
+#define DEF_MAX_CONNECT_CNT		DEF_MAX_LISTEN_CNT
+#define DEF_RECV_BUF_SIZE		1024
+
 namespace CppLogs
 {
 	class ServerBase
@@ -24,9 +28,23 @@ namespace CppLogs
 	public:
 		struct StCppLogsNetAddrInfo
 		{
-			std::string str_ip;
+			std::string addr;
 			unsigned short port;
-			unsigned int fd;
+			int fd;
+		};
+		enum EnNetEventType
+		{
+			NetEventType_Conn,
+			NetEventType_DisConn,
+			NetEventType_Recv
+		};
+		struct StNetDataInfo
+		{
+			EnNetEventType net_event_type;
+			StCppLogsNetAddrInfo st_net_addr_info;
+			int ready_num;
+			std::string data;
+			int size;
 		};
 
 	public:
@@ -40,11 +58,14 @@ namespace CppLogs
 		}
 
 		virtual Error::EnCppLogsNetError init() = 0;
-		virtual Error::EnCppLogsNetError accept() = 0;
+		virtual Error::EnCppLogsNetError accept(StNetDataInfo** st_NetDataInfo) = 0;
 		virtual Error::EnCppLogsNetError \
 			send(const std::string& destip, const int& destport, const char* data, const size_t& size) = 0;
+		virtual Error::EnCppLogsNetError\
+			send(const int& client_fd, const char* data, const size_t& size) = 0;
 		virtual Error::EnCppLogsNetError recv(char* data, int& size) = 0;
-		virtual Error::EnCppLogsNetError close() = 0;
+		virtual Error::EnCppLogsNetError close(const int client_fd) = 0;
+		virtual void free_struct(StNetDataInfo* st_NetDataInfo) = 0;
 
 		virtual int connect_num() = 0;
 		virtual std::vector<StCppLogsNetAddrInfo> connect_info() = 0;
