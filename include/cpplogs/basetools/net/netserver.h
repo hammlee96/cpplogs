@@ -50,6 +50,12 @@ namespace CppLogs
 			return _pServerBase->send(destip, destport, data, size);
 		}
 
+		Error::EnCppLogsNetError \
+			send(const std::string& name, const char* data, const size_t& size)
+		{
+			return _pServerBase->send(name, data, size);
+		}
+
 		Error::EnCppLogsNetError send(const int& client_fd, const char* data, const size_t& size)
 		{
 			return _pServerBase->send(client_fd, data, size);
@@ -63,6 +69,11 @@ namespace CppLogs
 		void free_struct(ServerBase::StNetDataInfo* st_NetDataInfo)
 		{
 			_pServerBase->free_struct(st_NetDataInfo);
+		}
+
+		bool set_name(const std::string& destip, const int& destport, const std::string& name)
+		{
+			return _pServerBase->set_name(destip, destport, name);
 		}
 
 		int get_connect_num()

@@ -101,7 +101,7 @@ namespace CppLogs
 					(*st_NetDataInfo)[i].st_net_addr_info.port = st_socket_client_in.sin_port;
 					(*st_NetDataInfo)[i].data = "";
 					(*st_NetDataInfo)[i].size = 0;
-					_st_CppLogsNetAddrInfo.push_back({ inet_ntoa(st_socket_client_in.sin_addr), st_socket_client_in.sin_port, \
+					_st_CppLogsNetAddrInfo.push_back({"", inet_ntoa(st_socket_client_in.sin_addr), st_socket_client_in.sin_port, \
 						client_fd});
 				}
 				else {
@@ -142,6 +142,22 @@ namespace CppLogs
 			return Error::EnCppLogsNetError_SendFailed;
 		}
 
+		Error::EnCppLogsNetError \
+			send(const std::string& name, const char* data, const size_t& size) override
+		{
+			auto it = _st_CppLogsNetAddrInfo.begin();
+			while (it != _st_CppLogsNetAddrInfo.end()) {
+				if (it.base()->name == name) {
+					if (::send(it.base()->fd, data, size, 0) < 0) {
+						return Error::EnCppLogsNetError_SendFailed;
+					}
+					return Error::EnCppLogsNetError_None;
+				}
+				it++;
+			}
+			return Error::EnCppLogsNetError_SendFailed;
+		}
+
 		Error::EnCppLogsNetError\
 			send(const int& client_fd, const char* data, const size_t& size) override
 		{
@@ -159,14 +175,6 @@ namespace CppLogs
 		{
 			::epoll_ctl(_StEpSockFd.epFd, EPOLL_CTL_DEL, client_fd, NULL);
 			::close(client_fd);
-			//auto it = _st_CppLogsNetAddrInfo.begin();
-			//while (it != _st_CppLogsNetAddrInfo.end()) {
-			//	if (it.base()->fd == client_fd) {
-			//		_st_CppLogsNetAddrInfo.erase(it);
-			//		break;
-			//	}
-			//	it++;
-			//}
 			return Error::EnCppLogsNetError_None;
 		}
 
@@ -176,6 +184,19 @@ namespace CppLogs
 				delete [] st_NetDataInfo;
 				st_NetDataInfo = nullptr;
 			}
+		}
+
+		bool set_name(const std::string& destip, const int& destport, const std::string& name) override
+		{
+			auto it = _st_CppLogsNetAddrInfo.begin();
+			while (it != _st_CppLogsNetAddrInfo.end()) {
+				if (it.base()->addr == destip && it.base()->port == destport) {
+					it.base()->name = name;
+					return true;
+				}
+				it++;
+			}
+			return false;
 		}
 
 		int connect_num() override

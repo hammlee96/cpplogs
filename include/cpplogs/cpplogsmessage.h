@@ -30,6 +30,14 @@ namespace CppLogs
 
 		}
 
+		bool CommandSetAccountName(std::string& json_value, const std::string& name)
+		{
+			Clear();
+			CPPLOGS_JsonReturn(PushValue(CPPLOGS_STR_COMMOND, CPPLOGS_STR_SET_ACCOUNT_NAME));
+			CPPLOGS_JsonReturn(PushValue(CPPLOGS_STR_ACCOUNT_NAME, name));
+			CPPLOGS_JsonReturn(GetString(json_value));
+		}
+
 		bool CommandSetLogData(std::string& json_value, const std::string& filepathname, \
 			const DataFormat::StCppLogsHeader& st_CppLogsHeader, const DataFormat::EnCppLogsItemType key, \
 			const std::string secondKey, const std::string& data)

@@ -28,6 +28,7 @@ namespace CppLogs
 	public:
 		struct StCppLogsNetAddrInfo
 		{
+			std::string name;
 			std::string addr;
 			unsigned short port;
 			int fd;
@@ -60,12 +61,16 @@ namespace CppLogs
 		virtual Error::EnCppLogsNetError init() = 0;
 		virtual Error::EnCppLogsNetError accept(StNetDataInfo** st_NetDataInfo) = 0;
 		virtual Error::EnCppLogsNetError \
-			send(const std::string& destip, const int& destport, const char* data, const size_t& size) = 0;
+			send(const std::string& destip, const int& destport, const char* data, const size_t& size) = 0; 
+		virtual Error::EnCppLogsNetError \
+			send(const std::string& name, const char* data, const size_t& size) = 0;
 		virtual Error::EnCppLogsNetError\
 			send(const int& client_fd, const char* data, const size_t& size) = 0;
 		virtual Error::EnCppLogsNetError recv(char* data, int& size) = 0;
 		virtual Error::EnCppLogsNetError close(const int client_fd) = 0;
 		virtual void free_struct(StNetDataInfo* st_NetDataInfo) = 0;
+
+		virtual bool set_name(const std::string& destip, const int& destport, const std::string& name) = 0;
 
 		virtual int connect_num() = 0;
 		virtual std::vector<StCppLogsNetAddrInfo> connect_info() = 0;

@@ -22,5 +22,5 @@ else()
 	)
 endif()
 
-add_executable(${PJNAME_EXAMPLE} CppLogsStreamServer.h CppLogsStreamServer.cpp cthreadbase.h cthreadbase.cpp cthreadpool.h)
+add_executable(${PJNAME_EXAMPLE} CppLogsStreamServer.h CppLogsStreamServer.cpp cthreadbase.h cthreadbase.cpp cthreadpool.h command_handler.h command_handler.cpp)
 target_link_libraries(${PJNAME_EXAMPLE} ${LIBSNAME_EXAMPLE})

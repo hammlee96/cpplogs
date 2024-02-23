@@ -60,11 +60,18 @@ namespace CppLogs
 			return false;
 		}
 
+		Error::EnCppLogsNetError set_account_name(const std::string& name)
+		{
+			std::string jsValue;
+			_CppLogsMessage.get()->CommandSetAccountName(jsValue, name);
+			return _NetClient.get()->send(jsValue);
+		}
+
 		Error::EnCppLogsNetError send_log_data_info(const std::string secondKey, const std::string& data)
 		{
 			std::string jsValue;
 			_CppLogsMessage.get()->CommandSetLogData(jsValue, _filepathname, _st_CppLogsHeader, DataFormat::CppLogsItemType_Info, secondKey, data);
-			return _NetClient.get()->send(jsValue);\
+			return _NetClient.get()->send(jsValue);
 		}
 
 		Error::EnCppLogsNetError send_log_data_warn(const std::string secondKey, const std::string& data)

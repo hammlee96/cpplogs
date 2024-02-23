@@ -44,7 +44,6 @@ void CppLogsStreamServer::manager_thread()
 		CppLogs::ServerBase::StNetDataInfo* st_NetDataInfo = nullptr;
 		CppLogs::Error::EnCppLogsNetError ec = m_spNetServer.get()->accept(&st_NetDataInfo);
 
-		CPPLOGS_DEBUG << st_NetDataInfo[0].net_event_type;
 		for (int i = 0; i < st_NetDataInfo[0].ready_num; i++) {
 			switch (st_NetDataInfo[i].net_event_type) {
 			case CppLogs::ServerBase::NetEventType_Conn:
