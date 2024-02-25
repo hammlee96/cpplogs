@@ -15,6 +15,7 @@ CppLogsStreamServer::CppLogsStreamServer(const int& port)
 	m_spCThreadBase = std::make_shared<CThreadBase>();
 	//m_spNetForward = std::make_shared<CppLogs::CppLogsStreamClient>("192.168.30.61");
 	m_spNetServer = std::make_shared<CppLogs::NetServer>(port);
+	m_spCommandHandler = std::make_shared<CommandHandler>();
 	CppLogs::Error::EnCppLogsNetError ec = m_spNetServer->init();
 	//ec = m_spNetForward.get()->init();
 	//if (ec) {
@@ -49,7 +50,7 @@ void CppLogsStreamServer::manager_thread()
 			case CppLogs::ServerBase::NetEventType_Conn:
 				CPPLOGS_DEBUG << "[" << st_NetDataInfo[i].st_net_addr_info.addr << ":" \
 					<< st_NetDataInfo[i].st_net_addr_info.port << "] - " << "connect" << std::endl;
-				CPPLOGS_DEBUG << m_spNetServer.get()->send(st_NetDataInfo[i].st_net_addr_info.fd, "connect succeed", 14) << std::endl;
+				//CPPLOGS_DEBUG << m_spNetServer.get()->send(st_NetDataInfo[i].st_net_addr_info.fd, "connect succeed", 14) << std::endl;
 				break;
 			case CppLogs::ServerBase::NetEventType_DisConn:
 				CPPLOGS_DEBUG << "[" << st_NetDataInfo[i].st_net_addr_info.addr << ":" \
@@ -58,7 +59,12 @@ void CppLogsStreamServer::manager_thread()
 			case CppLogs::ServerBase::NetEventType_Recv:
 				CPPLOGS_DEBUG << "[" << st_NetDataInfo[i].st_net_addr_info.addr << ":" \
 					<< st_NetDataInfo[i].st_net_addr_info.port << "] - \n" << st_NetDataInfo[i].data << std::endl;
-				CPPLOGS_DEBUG << m_spNetServer.get()->send(st_NetDataInfo[i].st_net_addr_info.fd, "recv succeed", 12) << std::endl;
+				//CPPLOGS_DEBUG << m_spNetServer.get()->send(st_NetDataInfo[i].st_net_addr_info.fd, "recv succeed", 12) << std::endl;
+				//m_spNetServer.get()->send("client_recv", st_NetDataInfo[i].data.c_str(), st_NetDataInfo[i].data.size());
+				std::string response;
+				m_spCommandHandler.get()->ExecCommand(st_NetDataInfo[i].data.c_str(), response);
+
+				CPPLOGS_DEBUG << m_spNetServer.get()->send(st_NetDataInfo[i].st_net_addr_info.fd, response.c_str(), response.size()) << std::endl;
 				break;
 			}
 		}

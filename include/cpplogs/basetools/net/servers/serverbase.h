@@ -15,11 +15,11 @@
 #include <string>
 #include "cpplogs/basetools/error.h"
 
-#define CPPLOGS_NET_SIZE	512
+//#define CPPLOGS_NET_SIZE	512
 
 #define DEF_MAX_LISTEN_CNT		6000
 #define DEF_MAX_CONNECT_CNT		DEF_MAX_LISTEN_CNT
-#define DEF_RECV_BUF_SIZE		1024
+#define DEF_RECV_BUF_SIZE		2048
 
 namespace CppLogs
 {

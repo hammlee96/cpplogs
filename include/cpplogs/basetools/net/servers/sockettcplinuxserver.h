@@ -19,6 +19,7 @@
 #include <unistd.h>
 #include <netinet/in.h>
 #include <arpa/inet.h>
+#include <fcntl.h>
 
 namespace CppLogs
 {
@@ -53,6 +54,15 @@ namespace CppLogs
 			_StEpSockFd.sockFd = ::socket(AF_INET, SOCK_STREAM, 0);
 			if (_StEpSockFd.sockFd < 0) {
 				return Error::EnCppLogsNetError_SetSocketFailed;
+			}
+			int flags = ::fcntl(_StEpSockFd.sockFd, F_GETFL, 0);
+			if (flags == -1) {
+				perror("Failed to get file status flag");
+			}
+
+			// 设置为非阻塞模式
+			if (fcntl(_StEpSockFd.sockFd, F_SETFL, flags | O_NONBLOCK) == -1) {
+				perror("Failed to set non-blocking mode");
 			}
 			int ret = ::setsockopt(_StEpSockFd.sockFd, SOL_SOCKET, SO_REUSEADDR, &nBufferSize, sizeof(nBufferSize));
 			if (ret < 0) {
@@ -118,7 +128,7 @@ namespace CppLogs
 					(*st_NetDataInfo)[i].data = data;
 					(*st_NetDataInfo)[i].size = size;
 					(*st_NetDataInfo)[i].net_event_type = NetEventType_Recv;
-					if (size == 0) {
+					if (size <= 0) {
 						(*st_NetDataInfo)[i].net_event_type = NetEventType_DisConn;
 						close(client_fd);
 					}
@@ -161,10 +171,17 @@ namespace CppLogs
 		Error::EnCppLogsNetError\
 			send(const int& client_fd, const char* data, const size_t& size) override
 		{
-			if (::send(client_fd, data, size, 0) < 0) {
-				return Error::EnCppLogsNetError_SendFailed;
+			auto it = _st_CppLogsNetAddrInfo.begin();
+			while (it != _st_CppLogsNetAddrInfo.end()) {
+				if (it.base()->fd == client_fd) {
+					if (::send(client_fd, data, size, 0) < 0) {
+						return Error::EnCppLogsNetError_SendFailed;
+					}
+					return Error::EnCppLogsNetError_None;
+				}
+				it++;
 			}
-			return Error::EnCppLogsNetError_None;
+			return Error::EnCppLogsNetError_SendFailed;
 		}
 
 		Error::EnCppLogsNetError recv(char* data, int& size) override
@@ -175,6 +192,14 @@ namespace CppLogs
 		{
 			::epoll_ctl(_StEpSockFd.epFd, EPOLL_CTL_DEL, client_fd, NULL);
 			::close(client_fd);
+			auto it = _st_CppLogsNetAddrInfo.begin();
+			while (it != _st_CppLogsNetAddrInfo.end()) {
+				if (it.base()->fd == client_fd) {
+					_st_CppLogsNetAddrInfo.erase(it);
+					break;
+				}
+				it++;
+			}
 			return Error::EnCppLogsNetError_None;
 		}
 

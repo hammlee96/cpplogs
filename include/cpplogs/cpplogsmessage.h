@@ -9,6 +9,7 @@
 * change log	: init
 */
 
+#pragma once
 #include <iostream>
 #include "basetools/base.h"
 #include "basetools/cppjson.h"
@@ -36,6 +37,7 @@ namespace CppLogs
 			CPPLOGS_JsonReturn(PushValue(CPPLOGS_STR_COMMOND, CPPLOGS_STR_SET_ACCOUNT_NAME));
 			CPPLOGS_JsonReturn(PushValue(CPPLOGS_STR_ACCOUNT_NAME, name));
 			CPPLOGS_JsonReturn(GetString(json_value));
+			return true;
 		}
 
 		bool CommandSetLogData(std::string& json_value, const std::string& filepathname, \

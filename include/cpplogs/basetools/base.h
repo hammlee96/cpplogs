@@ -40,6 +40,7 @@
 #define CPPLOGS_STR_SET_LOGTYPE				"set_log_type"
 #define CPPLOGS_STR_SET_LOGDATA				"set_log_data"
 #define CPPLOGS_STR_SET_ACCOUNT_NAME		"set_account_name"
+#define CPPLOGS_STR_PARAM					"param"
 
 #define CPPLOGS_STR_ACCOUNT_NAME			"account_name"
 

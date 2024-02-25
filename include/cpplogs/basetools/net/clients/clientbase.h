@@ -15,7 +15,7 @@
 #include <string>
 #include "cpplogs/basetools/error.h"
 
-#define CPPLOGS_NET_SIZE	512
+#define CPPLOGS_NET_SIZE	2048
 
 namespace CppLogs
 {

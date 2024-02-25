@@ -13,6 +13,7 @@
 #include "cpplogs/basetools/net/netserver.h"
 #include "cpplogs/cpplogsstreamclient.h"
 #include "cthreadpool.h"
+#include "command_handler.h"
 #include <memory>
 
 class CppLogsStreamServer
@@ -22,6 +23,7 @@ private:
 	//std::shared_ptr<CppLogs::CppLogsStreamClient> m_spNetForward;
 	std::shared_ptr<CThreadPool> m_spCThreadPool;
 	std::shared_ptr<CThreadBase> m_spCThreadBase;
+	std::shared_ptr<CommandHandler> m_spCommandHandler;
 	struct StThreadPoolUse
 	{
 		CppLogsStreamServer* pCppLogsStreamServer;

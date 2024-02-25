@@ -8,7 +8,7 @@ int main()
 
 CppLogsStreamClient::CppLogsStreamClient()
 {
-	CppLogs::CppLogsStreamClient* pCppLogsStreamClient = new CppLogs::CppLogsStreamClient("192.168.30.58");
+	CppLogs::CppLogsStreamClient* pCppLogsStreamClient = new CppLogs::CppLogsStreamClient("116.62.224.131");
 	CppLogs::Error::EnCppLogsNetError ret = CppLogs::Error::EnCppLogsNetError_None;
 
 	CppLogs::ToolBox::StCppLogsDateTime st_CppLogsDateTime = CppLogs::ToolBox::gettime();
@@ -24,6 +24,7 @@ CppLogsStreamClient::CppLogsStreamClient()
 	if (ret) {
 		CPPLOGS_ERROR << ret;
 	}
+
 	pCppLogsStreamClient->send_file_info(logPathName);
 	//if (ret) {
 	//	CPPLOGS_ERROR << ret;
@@ -33,6 +34,11 @@ CppLogsStreamClient::CppLogsStreamClient()
 	//if (ret) {
 	//	CPPLOGS_ERROR << ret;
 	//}
+
+	ret = pCppLogsStreamClient->set_account_name("");
+	if (ret) {
+		CPPLOGS_ERROR << ret;
+	}
 
 	CppLogs::ToolBox::msleep(1000);
 
