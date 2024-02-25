@@ -21,8 +21,6 @@ public:
 
 	bool ExecCommand(const std::string& data, std::string& response);
 
-	bool set_forward_name(const std::string& name);
-
 private:
 	std::shared_ptr<CppLogs::CppLogsMessage> m_spCppLogsMessage;
 	std::shared_ptr<CppLogs::CppLogsMessage> m_spCppLogsMessageResponse;

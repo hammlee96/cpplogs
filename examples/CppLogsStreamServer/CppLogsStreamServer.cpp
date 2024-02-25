@@ -63,7 +63,6 @@ void CppLogsStreamServer::manager_thread()
 				//m_spNetServer.get()->send("client_recv", st_NetDataInfo[i].data.c_str(), st_NetDataInfo[i].data.size());
 				std::string response;
 				m_spCommandHandler.get()->ExecCommand(st_NetDataInfo[i].data.c_str(), response);
-
 				CPPLOGS_DEBUG << m_spNetServer.get()->send(st_NetDataInfo[i].st_net_addr_info.fd, response.c_str(), response.size()) << std::endl;
 				break;
 			}

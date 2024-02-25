@@ -12,6 +12,7 @@ CommandHandler::~CommandHandler()
 
 bool CommandHandler::ExecCommand(const std::string& data, std::string& response)
 {
+	bool ret = true;
 	std::string std_command = "";
 	m_spCppLogsMessageResponse.get()->Clear();
 	m_spCppLogsMessage.get()->Parse(data);
@@ -19,20 +20,14 @@ bool CommandHandler::ExecCommand(const std::string& data, std::string& response)
 	m_spCppLogsMessageResponse.get()->Add(CPPLOGS_STR_COMMOND, std_command);
 	if (std_command == CPPLOGS_STR_SET_ACCOUNT_NAME) {
 		m_spCppLogsMessageResponse.get()->Add(CPPLOGS_STR_PARAM, "ok");
-		m_spCppLogsMessageResponse.get()->ToString(response);
-		return true;
 	}
 	else if (std_command == CPPLOGS_STR_SET_LOGDATA) {
 		m_spCppLogsMessageResponse.get()->Add(CPPLOGS_STR_PARAM, "ok");
-		m_spCppLogsMessageResponse.get()->ToString(response);
-		return true;
 	}
-	m_spCppLogsMessageResponse.get()->Add(CPPLOGS_STR_PARAM, "failed");
+	else {
+		m_spCppLogsMessageResponse.get()->Add(CPPLOGS_STR_PARAM, "failed");
+		ret = false;
+	}
 	m_spCppLogsMessageResponse.get()->ToString(response);
-	return false;
-}
-
-bool CommandHandler::set_forward_name(const std::string& name)
-{
-	return false;
+	return ret;
 }
