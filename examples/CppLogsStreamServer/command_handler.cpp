@@ -13,15 +13,15 @@ CommandHandler::~CommandHandler()
 bool CommandHandler::ExecCommand(const std::string& data, std::string& response)
 {
 	bool ret = true;
-	std::string std_command = "";
+	std::string str_command = "";
 	m_spCppLogsMessageResponse.get()->Clear();
 	m_spCppLogsMessage.get()->Parse(data);
-	m_spCppLogsMessage.get()->Get(CPPLOGS_STR_COMMOND, std_command);
-	m_spCppLogsMessageResponse.get()->Add(CPPLOGS_STR_COMMOND, std_command);
-	if (std_command == CPPLOGS_STR_SET_ACCOUNT_NAME) {
+	m_spCppLogsMessage.get()->Get(CPPLOGS_STR_COMMOND, str_command);
+	m_spCppLogsMessageResponse.get()->Add(CPPLOGS_STR_COMMOND, str_command);
+	if (str_command == CPPLOGS_STR_SET_ACCOUNT_NAME) {
 		m_spCppLogsMessageResponse.get()->Add(CPPLOGS_STR_PARAM, "ok");
 	}
-	else if (std_command == CPPLOGS_STR_SET_LOGDATA) {
+	else if (str_command == CPPLOGS_STR_SET_LOGDATA) {
 		m_spCppLogsMessageResponse.get()->Add(CPPLOGS_STR_PARAM, "ok");
 	}
 	else {
