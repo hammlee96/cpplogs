@@ -15,7 +15,7 @@
 - [X] Create and read local log files
 - [ ] Send and download local log files to the server
 - [ ] Create and read remote log files
-- [X] Send log data to the server (and forward it to the specified IP address, but you need to write server process by yourself, or use [server](#send-log-file-to-server) in example)
+- [X] Send log data to the server (and forward it to the specified IP address, but you need to write server process by yourself, or use [server](#receive-log-data-from-remote) in example)
 ## Support Platform
 - ### Windows
 - ### Linux
