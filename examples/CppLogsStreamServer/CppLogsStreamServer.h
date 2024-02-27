@@ -37,5 +37,4 @@ public:
 	void init();
 	CppLogs::Error::EnCppLogsNetError recv(char* data, int& size);
 	void manager_thread();
-	static void net_process_thread(StThreadPoolUse* pst_ThreadPoolUse);
 };

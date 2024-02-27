@@ -8,13 +8,14 @@
 - [Usage](#usage)
   - [Write log file to local](#write-log-file-to-local)
   - [Read log file from local](#read-log-file-from-local)
-  - [Send log file to server](#send-log-file-to-server)
+  - [Send log data to server](#send-log-data-to-server)
+  - [Receive log data from remote](#receive-log-data-from-remote)
 - [Third-party](#third-party)
 ## Functions
 - [X] Create and read local log files
 - [ ] Send and download local log files to the server
 - [ ] Create and read remote log files
-- [X] Send log data to the server (and forward it to the specified IP address, but you need to write server process by yourself)
+- [X] Send log data to the server (and forward it to the specified IP address, but you need to write server process by yourself, or use [server](#send-log-file-to-server) in example)
 ## Support Platform
 - ### Windows
 - ### Linux
@@ -27,7 +28,8 @@
 ## Usage
 - ### Write log file to local
 	To enable the function of writing local log files, you need include `cpplogsw.h`.
-	Use the following code, will write log file to local file system
+	Use the following code, will write log file to local file system</br>
+	**Example:**
 	```cpp
 	#include "cpplogs/cpplogsw.h"
 	#include "cpplogs/basetools/base.h"
@@ -60,7 +62,8 @@
 	```
 - ### Read log file from local
 	To enable the function of read local log files, you need include `cpplogsr.h`.
-	Use the following code, will read log file from local file system
+	Use the following code, will read log file from local file system</br>
+	**Example:**
 	```cpp
 	#include "cpplogs/cpplogsr.h"
 	#include "cpplogs/basetools/base.h"
@@ -92,9 +95,10 @@
 		CPPLOGS_WARNING << "*************************end************************";
 	}
 	```
-- ### Send log file to server
+- ### Send log data to server
   	To enable the function of writing log files to server, you need include `cpplogsstreamclient.h`.
-	Use the following code, will write log data to server file system
+	Use the following code, will write log data to server file system</br>
+	**Example:**
 	```cpp
 	#include "cpplogs/cpplogsstreamclient.h"
 	#include "cpplogs/basetools/toolbox.h"
@@ -106,14 +110,11 @@
 	if (ret) {
 		CPPLOGS_ERROR << ret;
 	}
-	ret = pCppLogsStreamClient->send_file_info("/home/log_files/test_log");
-	if (ret) {
-		CPPLOGS_ERROR << ret;
-	}
+	pCppLogsStreamClient->send_file_info("/home/log_files/test_log");
 
-	CppLogs::ToolBox::msleep(1000);
+	pCppLogsStreamClient->send_log_type({"", "infomation", "warning", "error", CppLogs::DataFormat::CppLogsLevel_High, true});
 
-	ret = pCppLogsStreamClient->send_log_type({"", "infomation", "warning", "error", CppLogs::DataFormat::CppLogsLevel_High, true});
+	ret = pCppLogsStreamClient->set_account_name("client_test");
 	if (ret) {
 		CPPLOGS_ERROR << ret;
 	}
@@ -139,6 +140,11 @@
 		CPPLOGS_ERROR << ret;
 	}
 	```
+- ### Receive log data from remote
+	This feature needs to support concurrency, receive addresses from various clients, 
+	and then forward them to designated collection clients.</br>
+	To use this feature, you can use the basic features written by examples/CppLogsStream Server(**only support Linux**), 
+	or you can implement server code with certain concurrency capabilities yourself.
 ## Third-party
 Thanks for the third-party open-source library
 - [cJSON](https://github.com/DaveGamble/cJSON)

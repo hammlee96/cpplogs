@@ -78,20 +78,3 @@ void CppLogsStreamServer::manager_thread()
 		m_spNetServer.get()->free_struct(st_NetDataInfo);
 	}
 }
-
-void CppLogsStreamServer::net_process_thread(StThreadPoolUse* pst_ThreadPoolUse)
-{
-	int size = 0;
-	char data[CPPLOGS_NET_SIZE];
-	do {
-		memset(data, 0, CPPLOGS_NET_SIZE);
-		size = pst_ThreadPoolUse->pCppLogsStreamServer->recv(data, size);
-		CPPLOGS_DEBUG <<
-	"[" << pst_ThreadPoolUse->st_CppLogsNetAddrInfo.addr<<":" << pst_ThreadPoolUse->st_CppLogsNetAddrInfo.port<<"]"<<
-			":"<< data;
-	} while (size > 0);
-	//pst_ThreadPoolUse->pCppLogsStreamServer->m_spNetForward.get()->send_string(data);
-	CPPLOGS_WARNING << "[" << pst_ThreadPoolUse->st_CppLogsNetAddrInfo.addr << ":" << pst_ThreadPoolUse->st_CppLogsNetAddrInfo.port << "] " << "exit";
-	delete pst_ThreadPoolUse;
-	pst_ThreadPoolUse = nullptr;
-}
