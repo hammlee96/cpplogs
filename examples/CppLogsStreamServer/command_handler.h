@@ -15,13 +15,19 @@
 
 class CommandHandler
 {
+private:
+	std::shared_ptr<CppLogs::CppLogsMessage> m_spCppLogsMessage;
+	std::shared_ptr<CppLogs::CppLogsMessage> m_spCppLogsMessageResponse;
+	std::string m_strAccountName;
+
 public:
 	CommandHandler();
 	~CommandHandler();
 
-	bool ExecCommand(const std::string& data, std::string& response);
+	std::string ExecCommand(const std::string& data, std::string& response);
 
-private:
-	std::shared_ptr<CppLogs::CppLogsMessage> m_spCppLogsMessage;
-	std::shared_ptr<CppLogs::CppLogsMessage> m_spCppLogsMessageResponse;
+	inline std::string get_account_name() const
+	{
+		return m_strAccountName;
+	}
 };

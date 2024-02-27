@@ -101,6 +101,11 @@ namespace CppLogs
 			return _NetClient.get()->send(data);
 		}
 
+		Error::EnCppLogsNetError recv(char* data, size_t& size)
+		{
+			return _NetClient.get()->recv(data, size);
+		}
+
 	private:
 		CPPLOGS_DISABLE4251(std::shared_ptr<NetClient> _NetClient);
 		CPPLOGS_DISABLE4251(std::shared_ptr<CppLogsMessage> _CppLogsMessage);

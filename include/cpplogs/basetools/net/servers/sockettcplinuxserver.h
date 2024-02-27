@@ -216,7 +216,8 @@ namespace CppLogs
 			auto it = _st_CppLogsNetAddrInfo.begin();
 			while (it != _st_CppLogsNetAddrInfo.end()) {
 				if (it.base()->addr == destip && it.base()->port == destport) {
-					it.base()->name = name;
+					//it.base()->name = name;
+					(*it).name = name;
 					return true;
 				}
 				it++;

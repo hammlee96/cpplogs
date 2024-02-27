@@ -62,7 +62,15 @@ void CppLogsStreamServer::manager_thread()
 				//CPPLOGS_DEBUG << m_spNetServer.get()->send(st_NetDataInfo[i].st_net_addr_info.fd, "recv succeed", 12) << std::endl;
 				//m_spNetServer.get()->send("client_recv", st_NetDataInfo[i].data.c_str(), st_NetDataInfo[i].data.size());
 				std::string response;
-				m_spCommandHandler.get()->ExecCommand(st_NetDataInfo[i].data.c_str(), response);
+				std::string str_command = m_spCommandHandler.get()->ExecCommand(st_NetDataInfo[i].data.c_str(), response);
+				if (str_command == CPPLOGS_STR_SET_ACCOUNT_NAME) {
+					m_spNetServer.get()->set_name(st_NetDataInfo[i].st_net_addr_info.addr, \
+						st_NetDataInfo[i].st_net_addr_info.port, m_spCommandHandler.get()->get_account_name());
+					//CPPLOGS_DEBUG << m_spCommandHandler.get()->get_account_name();
+				}
+				else {
+					CPPLOGS_DEBUG << m_spNetServer.get()->send("client_server", st_NetDataInfo[i].data.c_str(), st_NetDataInfo[i].size);;
+				}
 				CPPLOGS_DEBUG << m_spNetServer.get()->send(st_NetDataInfo[i].st_net_addr_info.fd, response.c_str(), response.size()) << std::endl;
 				break;
 			}

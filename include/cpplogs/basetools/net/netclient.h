@@ -54,6 +54,11 @@ namespace CppLogs
 			return _pClientBase.get()->send(data.c_str(), data.size());;
 		}
 
+		Error::EnCppLogsNetError recv(char* data, size_t& size)
+		{
+			return _pClientBase.get()->recv(data, size);;
+		}
+
 		Error::EnCppLogsNetError disconnect()
 		{
 			return _pClientBase.get()->disconnect();

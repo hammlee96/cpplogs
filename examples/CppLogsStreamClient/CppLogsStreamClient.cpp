@@ -35,7 +35,7 @@ CppLogsStreamClient::CppLogsStreamClient()
 	//	CPPLOGS_ERROR << ret;
 	//}
 
-	ret = pCppLogsStreamClient->set_account_name("");
+	ret = pCppLogsStreamClient->set_account_name("client_test");
 	if (ret) {
 		CPPLOGS_ERROR << ret;
 	}
@@ -60,6 +60,14 @@ CppLogsStreamClient::CppLogsStreamClient()
 	if (ret) {
 		CPPLOGS_ERROR << ret;
 	}
+
+	size_t size = 0;
+	char data[CPPLOGS_NET_SIZE] = { 0 };
+	do {
+		memset(data, 0, CPPLOGS_NET_SIZE);
+		pCppLogsStreamClient->recv(data, size);
+		CPPLOGS_DEBUG << data;
+	} while (size > 0);
 }
 
 CppLogsStreamClient::~CppLogsStreamClient()
