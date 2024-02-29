@@ -18,10 +18,10 @@
 
 namespace CppLogs {
 
-	class CPPLOGS_API CppLogsW : public FileFormat
+	class CPPLOGS_API CppLogsW : public CppLogs::FileFormat
 	{
 	public:
-		CppLogsW(const std::string& filename) : FileFormat(filename)
+		CppLogsW(const std::string& filename) : CppLogs::FileFormat(filename)
 		{}
 		~CppLogsW() {}
 
@@ -30,7 +30,7 @@ namespace CppLogs {
 		* @param st_CppLogsItem : keyword and whether record timestamp
 		* @return error code
 		*/
-		Error::EnErrorCode set_item_type(const DataFormat::StCppLogsHeader& st_CppLogsItem = DEF_CPPLOGS_ITEMS)
+		CppLogs::Error::EnErrorCode set_item_type(const CppLogs::DataFormat::StCppLogsHeader& st_CppLogsItem = DEF_CPPLOGS_ITEMS)
 		{
 			return set_log_header(st_CppLogsItem);
 		}
@@ -39,7 +39,7 @@ namespace CppLogs {
 		* @brief create log file at the under the specified path
 		* @return error code
 		*/
-		Error::EnErrorCode create_file(const std::string& create_time)
+		CppLogs::Error::EnErrorCode create_file(const std::string& create_time)
 		{
 			return create_log_file(create_time);
 		}
@@ -50,12 +50,12 @@ namespace CppLogs {
 		* @param data			: the explain of this item 
 		* @return error code
 		*/
-		Error::EnErrorCode information(const std::string& secondaryKey = "", const std::string& data = "")
+		CppLogs::Error::EnErrorCode information(const std::string& secondaryKey = "", const std::string& data = "")
 		{
-			if (get_header().en_CppLogsLevel >= DataFormat::CppLogsLevel_Middle) {
-				return Error::ErrorCode_LevelNotMatch;
+			if (get_header().en_CppLogsLevel >= CppLogs::DataFormat::CppLogsLevel_Middle) {
+				return CppLogs::Error::ErrorCode_LevelNotMatch;
 			}
-			return writefile(DataFormat::CppLogsItemType_Info, secondaryKey, data);
+			return writefile(CppLogs::DataFormat::CppLogsItemType_Info, secondaryKey, data);
 		}
 
 		/*
@@ -64,12 +64,12 @@ namespace CppLogs {
 		* @param data			: the explain of this item
 		* @return error code
 		*/
-		Error::EnErrorCode warn(const std::string& secondaryKey = "", const std::string& data = "")
+		CppLogs::Error::EnErrorCode warn(const std::string& secondaryKey = "", const std::string& data = "")
 		{
-			if (get_header().en_CppLogsLevel > DataFormat::CppLogsLevel_Middle) {
-				return Error::ErrorCode_LevelNotMatch;
+			if (get_header().en_CppLogsLevel > CppLogs::DataFormat::CppLogsLevel_Middle) {
+				return CppLogs::Error::ErrorCode_LevelNotMatch;
 			}
-			return writefile(DataFormat::CppLogsItemType_Warn, secondaryKey, data);
+			return writefile(CppLogs::DataFormat::CppLogsItemType_Warn, secondaryKey, data);
 		}
 
 		/*
@@ -78,9 +78,9 @@ namespace CppLogs {
 		* @param data			: the explain of this item
 		* @return error code
 		*/
-		Error::EnErrorCode error(const std::string& secondaryKey = "", const std::string& data = "")
+		CppLogs::Error::EnErrorCode error(const std::string& secondaryKey = "", const std::string& data = "")
 		{
-			return writefile(DataFormat::CppLogsItemType_Error, secondaryKey, data);
+			return writefile(CppLogs::DataFormat::CppLogsItemType_Error, secondaryKey, data);
 		}
 	};
 }

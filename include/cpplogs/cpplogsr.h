@@ -13,10 +13,10 @@
 #include "cpplogs/fileformat.h"
 
 namespace CppLogs {
-	class CPPLOGS_API CppLogsR : public FileFormat
+	class CPPLOGS_API CppLogsR : public CppLogs::FileFormat
 	{
 	public:
-		CppLogsR(const std::string& filename) : FileFormat(filename)
+		CppLogsR(const std::string& filename) : CppLogs::FileFormat(filename)
 		{}
 		~CppLogsR()
 		{}
@@ -26,10 +26,10 @@ namespace CppLogs {
 		* @param st_CppLogsItem : header information
 		* @return error code
 		*/
-		Error::EnErrorCode get_item_type(DataFormat::StCppLogsHeader& st_CppLogsItem)
+		CppLogs::Error::EnErrorCode get_item_type(CppLogs::DataFormat::StCppLogsHeader& st_CppLogsItem)
 		{
 			if (!existfile()) {
-				return Error::ErrorCode_OpenFileFailed;
+				return CppLogs::Error::ErrorCode_OpenFileFailed;
 			}
 			return unformat_file_header(st_CppLogsItem);
 		}
@@ -39,10 +39,10 @@ namespace CppLogs {
 		* @param st_CppLogsItemVector : get item info
 		* @return error code
 		*/
-		Error::EnErrorCode get_items(std::vector<DataFormat::StCppLogsItem>& st_CppLogsItemVector)
+		CppLogs::Error::EnErrorCode get_items(std::vector<CppLogs::DataFormat::StCppLogsItem>& st_CppLogsItemVector)
 		{
 			if (!existfile()) {
-				return Error::ErrorCode_OpenFileFailed;
+				return CppLogs::Error::ErrorCode_OpenFileFailed;
 			}
 			return unformat_file_data(st_CppLogsItemVector);
 		}

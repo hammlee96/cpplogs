@@ -31,12 +31,12 @@ namespace CppLogs
 
 		}
 		
-		virtual Error::EnCppLogsNetError init() = 0;
-		virtual Error::EnCppLogsNetError connect() = 0;
-		virtual Error::EnCppLogsNetError disconnect() = 0;
+		virtual CppLogs::Error::EnCppLogsNetError init() = 0;
+		virtual CppLogs::Error::EnCppLogsNetError connect() = 0;
+		virtual CppLogs::Error::EnCppLogsNetError disconnect() = 0;
 
-		virtual Error::EnCppLogsNetError send(const char* data, const size_t& size) = 0;
-		virtual Error::EnCppLogsNetError recv(char* data, size_t& size) = 0;
+		virtual CppLogs::Error::EnCppLogsNetError send(const char* data, const size_t& size) = 0;
+		virtual CppLogs::Error::EnCppLogsNetError recv(char* data, size_t& size) = 0;
 
 		virtual bool is_connected() const = 0;
 	};

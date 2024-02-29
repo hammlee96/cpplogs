@@ -93,7 +93,7 @@ namespace CppLogs {
 		{
 			std::istringstream iss(value);
 			std::string line;
-			std::string strsplit = ToolBox::format(R"(\s*([^\s*%s]+)%s(.+))", split_key.c_str(), split_key.c_str());
+			std::string strsplit = CppLogs::ToolBox::format(R"(\s*([^\s*%s]+)%s(.+))", split_key.c_str(), split_key.c_str());
 			std::regex pattern(strsplit);
 			std::map<std::string, std::string> result;
 			result.clear();
@@ -109,9 +109,9 @@ namespace CppLogs {
 			return result;
 		}
 
-		static ToolBox::StCppLogsDateTime gettime()
+		static CppLogs::ToolBox::StCppLogsDateTime gettime()
 		{
-			ToolBox::StCppLogsDateTime st_CppLogsDateTime;
+			CppLogs::ToolBox::StCppLogsDateTime st_CppLogsDateTime;
 #if defined(CPPLOGS_SYSTEM_WINDOWS)
 			SYSTEMTIME sysTime;
 			GetLocalTime(&sysTime);

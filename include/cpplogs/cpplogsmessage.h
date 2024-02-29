@@ -19,7 +19,7 @@
 
 namespace CppLogs
 {
-	class CppLogsMessage : public CppJson
+	class CppLogsMessage : public CppLogs::CppJson
 	{
 	public:
 		CppLogsMessage() : 
@@ -41,7 +41,7 @@ namespace CppLogs
 		}
 
 		bool CommandSetLogData(std::string& json_value, const std::string& filepathname, \
-			const DataFormat::StCppLogsHeader& st_CppLogsHeader, const DataFormat::EnCppLogsItemType key, \
+			const CppLogs::DataFormat::StCppLogsHeader& st_CppLogsHeader, const CppLogs::DataFormat::EnCppLogsItemType key, \
 			const std::string secondKey, const std::string& data)
 		{
 			Clear();
@@ -64,7 +64,7 @@ namespace CppLogs
 		}
 
 	private:
-		DataFormat::StCppLogsHeader _st_CppLogsHeader;
+		CppLogs::DataFormat::StCppLogsHeader _st_CppLogsHeader;
 
 	private:
 		bool ParseJson(const std::string& json)

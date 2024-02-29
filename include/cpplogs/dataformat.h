@@ -71,9 +71,9 @@ namespace CppLogs
 		* @param create_time : date of log creation
 		* @return formatted data
 		*/
-		static std::string format_header(const DataFormat::StCppLogsHeader& st_CppLogsHeader)
+		static std::string format_header(const CppLogs::DataFormat::StCppLogsHeader& st_CppLogsHeader)
 		{
-			return ToolBox::format("<#%s#>\n%s:%s\n%s:%d\n%s:%s\n%s:%s\n%s:%s\n%s:%s\n<#/%s#>", \
+			return CppLogs::ToolBox::format("<#%s#>\n%s:%s\n%s:%d\n%s:%s\n%s:%s\n%s:%s\n%s:%s\n<#/%s#>", \
 				CPPLOGS_DEF_HEADER, \
 				CPPLOGS_DEF_HEADER_CREATE_TIME, st_CppLogsHeader.create_time.c_str(), \
 				CPPLOGS_DEF_HEADER_LEVEL, (int)st_CppLogsHeader.en_CppLogsLevel, \
@@ -89,25 +89,25 @@ namespace CppLogs
 		* @param st_CppLogsHeader : get header info
 		* @return the error code
 		*/
-		static Error::EnErrorCode unformat_header(const std::string& data, DataFormat::StCppLogsHeader& st_CppLogsHeader)
+		static CppLogs::Error::EnErrorCode unformat_header(const std::string& data, CppLogs::DataFormat::StCppLogsHeader& st_CppLogsHeader)
 		{
-			std::string pattern = ToolBox::format("<#%s#>([\\s\\S]*?)<#/%s#>", CPPLOGS_DEF_HEADER, CPPLOGS_DEF_HEADER);
-			std::vector<std::string> result = ToolBox::regexmatch(data, pattern);
+			std::string pattern = CppLogs::ToolBox::format("<#%s#>([\\s\\S]*?)<#/%s#>", CPPLOGS_DEF_HEADER, CPPLOGS_DEF_HEADER);
+			std::vector<std::string> result = CppLogs::ToolBox::regexmatch(data, pattern);
 
 			if (result.size() != 1) {
-				return Error::ErrorCode_HeaderDamage;
+				return CppLogs::Error::ErrorCode_HeaderDamage;
 			}
 
-			std::map<std::string, std::string> mm = ToolBox::regexmatchsplit(result.at(0), pattern, ":");
+			std::map<std::string, std::string> mm = CppLogs::ToolBox::regexmatchsplit(result.at(0), pattern, ":");
 			if (mm.size() != 6) {
-				return Error::ErrorCode_HeaderDamage;
+				return CppLogs::Error::ErrorCode_HeaderDamage;
 			}
 			for (auto it : mm) {
 				if (it.first == CPPLOGS_DEF_HEADER_CREATE_TIME) {
 					st_CppLogsHeader.create_time = it.second;
 				}
 				else if (it.first == CPPLOGS_DEF_HEADER_LEVEL) {
-					st_CppLogsHeader.en_CppLogsLevel = (EnCppLogsLevel)std::stoi(it.second);
+					st_CppLogsHeader.en_CppLogsLevel = (CppLogs::DataFormat::EnCppLogsLevel)std::stoi(it.second);
 				}
 				else if (it.first == CPPLOGS_DEF_HEADER_INFO) {
 					st_CppLogsHeader.keyInfo = it.second;
@@ -123,7 +123,7 @@ namespace CppLogs
 				}
 			}
 
-			return Error::ErrorCode_None;
+			return CppLogs::Error::ErrorCode_None;
 		}
 
 		/*
@@ -133,32 +133,32 @@ namespace CppLogs
 		* @param data : the data of log
 		* @return formatted data
 		*/
-		static std::string format_data(const DataFormat::EnCppLogsItemType& key, const std::string secondKey, \
-			const std::string& data, const DataFormat::StCppLogsHeader& st_CppLogsHeader)
+		static std::string format_data(const CppLogs::DataFormat::EnCppLogsItemType& key, const std::string secondKey, \
+			const std::string& data, const CppLogs::DataFormat::StCppLogsHeader& st_CppLogsHeader)
 		{
 			std::string keystr = "";
 			switch (key) {
-			case CppLogsItemType_Info: {
+			case CppLogs::DataFormat::CppLogsItemType_Info: {
 				keystr = st_CppLogsHeader.keyInfo;
 			}break;
-			case CppLogsItemType_Warn: {
+			case CppLogs::DataFormat::CppLogsItemType_Warn: {
 				keystr = st_CppLogsHeader.keyWarn;
 			}break;
-			case CppLogsItemType_Error: {
+			case CppLogs::DataFormat::CppLogsItemType_Error: {
 				keystr = st_CppLogsHeader.keyError;
 			}break;
 			}
-			std::string formatdata = ToolBox::format("<#%s#%s", \
+			std::string formatdata = CppLogs::ToolBox::format("<#%s#%s", \
 				keystr.c_str(), secondKey.c_str());
 			if (st_CppLogsHeader.stampRecord) {
-				ToolBox::StCppLogsDateTime st_CppLogsDateTime = ToolBox::gettime();
-				formatdata = ToolBox::format("%s#T%d-%d-%d %d:%d:%d", \
+				CppLogs::ToolBox::StCppLogsDateTime st_CppLogsDateTime = CppLogs::ToolBox::gettime();
+				formatdata = CppLogs::ToolBox::format("%s#T%d-%d-%d %d:%d:%d", \
 					formatdata.c_str(), \
 					st_CppLogsDateTime.uiYear, st_CppLogsDateTime.uiMonth, st_CppLogsDateTime.uiDay, \
 					st_CppLogsDateTime.uiHour, st_CppLogsDateTime.uiMinute, st_CppLogsDateTime.uiSecond);
 			}
 
-			return ToolBox::format("%s#>%s<#/%s#>", \
+			return CppLogs::ToolBox::format("%s#>%s<#/%s#>", \
 				formatdata.c_str(), data.c_str(), keystr.c_str());
 		}
 
@@ -167,8 +167,8 @@ namespace CppLogs
 		* @param st_CppLogsItem : get item info
 		* @return error code
 		*/
-		static Error::EnErrorCode unformat_data(const std::string& data, std::vector<DataFormat::StCppLogsItem>& st_CppLogsItemVector, \
-			const DataFormat::StCppLogsHeader& st_CppLogsHeader)
+		static CppLogs::Error::EnErrorCode unformat_data(const std::string& data, std::vector<CppLogs::DataFormat::StCppLogsItem>& st_CppLogsItemVector, \
+			const CppLogs::DataFormat::StCppLogsHeader& st_CppLogsHeader)
 		{
 			std::string pattern;
 			if (st_CppLogsHeader.stampRecord) {
@@ -196,7 +196,7 @@ namespace CppLogs
 					}
 				}
 			}
-			return (isFind ? Error::ErrorCode_None : Error::ErrorCode_FindItemFailed);
+			return (isFind ? CppLogs::Error::ErrorCode_None : CppLogs::Error::ErrorCode_FindItemFailed);
 		}
 	};
 }

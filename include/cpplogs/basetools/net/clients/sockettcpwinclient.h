@@ -22,7 +22,7 @@
 
 namespace CppLogs
 {
-	class SocketTcpWinClient : public ClientBase
+	class SocketTcpWinClient : public CppLogs::ClientBase
 	{
 	public:
 		SocketTcpWinClient(const std::string& hostip = "127.0.0.1", const int& hostport = 9605) :
@@ -35,21 +35,21 @@ namespace CppLogs
 			disconnect();
 		}
 
-		Error::EnCppLogsNetError init() override
+		CppLogs::Error::EnCppLogsNetError init() override
 		{
 			WSADATA wsaData;
 			int ret = WSAStartup(MAKEWORD(2, 2), &wsaData);
 			if (ret) {
-				return Error::EnCppLogsNetError_InitFailed;
+				return CppLogs::Error::EnCppLogsNetError_InitFailed;
 			}
-			return Error::EnCppLogsNetError_None;
+			return CppLogs::Error::EnCppLogsNetError_None;
 		}
 
-		Error::EnCppLogsNetError connect() override
+		CppLogs::Error::EnCppLogsNetError connect() override
 		{
 			if (is_connected()) {
 				if (disconnect()) {
-					return Error::EnCppLogsNetError_DisconnectFailed;
+					return CppLogs::Error::EnCppLogsNetError_DisconnectFailed;
 				}
 			}
 
@@ -67,11 +67,11 @@ namespace CppLogs
 			if (ret) {
 				::WSAGetLastError();
 				::WSACleanup();
-				return Error::EnCppLogsNetError_GetAddrInfoFailed;
+				return CppLogs::Error::EnCppLogsNetError_GetAddrInfoFailed;
 			}
 			//CPPLOGS_DEBUG << st_addrinfo.ai_addr;
 			for (auto ptr = st_addrinfo_result; ptr != nullptr; ptr = ptr->ai_next) {
-				_socket = socket(ptr->ai_family, ptr->ai_socktype, ptr->ai_protocol);
+				_socket = ::socket(ptr->ai_family, ptr->ai_socktype, ptr->ai_protocol);
 				if (_socket == INVALID_SOCKET) {
 					::WSAGetLastError();
 					::WSACleanup();
@@ -83,28 +83,28 @@ namespace CppLogs
 				else {
 					::WSAGetLastError();
 					disconnect();
-					return Error::EnCppLogsNetError_ConnectFailed;
+					return CppLogs::Error::EnCppLogsNetError_ConnectFailed;
 				}
 			}
 			::freeaddrinfo(st_addrinfo_result);
 			if (_socket == INVALID_SOCKET) {
 				::WSACleanup();
-				return Error::EnCppLogsNetError_SetSocketFailed;
+				return CppLogs::Error::EnCppLogsNetError_SetSocketFailed;
 			}
 			int enable_flag = 1;
 			::setsockopt(_socket, IPPROTO_TCP, TCP_NODELAY, \
 				reinterpret_cast<char*>(&enable_flag), sizeof(enable_flag));
-			return Error::EnCppLogsNetError_None;
+			return CppLogs::Error::EnCppLogsNetError_None;
 		}
 
-		Error::EnCppLogsNetError disconnect() override
+		CppLogs::Error::EnCppLogsNetError disconnect() override
 		{
 			int ret = ::closesocket(_socket);
 			_socket = INVALID_SOCKET;
-			return Error::EnCppLogsNetError_None;
+			return CppLogs::Error::EnCppLogsNetError_None;
 		}
 
-		Error::EnCppLogsNetError send(const char* data, const size_t& size) override
+		CppLogs::Error::EnCppLogsNetError send(const char* data, const size_t& size) override
 		{
 			size_t bytes_send = 0;
 			while (bytes_send < size) {
@@ -113,25 +113,25 @@ namespace CppLogs
 				if (ret_size == SOCKET_ERROR) {
 					::WSAGetLastError();
 					disconnect();
-					return Error::EnCppLogsNetError_SendFailed;
+					return CppLogs::Error::EnCppLogsNetError_SendFailed;
 				}
 				if (ret_size == 0) {
 					break;
 				}
 				bytes_send += static_cast<size_t>(ret_size);
 			}
-			return Error::EnCppLogsNetError_None;
+			return CppLogs::Error::EnCppLogsNetError_None;
 		}
 
-		Error::EnCppLogsNetError recv(char* data, size_t& size) override
+		CppLogs::Error::EnCppLogsNetError recv(char* data, size_t& size) override
 		{
 			const int recv_flag = 0;
 			size_t ret = ::recv(_socket, data, CPPLOGS_NET_SIZE, recv_flag);
 			if (ret <= 0) {
-				return Error::EnCppLogsNetError_RecvFailed;
+				return CppLogs::Error::EnCppLogsNetError_RecvFailed;
 			}
 			size = ret;
-			return Error::EnCppLogsNetError_None;
+			return CppLogs::Error::EnCppLogsNetError_None;
 		}
 
 		bool is_connected() const override

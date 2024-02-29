@@ -41,8 +41,8 @@ namespace CppLogs
 		};
 		struct StNetDataInfo
 		{
-			EnNetEventType net_event_type;
-			StCppLogsNetAddrInfo st_net_addr_info;
+			CppLogs::ServerBase::EnNetEventType net_event_type;
+			CppLogs::ServerBase::StCppLogsNetAddrInfo st_net_addr_info;
 			int ready_num;
 			std::string data;
 			int size;
@@ -58,21 +58,21 @@ namespace CppLogs
 
 		}
 
-		virtual Error::EnCppLogsNetError init() = 0;
-		virtual Error::EnCppLogsNetError accept(StNetDataInfo** st_NetDataInfo) = 0;
-		virtual Error::EnCppLogsNetError \
+		virtual CppLogs::Error::EnCppLogsNetError init() = 0;
+		virtual CppLogs::Error::EnCppLogsNetError accept(CppLogs::ServerBase::StNetDataInfo** st_NetDataInfo) = 0;
+		virtual CppLogs::Error::EnCppLogsNetError \
 			send(const std::string& destip, const int& destport, const char* data, const size_t& size) = 0; 
-		virtual Error::EnCppLogsNetError \
+		virtual CppLogs::Error::EnCppLogsNetError \
 			send(const std::string& name, const char* data, const size_t& size) = 0;
-		virtual Error::EnCppLogsNetError\
+		virtual CppLogs::Error::EnCppLogsNetError\
 			send(const int& client_fd, const char* data, const size_t& size) = 0;
-		virtual Error::EnCppLogsNetError recv(char* data, int& size) = 0;
-		virtual Error::EnCppLogsNetError close(const int client_fd) = 0;
-		virtual void free_struct(StNetDataInfo* st_NetDataInfo) = 0;
+		virtual CppLogs::Error::EnCppLogsNetError recv(char* data, int& size) = 0;
+		virtual CppLogs::Error::EnCppLogsNetError close(const int client_fd) = 0;
+		virtual void free_struct(CppLogs::ServerBase::StNetDataInfo* st_NetDataInfo) = 0;
 
 		virtual bool set_name(const std::string& destip, const int& destport, const std::string& name) = 0;
 
 		virtual int connect_num() = 0;
-		virtual std::vector<StCppLogsNetAddrInfo> connect_info() = 0;
+		virtual std::vector<CppLogs::ServerBase::StCppLogsNetAddrInfo> connect_info() = 0;
 	};
 }

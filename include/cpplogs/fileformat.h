@@ -37,14 +37,14 @@ namespace CppLogs {
 		*/
 		bool existfile()
 		{
-			return ToolBox::existfile(_filename);
+			return CppLogs::ToolBox::existfile(_filename);
 		}
 
 		/*
 		* @brief get using header
 		* @return current header param
 		*/
-		DataFormat::StCppLogsHeader get_header()
+		CppLogs::DataFormat::StCppLogsHeader get_header()
 		{
 			return _st_CppLogsIHeader;
 		}
@@ -54,22 +54,22 @@ namespace CppLogs {
 		* @param st_CppLogsHeader : the header value you want
 		* @return error code
 		*/
-		Error::EnErrorCode set_log_header(const DataFormat::StCppLogsHeader& st_CppLogsHeader = DEF_CPPLOGS_ITEMS)
+		CppLogs::Error::EnErrorCode set_log_header(const CppLogs::DataFormat::StCppLogsHeader& st_CppLogsHeader = DEF_CPPLOGS_ITEMS)
 		{
 			if (existfile()) {
-				Error::EnErrorCode ec = unformat_file_header(_st_CppLogsIHeader);
+				CppLogs::Error::EnErrorCode ec = unformat_file_header(_st_CppLogsIHeader);
 				if (!ec) {
-					return Error::ErrorCode_LogFileExist;
+					return CppLogs::Error::ErrorCode_LogFileExist;
 				}
 				return ec;
 			}
 			if (st_CppLogsHeader.keyInfo.empty() || \
 				st_CppLogsHeader.keyWarn.empty() || \
 				st_CppLogsHeader.keyError.empty()) {
-				return Error::ErrorCode_CreateItemFailed;
+				return CppLogs::Error::ErrorCode_CreateItemFailed;
 			}
 			_st_CppLogsIHeader = st_CppLogsHeader;
-			return Error::ErrorCode_None;
+			return CppLogs::Error::ErrorCode_None;
 		}
 
 		/*
@@ -77,12 +77,12 @@ namespace CppLogs {
 		* @param create_time : date of log creation
 		* @return error code
 		*/
-		Error::EnErrorCode create_log_file(const std::string& create_time)
+		CppLogs::Error::EnErrorCode create_log_file(const std::string& create_time)
 		{
 			if (!existfile()) {
-				return ToolBox::writefile(_filename, format_file_header(create_time)) ? Error::ErrorCode_None : Error::ErrorCode_OpenFileFailed;
+				return CppLogs::ToolBox::writefile(_filename, format_file_header(create_time)) ? CppLogs::Error::ErrorCode_None : CppLogs::Error::ErrorCode_OpenFileFailed;
 			}
-			return Error::ErrorCode_LogFileExist;
+			return CppLogs::Error::ErrorCode_LogFileExist;
 		}
 
 		/*
@@ -92,12 +92,12 @@ namespace CppLogs {
 		* @param data		: the data you want record
 		* @return error code
 		*/
-		Error::EnErrorCode writefile(const DataFormat::EnCppLogsItemType& key, const std::string secondKey, const std::string& data)
+		CppLogs::Error::EnErrorCode writefile(const CppLogs::DataFormat::EnCppLogsItemType& key, const std::string secondKey, const std::string& data)
 		{
 			if (existfile()) {
-				return ToolBox::writefile(_filename, format_file_data(key, secondKey, data)) ? Error::ErrorCode_None : Error::ErrorCode_OpenFileFailed;
+				return CppLogs::ToolBox::writefile(_filename, format_file_data(key, secondKey, data)) ? CppLogs::Error::ErrorCode_None : CppLogs::Error::ErrorCode_OpenFileFailed;
 			}
-			return Error::ErrorCode_OpenFileFailed;
+			return CppLogs::Error::ErrorCode_OpenFileFailed;
 		}
 
 		/*
@@ -108,7 +108,7 @@ namespace CppLogs {
 		std::string format_file_header(const std::string& create_time)
 		{
 			_st_CppLogsIHeader.create_time = create_time;
-			return DataFormat::format_header(_st_CppLogsIHeader);
+			return CppLogs::DataFormat::format_header(_st_CppLogsIHeader);
 		}
 
 		/*
@@ -116,11 +116,11 @@ namespace CppLogs {
 		* @param st_CppLogsHeader : get header info
 		* @return the error code
 		*/
-		Error::EnErrorCode unformat_file_header(DataFormat::StCppLogsHeader& st_CppLogsHeader)
+		CppLogs::Error::EnErrorCode unformat_file_header(CppLogs::DataFormat::StCppLogsHeader& st_CppLogsHeader)
 		{
 			std::string data;
-			ToolBox::readfile(_filename, data);
-			return DataFormat::unformat_header(data, st_CppLogsHeader);
+			CppLogs::ToolBox::readfile(_filename, data);
+			return CppLogs::DataFormat::unformat_header(data, st_CppLogsHeader);
 		}
 
 		/*
@@ -130,9 +130,9 @@ namespace CppLogs {
 		* @param data : the data of log
 		* @return formatted data
 		*/
-		std::string format_file_data(const DataFormat::EnCppLogsItemType& key, const std::string secondKey, const std::string& data)
+		std::string format_file_data(const CppLogs::DataFormat::EnCppLogsItemType& key, const std::string secondKey, const std::string& data)
 		{
-			return DataFormat::format_data(key, secondKey, data, _st_CppLogsIHeader);
+			return CppLogs::DataFormat::format_data(key, secondKey, data, _st_CppLogsIHeader);
 		}
 		
 		/*
@@ -140,15 +140,15 @@ namespace CppLogs {
 		* @param st_CppLogsItem : get item info
 		* @return error code
 		*/
-		Error::EnErrorCode unformat_file_data(std::vector<DataFormat::StCppLogsItem>& st_CppLogsItemVector)
+		CppLogs::Error::EnErrorCode unformat_file_data(std::vector<CppLogs::DataFormat::StCppLogsItem>& st_CppLogsItemVector)
 		{
 			std::string data;
-			ToolBox::readfile(_filename, data);
-			return DataFormat::unformat_data(data, st_CppLogsItemVector, _st_CppLogsIHeader);
+			CppLogs::ToolBox::readfile(_filename, data);
+			return CppLogs::DataFormat::unformat_data(data, st_CppLogsItemVector, _st_CppLogsIHeader);
 		}
 
 	private:
 		CPPLOGS_DISABLE4251(std::string _filename);
-		DataFormat::StCppLogsHeader	_st_CppLogsIHeader;
+		CppLogs::DataFormat::StCppLogsHeader	_st_CppLogsIHeader;
 	};
 }

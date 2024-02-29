@@ -22,7 +22,7 @@ namespace CppLogs
 	public:
 		NetServer(const int& port = 9605)
 		{
-			_pServerBase = std::make_shared<SocketTcpLinuxServer>(port);
+			_pServerBase = std::make_shared<CppLogs::SocketTcpLinuxServer>(port);
 		}
 
 		~NetServer()
@@ -30,43 +30,43 @@ namespace CppLogs
 
 		}
 
-		Error::EnCppLogsNetError init()
+		CppLogs::Error::EnCppLogsNetError init()
 		{
 			return _pServerBase->init();
 		}
 
-		Error::EnCppLogsNetError accept(ServerBase::StNetDataInfo** st_NetDataInfo)
+		CppLogs::Error::EnCppLogsNetError accept(CppLogs::ServerBase::StNetDataInfo** st_NetDataInfo)
 		{
 			return _pServerBase->accept(st_NetDataInfo);
 		}
 
-		Error::EnCppLogsNetError recv(char* data, int& size)
+		CppLogs::Error::EnCppLogsNetError recv(char* data, int& size)
 		{
 			return _pServerBase->recv(data, size);
 		}
 
-		Error::EnCppLogsNetError send(const std::string& destip, const int& destport, const char* data, const size_t& size)
+		CppLogs::Error::EnCppLogsNetError send(const std::string& destip, const int& destport, const char* data, const size_t& size)
 		{
 			return _pServerBase->send(destip, destport, data, size);
 		}
 
-		Error::EnCppLogsNetError \
+		CppLogs::Error::EnCppLogsNetError \
 			send(const std::string& name, const char* data, const size_t& size)
 		{
 			return _pServerBase->send(name, data, size);
 		}
 
-		Error::EnCppLogsNetError send(const int& client_fd, const char* data, const size_t& size)
+		CppLogs::Error::EnCppLogsNetError send(const int& client_fd, const char* data, const size_t& size)
 		{
 			return _pServerBase->send(client_fd, data, size);
 		}
 
-		Error::EnCppLogsNetError close() 
+		CppLogs::Error::EnCppLogsNetError close()
 		{
-			return Error::EnCppLogsNetError_None;
+			return CppLogs::Error::EnCppLogsNetError_None;
 		}
 
-		void free_struct(ServerBase::StNetDataInfo* st_NetDataInfo)
+		void free_struct(CppLogs::ServerBase::StNetDataInfo* st_NetDataInfo)
 		{
 			_pServerBase->free_struct(st_NetDataInfo);
 		}
@@ -81,12 +81,12 @@ namespace CppLogs
 			return _pServerBase->connect_num();
 		}
 
-		std::vector<ServerBase::StCppLogsNetAddrInfo> get_connect_info()
+		std::vector<CppLogs::ServerBase::StCppLogsNetAddrInfo> get_connect_info()
 		{
 			return _pServerBase->connect_info();
 		}
 
 	private:
-		CPPLOGS_DISABLE4251(std::shared_ptr<ServerBase> _pServerBase);
+		CPPLOGS_DISABLE4251(std::shared_ptr<CppLogs::ServerBase> _pServerBase);
 	};
 }

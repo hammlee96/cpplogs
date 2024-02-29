@@ -27,7 +27,7 @@ namespace CppLogs
 		NetClient(const std::string& hostip = "127.0.0.1", const int& hostport = 9605)
 		{
 #if defined(CPPLOGS_SYSTEM_WINDOWS)
-			_pClientBase = std::make_shared<SocketTcpWinClient>(hostip, hostport);
+			_pClientBase = std::make_shared<CppLogs::SocketTcpWinClient>(hostip, hostport);
 #else
 			_pClientBase = std::make_shared<SocketTcpLinuxClient>(hostip, hostport);
 #endif
@@ -37,34 +37,34 @@ namespace CppLogs
 		{
 		}
 
-		Error::EnCppLogsNetError init()
+		CppLogs::Error::EnCppLogsNetError init()
 		{
 			return _pClientBase.get()->init();
 		}
 
-		Error::EnCppLogsNetError connect()
+		CppLogs::Error::EnCppLogsNetError connect()
 		{
-			Error::EnCppLogsNetError ret = _pClientBase.get()->connect();
-			ToolBox::msleep(100);
+			CppLogs::Error::EnCppLogsNetError ret = _pClientBase.get()->connect();
+			CppLogs::ToolBox::msleep(100);
 			return ret;
 		}
 
-		Error::EnCppLogsNetError send(const std::string& data)
+		CppLogs::Error::EnCppLogsNetError send(const std::string& data)
 		{
 			return _pClientBase.get()->send(data.c_str(), data.size());;
 		}
 
-		Error::EnCppLogsNetError recv(char* data, size_t& size)
+		CppLogs::Error::EnCppLogsNetError recv(char* data, size_t& size)
 		{
 			return _pClientBase.get()->recv(data, size);;
 		}
 
-		Error::EnCppLogsNetError disconnect()
+		CppLogs::Error::EnCppLogsNetError disconnect()
 		{
 			return _pClientBase.get()->disconnect();
 		}
 
 	private:
-		CPPLOGS_DISABLE4251(std::shared_ptr<ClientBase> _pClientBase);
+		CPPLOGS_DISABLE4251(std::shared_ptr<CppLogs::ClientBase> _pClientBase);
 	};
 }
