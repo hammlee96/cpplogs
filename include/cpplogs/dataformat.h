@@ -16,7 +16,7 @@
 #include <iostream>
 
 
-#define DEF_CPPLOGS_ITEMS	{"",  "info", "warn", "error", DataFormat::CppLogsLevel_High, true }
+#define DEF_CPPLOGS_ITEMS	{"",  "info", "warn", "error", CppLogs::DataFormat::CppLogsLevel_High, true }
 
 /*
 <#header#>
@@ -53,7 +53,7 @@ namespace CppLogs
 			std::string keyInfo;
 			std::string keyWarn;
 			std::string keyError;
-			EnCppLogsLevel en_CppLogsLevel;
+			CppLogs::DataFormat::EnCppLogsLevel en_CppLogsLevel;
 			bool		stampRecord;
 		};
 		struct StCppLogsItem {

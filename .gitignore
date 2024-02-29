@@ -4,3 +4,4 @@ CMakePresets.json
 CMakeSettings.json
 cmake-build-*
 .idea*
+CMakeLists.txt.*
