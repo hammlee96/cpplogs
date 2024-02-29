@@ -1,3 +1,4 @@
+# ⭐⭐⭐Sincerely invite all developers to jointly develop
 # cpplogs - A cpp standard log library
 ## Contents
 - [Functions](#functions)
