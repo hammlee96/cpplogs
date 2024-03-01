@@ -67,24 +67,27 @@ namespace CppLogs
 			return _NetClient.get()->send(jsValue);
 		}
 
-		CppLogs::Error::EnCppLogsNetError send_log_data_info(const std::string secondKey, const std::string& data)
+		template<typename... T_InLengthData>
+		CppLogs::Error::EnCppLogsNetError send_log_data_info(const std::string secondKey, const std::string& format = "", T_InLengthData... data)
 		{
 			std::string jsValue;
-			_CppLogsMessage.get()->CommandSetLogData(jsValue, _filepathname, _st_CppLogsHeader, CppLogs::DataFormat::CppLogsItemType_Info, secondKey, data);
+			_CppLogsMessage.get()->CommandSetLogData(jsValue, _filepathname, _st_CppLogsHeader, CppLogs::DataFormat::CppLogsItemType_Info, secondKey, ToolBox::format(format, data...));
 			return _NetClient.get()->send(jsValue);
 		}
 
-		CppLogs::Error::EnCppLogsNetError send_log_data_warn(const std::string secondKey, const std::string& data)
+		template<typename... T_InLengthData>
+		CppLogs::Error::EnCppLogsNetError send_log_data_warn(const std::string secondKey, const std::string& format = "", T_InLengthData... data)
 		{
 			std::string jsValue;
-			_CppLogsMessage.get()->CommandSetLogData(jsValue, _filepathname, _st_CppLogsHeader, CppLogs::DataFormat::CppLogsItemType_Warn, secondKey, data);
+			_CppLogsMessage.get()->CommandSetLogData(jsValue, _filepathname, _st_CppLogsHeader, CppLogs::DataFormat::CppLogsItemType_Warn, secondKey, ToolBox::format(format, data...));
 			return _NetClient.get()->send(jsValue);
 		}
 
-		CppLogs::Error::EnCppLogsNetError send_log_data_error(const std::string secondKey, const std::string& data)
+		template<typename... T_InLengthData>
+		CppLogs::Error::EnCppLogsNetError send_log_data_error(const std::string secondKey, const std::string& format = "", T_InLengthData... data)
 		{
 			std::string jsValue;
-			_CppLogsMessage.get()->CommandSetLogData(jsValue, _filepathname, _st_CppLogsHeader, CppLogs::DataFormat::CppLogsItemType_Error, secondKey, data);
+			_CppLogsMessage.get()->CommandSetLogData(jsValue, _filepathname, _st_CppLogsHeader, CppLogs::DataFormat::CppLogsItemType_Error, secondKey, ToolBox::format(format, data...));
 			return _NetClient.get()->send(jsValue);
 		}
 

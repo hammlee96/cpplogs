@@ -144,7 +144,7 @@
 - ### Receive log data from remote
 	This feature needs to support concurrency, receive addresses from various clients, 
 	and then forward them to designated collection clients.</br>
-	To use this feature, you can use the basic features written by examples/CppLogsStream Server(**only support Linux**), 
+	To use this feature, you can use the basic features written by examples/CppLogsStreamServer(**only support Linux**), 
 	or you can implement server code with certain concurrency capabilities yourself.
 ## Third-party
 Thanks for the third-party open-source library

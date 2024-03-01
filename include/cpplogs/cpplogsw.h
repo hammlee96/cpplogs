@@ -50,12 +50,13 @@ namespace CppLogs {
 		* @param data			: the explain of this item 
 		* @return error code
 		*/
-		CppLogs::Error::EnErrorCode information(const std::string& secondaryKey = "", const std::string& data = "")
+		template<typename... T_InLengthData>
+		CppLogs::Error::EnErrorCode information(const std::string& secondaryKey = "", const std::string& format = "", T_InLengthData... data)
 		{
 			if (get_header().en_CppLogsLevel >= CppLogs::DataFormat::CppLogsLevel_Middle) {
 				return CppLogs::Error::ErrorCode_LevelNotMatch;
 			}
-			return writefile(CppLogs::DataFormat::CppLogsItemType_Info, secondaryKey, data);
+			return writefile(CppLogs::DataFormat::CppLogsItemType_Info, secondaryKey, ToolBox::format(format, data...));
 		}
 
 		/*
@@ -64,12 +65,13 @@ namespace CppLogs {
 		* @param data			: the explain of this item
 		* @return error code
 		*/
-		CppLogs::Error::EnErrorCode warn(const std::string& secondaryKey = "", const std::string& data = "")
+		template<typename... T_InLengthData>
+		CppLogs::Error::EnErrorCode warn(const std::string& secondaryKey = "", const std::string& format = "", T_InLengthData... data)
 		{
 			if (get_header().en_CppLogsLevel > CppLogs::DataFormat::CppLogsLevel_Middle) {
 				return CppLogs::Error::ErrorCode_LevelNotMatch;
 			}
-			return writefile(CppLogs::DataFormat::CppLogsItemType_Warn, secondaryKey, data);
+			return writefile(CppLogs::DataFormat::CppLogsItemType_Warn, secondaryKey, ToolBox::format(format, data...));
 		}
 
 		/*
@@ -78,9 +80,10 @@ namespace CppLogs {
 		* @param data			: the explain of this item
 		* @return error code
 		*/
-		CppLogs::Error::EnErrorCode error(const std::string& secondaryKey = "", const std::string& data = "")
+		template<typename... T_InLengthData>
+		CppLogs::Error::EnErrorCode error(const std::string& secondaryKey = "", const std::string& format = "", T_InLengthData... data)
 		{
-			return writefile(CppLogs::DataFormat::CppLogsItemType_Error, secondaryKey, data);
+			return writefile(CppLogs::DataFormat::CppLogsItemType_Error, secondaryKey, ToolBox::format(format, data...));
 		}
 	};
 }

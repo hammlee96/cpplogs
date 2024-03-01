@@ -13,7 +13,7 @@ CppLogsWriteLog::CppLogsWriteLog()
 {
 	CppLogs::ToolBox::StCppLogsDateTime st_CppLogsDateTime = CppLogs::ToolBox::gettime();
 #if defined(CPPLOGS_SYSTEM_WINDOWS)
-#define LOGSPATH		"F:/test_field/test_cpplogs"
+#define LOGSPATH		"D:/test_field/test_cpplogs"
 #else
 #define LOGSPATH		"/root/test_field/cpplogs"
 #endif
