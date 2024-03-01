@@ -50,8 +50,8 @@ namespace CppLogs {
 		* @param data			: the explain of this item 
 		* @return error code
 		*/
-		template<typename... T_InLengthData>
-		CppLogs::Error::EnErrorCode information(const std::string& secondaryKey = "", const std::string& format = "", T_InLengthData... data)
+		template<typename T_Format, typename... T_InLengthData>
+		CppLogs::Error::EnErrorCode information(const std::string& secondaryKey, const T_Format& format, T_InLengthData... data)
 		{
 			if (get_header().en_CppLogsLevel >= CppLogs::DataFormat::CppLogsLevel_Middle) {
 				return CppLogs::Error::ErrorCode_LevelNotMatch;
@@ -65,8 +65,8 @@ namespace CppLogs {
 		* @param data			: the explain of this item
 		* @return error code
 		*/
-		template<typename... T_InLengthData>
-		CppLogs::Error::EnErrorCode warn(const std::string& secondaryKey = "", const std::string& format = "", T_InLengthData... data)
+		template<typename T_Format, typename... T_InLengthData>
+		CppLogs::Error::EnErrorCode warn(const std::string& secondaryKey, const T_Format& format, T_InLengthData... data)
 		{
 			if (get_header().en_CppLogsLevel > CppLogs::DataFormat::CppLogsLevel_Middle) {
 				return CppLogs::Error::ErrorCode_LevelNotMatch;
@@ -80,8 +80,8 @@ namespace CppLogs {
 		* @param data			: the explain of this item
 		* @return error code
 		*/
-		template<typename... T_InLengthData>
-		CppLogs::Error::EnErrorCode error(const std::string& secondaryKey = "", const std::string& format = "", T_InLengthData... data)
+		template<typename T_Format, typename... T_InLengthData>
+		CppLogs::Error::EnErrorCode error(const std::string& secondaryKey, const T_Format& format, T_InLengthData... data)
 		{
 			return writefile(CppLogs::DataFormat::CppLogsItemType_Error, secondaryKey, ToolBox::format(format, data...));
 		}
