@@ -1,7 +1,10 @@
 # ⭐⭐⭐Sincerely invite all developers to jointly develop
-# cpplogs - A cpp standard log library
+# cpplogs - A cpp log read-write library
 ## Contents
 - [Functions](#functions)
+- [Format Reference](#format-reference)
+  - [Local File](#local-file)
+  - [Network Message](#network-message)
 - [Support Platform](#support-platform)
   - [Windows](#windows)
   - [Linux](#linux)
@@ -17,6 +20,67 @@
 - [ ] Send and download local log files to the server
 - [ ] Create and read remote log files
 - [X] Send log data to the server (and forward it to the specified IP address, but you need to write server process by yourself, or use [server](#receive-log-data-from-remote) in example)
+## Format Reference
+- ### Local File
+	```xml
+	<#header#>
+	create_time:2024-03-04 16:42:29
+	level:1
+	info:infomation
+	warn:warning
+	error:error
+	time_stamp:y
+	<#/header#>
+	<#infomation#secondinfo#T2024-3-4 16:42:29#>this is a information<#/infomation#>
+	<#warning#secondwarn#T2024-3-4 16:42:29#>this is a warning<#/warning#>
+	<#error#seconderror#T2024-3-4 16:42:29#>this is a error<#/error#>
+	```
+- ### Network Message
+	```json
+	{
+		"file_path_name":	"F:/test_field/test_cpplogs/20240304_1.0.0",
+		"create_time":	"",
+		"level":	1,
+		"info":	"infomation",
+		"warn":	"warning",
+		"error":	"error",
+		"time_stamp":	1,
+		"commond":	"set_log_data",
+		"enum_key":	0,
+		"second_key":	"secondinfo",
+		"data":	"this is a information"
+	}
+	```
+	```json
+	{
+		"file_path_name":	"F:/test_field/test_cpplogs/20240304_1.0.0",
+		"create_time":	"",
+		"level":	1,
+		"info":	"infomation",
+		"warn":	"warning",
+		"error":	"error",
+		"time_stamp":	1,
+		"commond":	"set_log_data",
+		"enum_key":	1,
+		"second_key":	"secondwarn",
+		"data":	"this is a warning"
+	}
+	```
+	```json
+	{
+		"file_path_name":	"F:/test_field/test_cpplogs/20240304_1.0.0",
+		"create_time":	"",
+		"level":	1,
+		"info":	"infomation",
+		"warn":	"warning",
+		"error":	"error",
+		"time_stamp":	1,
+		"commond":	"set_log_data",
+		"enum_key":	2,
+		"second_key":	"seconderror",
+		"data":	"this is a error"
+	}
+	```
 ## Support Platform
 - ### Windows
 - ### Linux
