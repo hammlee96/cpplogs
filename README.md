@@ -45,7 +45,7 @@
 		"warn":	"warning",
 		"error":	"error",
 		"time_stamp":	1,
-		"commond":	"set_log_data",
+		"command":	"set_log_data",
 		"enum_key":	0,
 		"second_key":	"secondinfo",
 		"data":	"this is a information"
@@ -60,7 +60,7 @@
 		"warn":	"warning",
 		"error":	"error",
 		"time_stamp":	1,
-		"commond":	"set_log_data",
+		"command":	"set_log_data",
 		"enum_key":	1,
 		"second_key":	"secondwarn",
 		"data":	"this is a warning"
@@ -75,7 +75,7 @@
 		"warn":	"warning",
 		"error":	"error",
 		"time_stamp":	1,
-		"commond":	"set_log_data",
+		"command":	"set_log_data",
 		"enum_key":	2,
 		"second_key":	"seconderror",
 		"data":	"this is a error"

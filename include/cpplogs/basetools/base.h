@@ -35,7 +35,7 @@
 #define CPPLOGS_DEF_HEADER_ERROR			"error"
 #define CPPLOGS_DEF_HEADER_TIME_STAMP		"time_stamp"
 
-#define CPPLOGS_STR_COMMOND					"commond"
+#define CPPLOGS_STR_COMMOND					"command"
 #define CPPLOGS_STR_SET_FILEINFO			"set_fileinfo"
 #define CPPLOGS_STR_SET_LOGTYPE				"set_log_type"
 #define CPPLOGS_STR_SET_LOGDATA				"set_log_data"
